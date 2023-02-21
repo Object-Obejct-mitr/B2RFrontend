@@ -1,13 +1,15 @@
-<script setup>
-import Carousel from "./Carousel.vue"
-</script>
-
 <!-- TODO: Get unique IDs per element-->
 <script>
+let uuid = 0;
+
 export default {
   props: {
     component: String,
-  }
+  },
+  beforeCreate() {
+    this.uuid = uuid.toString();
+    uuid += 1;
+  },
 };
 </script>
 
@@ -20,7 +22,7 @@ export default {
             d-flex
             justify-content-between
             align-items-center
-          " :id="'flush-heading' + component.replace(/\s/g, '')">
+          " :id="'flush-heading' + uuid">
         <div class="d-flex flex-row">
           <div class="d-flex align-self-center fs-4">
             {{ component }}
@@ -46,11 +48,11 @@ export default {
         </div>
 
         <button class="accordion-button collapsed noWidth" type="button" data-mdb-toggle="collapse"
-          :data-mdb-target="'#panelsStayOpen-collapse' + component.replace(/\s/g, '')" aria-expanded="false"
-          :aria-controls="'panelsStayOpen-collapseOne' + component.replace(/\s/g, '')"></button>
+          :data-mdb-target="'#panelsStayOpen-collapse' + uuid" aria-expanded="false"
+          :aria-controls="'panelsStayOpen-collapseOne' + uuid"></button>
       </div>
-      <div :id="'panelsStayOpen-collapse' + component.replace(/\s/g, '')" class="accordion-collapse collapse"
-        :aria-labelledby="'heading' + component.replace(/\s/g, '')">
+      <div :id="'panelsStayOpen-collapse' + uuid" class="accordion-collapse collapse"
+        :aria-labelledby="'heading' + uuid">
         <div class="accordion-body d-flex flex-row justify-content-around ">
           <div class="d-flex flex-column flex-fill w-25">
             <div>
