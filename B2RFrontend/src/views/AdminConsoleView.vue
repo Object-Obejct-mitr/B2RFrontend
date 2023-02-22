@@ -1,8 +1,11 @@
 <script setup>
+import Sidebar from "../components/Navbar/Sidebar.vue"
+
 </script>
 
 <template>
   <main>
-    Admin Console
+    <Sidebar />
+    
   </main>
 </template>
