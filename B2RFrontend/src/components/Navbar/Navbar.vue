@@ -4,7 +4,7 @@ import NavbarUser from "./NavbarUser.vue"
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-expand-lg" id="navHeader">
     <div class="container-fluid">
       <a class="navbar-brand">
         <img
@@ -44,4 +44,5 @@ import NavbarUser from "./NavbarUser.vue"
 .router-link-active {
   color: #000!important;
 }
+
 </style>

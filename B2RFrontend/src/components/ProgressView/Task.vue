@@ -1,5 +1,6 @@
 <!-- TODO: Get unique IDs per element-->
 <script>
+import EditTaskModal from "./EditTaskModal.vue"
 let uuid = 0;
 
 export default {
@@ -15,6 +16,7 @@ export default {
 
 
 <template>
+  <!-- <EditTaskModal /> -->
   <div class="accordion accordion-flush" id="accordionPanelsStayOpen">
     <div class="accordion-item">
       <div class="
@@ -35,7 +37,7 @@ export default {
           <div class="d-flex align-self-center ms-2">10</div>
         </div>
         <div class="d-flex flex-row">
-          <div class="d-flex align-self-center">Owner:</div>
+          <div class="d-flex align-self-center">Designer:</div>
           <div class="d-flex align-self-center ms-2">None</div>
         </div>
         <div class="d-flex flex-row">
@@ -65,12 +67,13 @@ export default {
               sunt in culpa qui officia deserunt mollit anim id est laborum."
             </div>
             <div class="mt-2">
-              <button type="button" class="btn btn-primary">Edit Task</button>
+              
+              <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">Edit Task</button>
             </div>
           </div>
 
           <div class="d-flex flex-column align-items-center flex-fill">
-            <Carousel />
+            <img src="https://via.placeholder.com/150">
           </div>
         </div>
       </div>
