@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <main>
-    Contacts
-  </main>
+    <main>
+        Contacts
+    </main>
 </template>

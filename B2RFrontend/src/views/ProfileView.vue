@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <main>
-    Profile
-  </main>
+    <main>
+        Profile
+    </main>
 </template>
