@@ -11,12 +11,15 @@ export default {
     this.uuid = uuid.toString();
     uuid += 1;
   },
+  components: {
+    EditTaskModal
+  }
 };
 </script>
 
 
 <template>
-  <!-- <EditTaskModal /> -->
+  
   <div class="accordion accordion-flush" id="accordionPanelsStayOpen">
     <div class="accordion-item">
       <div class="
@@ -67,14 +70,15 @@ export default {
               sunt in culpa qui officia deserunt mollit anim id est laborum."
             </div>
             <div class="mt-2">
-              
-              <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">Edit Task</button>
+              <EditTaskModal />
+              <!-- <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">Edit Task</button> -->
             </div>
           </div>
 
           <div class="d-flex flex-column align-items-center flex-fill">
             <img src="https://via.placeholder.com/150">
           </div>
+          
         </div>
       </div>
     </div>
