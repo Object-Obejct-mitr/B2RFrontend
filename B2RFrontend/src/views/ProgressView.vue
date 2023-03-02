@@ -9,9 +9,17 @@
                         <div v-for="(task, componentName) in taskCategory" :key="task" class="d-flex flex-column flex-fill ms-5 me-auto w-50">
                             
                             <h2 class="text-center">{{ componentName }}</h2>
-                            <div v-for="taskName in task" :key="taskName" class="sortable-item">
-                                <Task :component="value3" />
-                            </div>
+                            <draggable
+                                :list="task"
+                                group="componentName"
+                                item-key="id"
+                                @start="drag=true" 
+                                @end="drag=false" >
+                                <template #item="{ element }">
+                                    <Task :component="element" />
+                                </template>
+                            </draggable>
+
                             <div class="vr vr-blurry"></div>
                         </div>
                     </div>
@@ -23,19 +31,18 @@
 
 
 <script>
-import Task from "@/components/ProgressView/Task.vue"
-// import { VueDraggableNext } from "@/vue-draggable-next";
-import { defineComponent } from "vue";
+import Task from "@/components/ProgressView/Task.vue";
+import draggable from 'vuedraggable';
 
-
-export default defineComponent({
+export default {
     name: "ProgressView",
     components: {
         Task,
-        // draggable: VueDraggableNext
+        draggable
     },
     data() {
         return {
+            drag: false,
             tasks: {
                 Drivetrain: {
                     "To-Do": [
@@ -70,7 +77,7 @@ export default defineComponent({
 
     }
 
-})
+}
 
 
 
