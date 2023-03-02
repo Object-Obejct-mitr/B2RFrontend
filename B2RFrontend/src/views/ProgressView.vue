@@ -1,108 +1,76 @@
-<script setup>
-import Task from "../components/ProgressView/Task.vue"
-</script>
 
 <template>
-    <main>
-
+    <main>   
         <div class="d-flex flex-column">
-
-            <div class="h-100 d-flex align-items-center mt-5 flex-fill">
-                <div class="d-flex justify-content-center flex-column flex-fill">
-                    <h1 class="text-center">Drivetrain</h1>
-                    <div class="d-flex flex-row flex-fill justify-content-around">
-                        <div class="d-flex flex-column flex-fill ms-5 me-auto w-50">
-                            <h2 class="text-center">To-Do</h2>
-                            <div
-                                id="drivetrainTodo" data-mdb-sortable="sortable" class="sortable-list"
-                                data-mdb-connected-list="#drivetrainDone">
-                                <div class="sortable-item">
-                                    <Task component="Component 0" />
-                                </div>
-                                <div class="sortable-item">
-                                    <Task component="Component 1" />
-                                </div>
-                                <div class="sortable-item">
-                                    <Task component="Component 2" />
-                                </div>
-                                <div class="sortable-item">
-                                    <Task component="Component 3" />
-                                </div>
-                                <div class="sortable-item">
-                                    <Task component="Component 4" />
-                                </div>
-                            </div>
+            <div v-for="(taskCategory, name) in tasks" :key="name" class="h-100 d-flex align-items-center mt-5 flex-fill">
+                <h1 class="text-center">{{ name }}</h1>
+                <div class="d-flex flex-row flex-fill justify-content-around">  
+                    <div v-for="(task, componentName) in taskCategory" :key="task" class="d-flex flex-column flex-fill ms-5 me-auto w-50">
+                        
+                        <h2 class="text-center">{{ componentName }}</h2>
+                        <div v-for="taskName in task" :key="taskName" class="sortable-item">
+                            <Task :component="value3" />
                         </div>
                         <div class="vr vr-blurry"></div>
-                        <div class="d-flex flex-column flex-fill ms-5 me-auto w-50">
-                            <h2 class="text-center">Done</h2>
-
-                            <div
-                                id="drivetrainDone" data-mdb-sortable="sortable" class="sortable-list"
-                                data-mdb-connected-list="#drivetrainTodo">
-                                <div class="sortable-item">
-                                    <Task component="Component 5" />
-                                </div>
-                                <div class="sortable-item">
-                                    <Task component="Component 6" />
-                                </div>
-                                <div class="sortable-item">
-                                    <Task component="Component 7" />
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="h-100 d-flex align-items-center mt-5 flex-fill">
-                <div class="d-flex justify-content-center flex-column flex-fill">
-                    <h1 class="text-center">Electronics</h1>
-                    <div class="d-flex flex-row flex-fill justify-content-around">
-                        <div class="d-flex flex-column flex-fill ms-5 me-auto w-50">
-                            <h2 class="text-center">To-Do</h2>
-                            <div
-                                id="drivetrainTodo" data-mdb-sortable="sortable" class="sortable-list"
-                                data-mdb-connected-list="#drivetrainDone">
-                                <div class="sortable-item">
-                                    <Task component="Component 0" />
-                                </div>
-                                <div class="sortable-item">
-                                    <Task component="Component 1" />
-                                </div>
-                                <div class="sortable-item">
-                                    <Task component="Component 2" />
-                                </div>
-                                <div class="sortable-item">
-                                    <Task component="Component 3" />
-                                </div>
-                                <div class="sortable-item">
-                                    <Task component="Component 4" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="vr vr-blurry"></div>
-                        <div class="d-flex flex-column flex-fill ms-5 me-auto w-50">
-                            <h2 class="text-center">Done</h2>
-
-                            <div
-                                id="drivetrainDone" data-mdb-sortable="sortable" class="sortable-list"
-                                data-mdb-connected-list="#drivetrainTodo">
-                                <div class="sortable-item">
-                                    <Task component="Component 5" />
-                                </div>
-                                <div class="sortable-item">
-                                    <Task component="Component 6" />
-                                </div>
-                                <div class="sortable-item">
-                                    <Task component="Component 7" />
-                                </div>
-
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
+            
     </main>
 </template>
+
+
+<script>
+import Task from "@/components/ProgressView/Task.vue"
+// import { VueDraggableNext } from "@/vue-draggable-next";
+import { defineComponent } from "vue";
+
+
+export default defineComponent({
+    name: "ProgressView",
+    components: {
+        Task,
+        // draggable: VueDraggableNext
+    },
+    data() {
+        return {
+            tasks: {
+                Drivetrain: {
+                    "To-Do": [
+                        "Component 0",
+                        "Component 1",
+                        "Component 2",
+                        "Component 3",
+                        "Component 4"
+                    ],
+                    "Done": [
+                        "Component 5",
+                        "Component 6",
+                        "Component 7"
+                    ]
+                },
+                Electronics: {
+                    "To-Do": [
+                        "Component 0",
+                        "Component 1",
+                        "Component 2",
+                        "Component 3",
+                        "Component 4"
+                    ],
+                    "Done": [
+                        "Component 5",
+                        "Component 6",
+                        "Component 7"
+                    ]
+                }
+            }
+        }
+
+    }
+
+})
+
+
+
+</script>

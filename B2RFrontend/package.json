@@ -13,7 +13,7 @@
     "mdb-calendar": "git+https://oauth2:yCfC16vXePeyyHk4W_vb@git.mdbootstrap.com/mdb/standard/plugins/prd/calendar",
     "vue": "^3.2.45",
     "vue-router": "^4.1.6",
-    "vuedraggable": "^4.1.0"
+    "vue-draggable-next": "^2.1.1"
   },
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.1.4",
