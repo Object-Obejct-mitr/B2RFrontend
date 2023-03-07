@@ -12,7 +12,6 @@
     "lodash.uniqueid": "^4.0.1",
     "mdb-calendar": "git+https://oauth2:yCfC16vXePeyyHk4W_vb@git.mdbootstrap.com/mdb/standard/plugins/prd/calendar",
     "vue": "^3.2.45",
-    "vue-draggable-next": "^2.1.1",
     "vue-router": "^4.1.6",
     "vuedraggable": "^4.1.0"
   },
