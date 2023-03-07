@@ -1,26 +1,29 @@
 
 <template>
     <main>   
-        <div class="d-flex flex-column">
-            <div v-for="(taskCategory, name) in tasks" :key="name" class="h-100 d-flex align-items-center mt-5 flex-fill">
+        <div :key="drag" class="d-flex flex-column" >
+            
+            <div v-for="(taskContent, name) in tasks" :key="taskContent" class="h-100 d-flex align-items-center mt-5 flex-fill">
                 <div class="d-flex justify-content-center flex-column flex-fill">
                     <h1 class="text-center">{{ name }}</h1>
                     <div class="d-flex flex-row flex-fill justify-content-around">  
-                        <div v-for="(task, componentName) in taskCategory" :key="task" class="d-flex flex-column flex-fill ms-5 me-auto w-50">
-                            
-                            <h2 class="text-center">{{ componentName }}</h2>
-                            <draggable
-                                :list="task"
-                                group="componentName"
-                                item-key="id"
-                                @start="drag=true" 
-                                @end="drag=false" >
-                                <template #item="{ element }">
-                                    <Task :component="element" />
-                                </template>
+                        <div class="d-flex flex-column flex-fill ms-5 me-auto w-50">
+                            <h2 class="text-center">To-Do</h2>
+                            <draggable 
+                                v-model="tasks[name]['To-Do']"
+                                :group="name"
+                                @change="onChange" >
+                                <Task v-for="taskName in tasks[name]['To-Do']" :key="taskName" :component="taskName"/>
                             </draggable>
-
-                            <div class="vr vr-blurry"></div>
+                        </div>
+                        <div class="d-flex flex-column flex-fill ms-5 me-auto w-50">
+                            <h2 class="text-center">Done</h2>
+                            <draggable 
+                                v-model="tasks[name]['Done']"
+                                :group="name"
+                                @change="onChange" >
+                                <Task v-for="taskName in tasks[name]['Done']" :key="taskName" :component="taskName"/>
+                            </draggable>
                         </div>
                     </div>
                 </div>
@@ -30,15 +33,17 @@
 </template>
 
 
-<script>
+<script lang="js">
 import Task from "@/components/ProgressView/Task.vue";
-import draggable from 'vuedraggable';
+import { VueDraggableNext } from "vue-draggable-next";
+import { defineComponent } from "vue";
 
-export default {
+
+export default defineComponent({
     name: "ProgressView",
     components: {
         Task,
-        draggable
+        draggable: VueDraggableNext
     },
     data() {
         return {
@@ -75,9 +80,16 @@ export default {
             }
         }
 
+    },
+    methods: {
+        onChange(event) {
+            console.log(event)
+            console.log(this.tasks)
+            // this.drag = !this.drag
+        }
     }
 
-}
+})
 
 
 
