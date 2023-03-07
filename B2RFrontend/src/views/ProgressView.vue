@@ -70,10 +70,22 @@ export default {
                     {name:"Component 2", id:2},
                     {name:"Component 3", id:3},
                     {name:"Component 4",id: 4}
+                ],
+                Electronics: [
+                    {name: "Component 0", id: 0},
+                    {name:"Component 1", id:1},
+                    {name:"Component 2", id:2},
+                    {name:"Component 3", id:3},
+                    {name:"Component 4",id: 4}
                 ]
             },
             done: {
                 Drivetrain: [
+                    {name:"Component 5", id:5},
+                    {name:"Component 6", id:6},
+                    {name:"Component 7", id:7}
+                ],
+                Electronics: [
                     {name:"Component 5", id:5},
                     {name:"Component 6", id:6},
                     {name:"Component 7", id:7}
@@ -91,12 +103,8 @@ export default {
     },
     methods: {
         onChange(event) {
-            console.log(event)
-            console.log(toRaw(this.todo))
-            console.log(toRaw(this.done))
-            // this.drag = !this.drag
-            // this.$forceUpdate();
-            console.log(this.test++);
+            event[0]
+            // this is where you can make API calls to update the database
         }
     }
 
