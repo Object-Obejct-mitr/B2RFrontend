@@ -1,5 +1,5 @@
 <template>
-    <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">Edit Task</button>
+    <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#taskModal">Edit Task</button>
 
     
     <div
@@ -20,3 +20,4 @@
         </div>
     </div>
 </template>
+
