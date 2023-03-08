@@ -7,10 +7,10 @@ export default {
     props: {
         component: String,
         priority: Number,
-        desc: String
+        desc: String,
     },
     components: {
-        EditTaskModal
+        EditTaskModal,
     },
     beforeCreate() {
         this.uuid = uuid.toString();
@@ -19,9 +19,7 @@ export default {
 };
 </script>
 
-
-<template >
-    
+<template>
     <div id="accordionPanelsStayOpen" class="accordion accordion-flush grab">
         <div class="accordion-item">
             <div
@@ -53,7 +51,9 @@ export default {
                 </div>
                 <div class="d-flex flex-row">
                     <div class="d-flex align-self-center">Priority:</div>
-                    <div class="d-flex align-self-center ms-2">{{ priority }}</div>
+                    <div class="d-flex align-self-center ms-2">
+                        {{ priority }}
+                    </div>
                 </div>
 
                 <button
@@ -75,11 +75,15 @@ export default {
                 >
                     <div class="d-flex flex-column flex-fill w-25">
                         <div>
-                            {{desc}}
+                            {{ desc }}
                         </div>
                         <div class="mt-2">
-              
-                            <EditTaskModal :component="component" :id="uuid" :priority="priority" :desc="desc"/>
+                            <EditTaskModal
+                                :component="component"
+                                :id="uuid"
+                                :priority="priority"
+                                :desc="desc"
+                            />
                         </div>
                     </div>
 
@@ -113,6 +117,6 @@ p {
 }
 
 .grab:active {
-    cursor:grabbing;
+    cursor: grabbing;
 }
 </style>

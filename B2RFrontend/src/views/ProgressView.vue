@@ -26,7 +26,11 @@
                             >
                                 <template #item="{ element }">
                                     <div>
-                                        <Task :component="element.name" :priority="element.priority" :desc="lorem"/>
+                                        <Task
+                                            :component="element.name"
+                                            :priority="element.priority"
+                                            :desc="lorem"
+                                        />
                                     </div>
                                 </template>
                             </draggable>
@@ -44,7 +48,11 @@
                             >
                                 <template #item="{ element }">
                                     <div>
-                                        <Task :component="element.name" :priority="element.priority" :desc="lorem" />
+                                        <Task
+                                            :component="element.name"
+                                            :priority="element.priority"
+                                            :desc="lorem"
+                                        />
                                     </div>
                                 </template>
                             </draggable>
@@ -125,9 +133,9 @@ export default {
             console.log(event)
             this.drag == false;
             // sort the list here
-            // note: this can a little inefficient considering that 
+            // note: this can a little inefficient considering that
             //        not every tasks' lists have to be sorted,
-            //         just the ones that have been modified. 
+            //         just the ones that have been modified.
             //       however, I can't find anything in the docs that
             //        lets me see what lists have been modified.
             //       also if a sorted list is sorted again it shouldn't be that bad
