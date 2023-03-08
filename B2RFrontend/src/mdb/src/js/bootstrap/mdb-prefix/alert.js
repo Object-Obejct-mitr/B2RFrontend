@@ -5,23 +5,23 @@
  * --------------------------------------------------------------------------
  */
 
-import { defineJQueryPlugin } from './util/index';
-import EventHandler from './dom/event-handler';
-import BaseComponent from './base-component';
-import { enableDismissTrigger } from './util/component-functions';
+import { defineJQueryPlugin } from "./util/index";
+import EventHandler from "./dom/event-handler";
+import BaseComponent from "./base-component";
+import { enableDismissTrigger } from "./util/component-functions";
 
 /**
  * Constants
  */
 
-const NAME = 'alert';
-const DATA_KEY = 'bs.alert';
+const NAME = "alert";
+const DATA_KEY = "bs.alert";
 const EVENT_KEY = `.${DATA_KEY}`;
 
 const EVENT_CLOSE = `close${EVENT_KEY}`;
 const EVENT_CLOSED = `closed${EVENT_KEY}`;
-const CLASS_NAME_FADE = 'fade';
-const CLASS_NAME_SHOW = 'show';
+const CLASS_NAME_FADE = "fade";
+const CLASS_NAME_SHOW = "show";
 
 /**
  * Class definition
@@ -44,7 +44,11 @@ class Alert extends BaseComponent {
         this._element.classList.remove(CLASS_NAME_SHOW);
 
         const isAnimated = this._element.classList.contains(CLASS_NAME_FADE);
-        this._queueCallback(() => this._destroyElement(), this._element, isAnimated);
+        this._queueCallback(
+            () => this._destroyElement(),
+            this._element,
+            isAnimated
+        );
     }
 
     // Private
@@ -59,11 +63,15 @@ class Alert extends BaseComponent {
         return this.each(function () {
             const data = Alert.getOrCreateInstance(this);
 
-            if (typeof config !== 'string') {
+            if (typeof config !== "string") {
                 return;
             }
 
-            if (data[config] === undefined || config.startsWith('_') || config === 'constructor') {
+            if (
+                data[config] === undefined ||
+                config.startsWith("_") ||
+                config === "constructor"
+            ) {
                 throw new TypeError(`No method named "${config}"`);
             }
 
@@ -76,7 +84,7 @@ class Alert extends BaseComponent {
  * Data API implementation
  */
 
-enableDismissTrigger(Alert, 'close');
+enableDismissTrigger(Alert, "close");
 
 /**
  * jQuery

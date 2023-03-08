@@ -5,7 +5,7 @@
  * --------------------------------------------------------------------------
  */
 
-import { isDisabled, isVisible } from '../util/index';
+import { isDisabled, isVisible } from "../util/index";
 
 /**
  * Constants
@@ -13,7 +13,9 @@ import { isDisabled, isVisible } from '../util/index';
 
 const SelectorEngine = {
     find(selector, element = document.documentElement) {
-        return [].concat(...Element.prototype.querySelectorAll.call(element, selector));
+        return [].concat(
+            ...Element.prototype.querySelectorAll.call(element, selector)
+        );
     },
 
     findOne(selector, element = document.documentElement) {
@@ -21,7 +23,9 @@ const SelectorEngine = {
     },
 
     children(element, selector) {
-        return [].concat(...element.children).filter((child) => child.matches(selector));
+        return []
+            .concat(...element.children)
+            .filter((child) => child.matches(selector));
     },
 
     parents(element, selector) {
@@ -66,19 +70,21 @@ const SelectorEngine = {
 
     focusableChildren(element) {
         const focusables = [
-            'a',
-            'button',
-            'input',
-            'textarea',
-            'select',
-            'details',
-            '[tabindex]',
+            "a",
+            "button",
+            "input",
+            "textarea",
+            "select",
+            "details",
+            "[tabindex]",
             '[contenteditable="true"]',
         ]
             .map((selector) => `${selector}:not([tabindex^="-"])`)
-            .join(',');
+            .join(",");
 
-        return this.find(focusables, element).filter((el) => !isDisabled(el) && isVisible(el));
+        return this.find(focusables, element).filter(
+            (el) => !isDisabled(el) && isVisible(el)
+        );
     },
 };
 

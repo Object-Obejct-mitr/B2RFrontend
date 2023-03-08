@@ -1,8 +1,5 @@
-<script setup>
-</script>
+<script setup></script>
 
 <template>
-    <main>
-        Contacts
-    </main>
+    <main>Contacts</main>
 </template>

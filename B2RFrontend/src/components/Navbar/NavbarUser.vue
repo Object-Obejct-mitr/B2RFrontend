@@ -1,5 +1,5 @@
 <script>
-import { RouterLink, RouterView } from 'vue-router'
+import { RouterLink, RouterView } from "vue-router";
 
 export default {
     data() {
@@ -11,7 +11,6 @@ export default {
 };
 </script>
 
-
 <template>
     <div v-if="!signedIn" class="d-flex align-items-center">
         <button type="button" class="btn btn-primary px-3 me-2">Log In</button>
@@ -21,7 +20,11 @@ export default {
         <div class="d-flex flex-column align-items-center">
             <h4>Welcome, {{ user }}</h4>
             <div class="d-flex flex-row">
-                <RouterLink to="/profile"><button class="btn btn-primary px-3">View Profile</button></RouterLink>
+                <RouterLink to="/profile"
+                    ><button class="btn btn-primary px-3">
+                        View Profile
+                    </button></RouterLink
+                >
                 <button class="btn btn-link px-3">Sign Out</button>
             </div>
         </div>
