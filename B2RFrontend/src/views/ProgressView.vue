@@ -1,40 +1,30 @@
 
 <template>
-    <main>   
-        <div class="d-flex flex-column" >
-            
-            <div v-for="(name) in tasks" :key="name" class="h-100 d-flex align-items-center mt-5 flex-fill">
+    <main>
+        <div class="d-flex flex-column">
+
+            <div v-for="(name, index) in tasks" :key="name + index" class="h-100 d-flex align-items-center mt-5 flex-fill">
                 <div class="d-flex justify-content-center flex-column flex-fill">
                     <h1 class="text-center">{{ name }}</h1>
-                    <div class="d-flex flex-row flex-fill justify-content-around">  
+                    <div class="d-flex flex-row flex-fill justify-content-around">
                         <div class="d-flex flex-column flex-fill ms-5 me-auto w-50">
                             <h2 class="text-center">To-Do</h2>
-                            <draggable 
-                                v-model="todo[name]"
-                                :group="name"
-                                item-key="id"  
-                                @start="drag = true"
-                                @end="drag = false"
-                                @change="onChange" >
+                            <draggable v-model="todo[name]" :group="name" :item-key="index" @start="drag = true"
+                                @end="drag = false" @change="onChange">
                                 <template #item="{ element }">
                                     <div>
-                                        <Task :component="element.name" />
+                                        <Task :component="element.name" :priority="element.priority" :desc="lorem"/>
                                     </div>
                                 </template>
                             </draggable>
                         </div>
                         <div class="d-flex flex-column flex-fill ms-5 me-auto w-50">
                             <h2 class="text-center">Done</h2>
-                            <draggable 
-                                v-model="done[name]"
-                                :group="name"
-                                item-key="id"  
-                                @start="drag = true"
-                                @end="drag = false"
-                                @change="onChange" >
+                            <draggable v-model="done[name]" :group="name" :item-key="index" @start="drag = true"
+                                @end="drag = false" @change="onChange">
                                 <template #item="{ element }">
                                     <div>
-                                        <Task :component="element.name" />
+                                        <Task :component="element.name" :priority="element.priority" :desc="lorem" />
                                     </div>
                                 </template>
                             </draggable>
@@ -63,38 +53,39 @@ export default {
         return {
             test: 0,
             drag: false,
+            lorem: "\" Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"",
             todo: {
                 Drivetrain: [
-                    {name: "Component 0", id: 0},
-                    {name:"Component 1", id:1},
-                    {name:"Component 2", id:2},
-                    {name:"Component 3", id:3},
-                    {name:"Component 4",id: 4}
+                    { name: "Component 0", priority: 0 },
+                    { name: "Component 1", priority: 1 },
+                    { name: "Component 2", priority: 2 },
+                    { name: "Component 3", priority: 3 },
+                    { name: "Component 4", priority: 4 }
                 ],
                 Electronics: [
-                    {name: "Component 0", id: 0},
-                    {name:"Component 1", id:1},
-                    {name:"Component 2", id:2},
-                    {name:"Component 3", id:3},
-                    {name:"Component 4",id: 4}
+                    { name: "Component 0", priority: 0 },
+                    { name: "Component 1", priority: 1 },
+                    { name: "Component 2", priority: 2 },
+                    { name: "Component 3", priority: 3 },
+                    { name: "Component 4", priority: 4 }
                 ]
             },
             done: {
                 Drivetrain: [
-                    {name:"Component 5", id:5},
-                    {name:"Component 6", id:6},
-                    {name:"Component 7", id:7}
+                    { name: "Component 5", priority: 1 },
+                    { name: "Component 6", priority: 2 },
+                    { name: "Component 7", priority: 4 }
                 ],
                 Electronics: [
-                    {name:"Component 5", id:5},
-                    {name:"Component 6", id:6},
-                    {name:"Component 7", id:7}
+                    { name: "Component 5", priority: 2 },
+                    { name: "Component 6", priority: 3 },
+                    { name: "Component 7", priority: 1 }
                 ]
             },
             tasks: [
                 "Drivetrain",
                 "Electronics"
-            ]   
+            ]
         }
 
     },
