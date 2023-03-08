@@ -6,6 +6,11 @@ let uuid = 0;
 export default {
     props: {
         component: String,
+        priority: Number,
+        desc: String
+    },
+    components: {
+        EditTaskModal
     },
     beforeCreate() {
         this.uuid = uuid.toString();
@@ -14,9 +19,10 @@ export default {
 };
 </script>
 
-<template>
-    <!-- <EditTaskModal /> -->
-    <div id="accordionPanelsStayOpen" class="accordion accordion-flush">
+
+<template >
+    
+    <div id="accordionPanelsStayOpen" class="accordion accordion-flush grab">
         <div class="accordion-item">
             <div
                 :id="'flush-heading' + uuid"
@@ -37,17 +43,17 @@ export default {
                     <div class="d-flex align-self-center ms-2">/</div>
                     <div class="d-flex align-self-center ms-2">10</div>
                 </div>
-                <div class="d-flex flex-row">
+                <!-- <div class="d-flex flex-row">
                     <div class="d-flex align-self-center">Designer:</div>
                     <div class="d-flex align-self-center ms-2">None</div>
-                </div>
+                </div> -->
                 <div class="d-flex flex-row">
                     <div class="d-flex align-self-center">Worker:</div>
                     <div class="d-flex align-self-center ms-2">None</div>
                 </div>
                 <div class="d-flex flex-row">
                     <div class="d-flex align-self-center">Priority:</div>
-                    <div class="d-flex align-self-center ms-2">5</div>
+                    <div class="d-flex align-self-center ms-2">{{ priority }}</div>
                 </div>
 
                 <button
@@ -69,25 +75,11 @@ export default {
                 >
                     <div class="d-flex flex-column flex-fill w-25">
                         <div>
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip
-                            ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit in voluptate velit esse cillum dolore
-                            eu fugiat nulla pariatur. Excepteur sint occaecat
-                            cupidatat non proident, sunt in culpa qui officia
-                            deserunt mollit anim id est laborum."
+                            {{desc}}
                         </div>
                         <div class="mt-2">
-                            <button
-                                type="button"
-                                class="btn btn-primary"
-                                data-mdb-toggle="modal"
-                                data-mdb-target="#exampleModal"
-                            >
-                                Edit Task
-                            </button>
+              
+                            <EditTaskModal :component="component" :id="uuid" :priority="priority" :desc="desc"/>
                         </div>
                     </div>
 
@@ -114,5 +106,13 @@ export default {
 
 p {
     height: 100%;
+}
+
+.grab {
+    cursor: grab;
+}
+
+.grab:active {
+    cursor:grabbing;
 }
 </style>
