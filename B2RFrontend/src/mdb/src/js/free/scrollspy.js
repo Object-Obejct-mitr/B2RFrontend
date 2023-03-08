@@ -1,8 +1,8 @@
-import { getjQuery, onDOMContentLoaded } from '../mdb/util/index';
-import EventHandler from '../mdb/dom/event-handler';
-import SelectorEngine from '../mdb/dom/selector-engine';
-import Manipulator from '../mdb/dom/manipulator';
-import BSScrollSpy from '../bootstrap/mdb-prefix/scrollspy';
+import { getjQuery, onDOMContentLoaded } from "../mdb/util/index";
+import EventHandler from "../mdb/dom/event-handler";
+import SelectorEngine from "../mdb/dom/selector-engine";
+import Manipulator from "../mdb/dom/manipulator";
+import BSScrollSpy from "../bootstrap/mdb-prefix/scrollspy";
 
 /**
  * ------------------------------------------------------------------------
@@ -10,19 +10,19 @@ import BSScrollSpy from '../bootstrap/mdb-prefix/scrollspy';
  * ------------------------------------------------------------------------
  */
 
-const NAME = 'scrollspy';
+const NAME = "scrollspy";
 const DATA_KEY = `mdb.${NAME}`;
 const EVENT_KEY = `.${DATA_KEY}`;
-const DATA_API_KEY = '.data-api';
+const DATA_API_KEY = ".data-api";
 
-const EVENT_ACTIVATE_BS = 'activate.bs.scrollspy';
+const EVENT_ACTIVATE_BS = "activate.bs.scrollspy";
 const EVENT_ACTIVATE = `activate${EVENT_KEY}`;
 const EVENT_LOAD_DATA_API = `load${EVENT_KEY}${DATA_API_KEY}`;
 
-const CLASS_COLLAPSIBLE = 'collapsible-scrollspy';
-const CLASS_ACTIVE = 'active';
+const CLASS_COLLAPSIBLE = "collapsible-scrollspy";
+const CLASS_ACTIVE = "active";
 
-const SELECTOR_LIST = 'ul';
+const SELECTOR_LIST = "ul";
 const SELECTOR_DATA_SPY = '[data-mdb-spy="scroll"]';
 const SELECTOR_ACTIVE = `.${CLASS_ACTIVE}`;
 const SELECTOR_COLLAPSIBLE_SCROLLSPY = `.${CLASS_COLLAPSIBLE}`;
@@ -64,8 +64,11 @@ class ScrollSpy extends BSScrollSpy {
     }
 
     _hide(target) {
-        const itemsToHide = SelectorEngine.findOne(SELECTOR_LIST, target.parentNode);
-        itemsToHide.style.overflow = 'hidden';
+        const itemsToHide = SelectorEngine.findOne(
+            SELECTOR_LIST,
+            target.parentNode
+        );
+        itemsToHide.style.overflow = "hidden";
         itemsToHide.style.height = `${0}px`;
     }
 
@@ -74,7 +77,9 @@ class ScrollSpy extends BSScrollSpy {
     }
 
     _getCollapsibles() {
-        const collapsibleElements = SelectorEngine.find(SELECTOR_COLLAPSIBLE_SCROLLSPY);
+        const collapsibleElements = SelectorEngine.find(
+            SELECTOR_COLLAPSIBLE_SCROLLSPY
+        );
 
         if (!collapsibleElements) {
             return;
@@ -86,7 +91,7 @@ class ScrollSpy extends BSScrollSpy {
             const listHeight = list.offsetHeight;
             this._collapsibles.push({
                 element: list,
-                relatedTarget: collapsibleElement.getAttribute('href'),
+                relatedTarget: collapsibleElement.getAttribute("href"),
                 height: `${listHeight}px`,
             });
         });
@@ -99,17 +104,23 @@ class ScrollSpy extends BSScrollSpy {
         });
 
         actives.forEach((active) => {
-            const list = SelectorEngine.findOne(SELECTOR_LIST, active.parentNode);
+            const list = SelectorEngine.findOne(
+                SELECTOR_LIST,
+                active.parentNode
+            );
             const height = this._collapsibles.find((collapsible) => {
-                return (collapsible.relatedTarget = active.getAttribute('href'));
+                return (collapsible.relatedTarget =
+                    active.getAttribute("href"));
             }).height;
             this._show(list, height);
         });
     }
 
     _hideSubsection() {
-        const unactives = SelectorEngine.find(SELECTOR_COLLAPSIBLE_SCROLLSPY).filter((collapsible) => {
-            return Manipulator.hasClass(collapsible, 'active') === false;
+        const unactives = SelectorEngine.find(
+            SELECTOR_COLLAPSIBLE_SCROLLSPY
+        ).filter((collapsible) => {
+            return Manipulator.hasClass(collapsible, "active") === false;
         });
         unactives.forEach((unactive) => {
             this._hide(unactive);

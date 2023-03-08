@@ -5,18 +5,19 @@
  * --------------------------------------------------------------------------
  */
 
-import SelectorEngine from '../dom/selector-engine';
-import Manipulator from '../dom/manipulator';
-import { isElement } from './index';
+import SelectorEngine from "../dom/selector-engine";
+import Manipulator from "../dom/manipulator";
+import { isElement } from "./index";
 
 /**
  * Constants
  */
 
-const SELECTOR_FIXED_CONTENT = '.fixed-top, .fixed-bottom, .is-fixed, .sticky-top';
-const SELECTOR_STICKY_CONTENT = '.sticky-top';
-const PROPERTY_PADDING = 'padding-right';
-const PROPERTY_MARGIN = 'margin-right';
+const SELECTOR_FIXED_CONTENT =
+    ".fixed-top, .fixed-bottom, .is-fixed, .sticky-top";
+const SELECTOR_STICKY_CONTENT = ".sticky-top";
+const PROPERTY_PADDING = "padding-right";
+const PROPERTY_MARGIN = "margin-right";
 
 /**
  * Class definition
@@ -29,7 +30,7 @@ class ScrollBarHelper {
 
     // Public
     getWidth() {
-    // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
+        // https://developer.mozilla.org/en-US/docs/Web/API/Window/innerWidth#usage_notes
         const documentWidth = document.documentElement.clientWidth;
         return Math.abs(window.innerWidth - documentWidth);
     }
@@ -57,7 +58,7 @@ class ScrollBarHelper {
     }
 
     reset() {
-        this._resetElementAttributes(this._element, 'overflow');
+        this._resetElementAttributes(this._element, "overflow");
         this._resetElementAttributes(this._element, PROPERTY_PADDING);
         this._resetElementAttributes(SELECTOR_FIXED_CONTENT, PROPERTY_PADDING);
         this._resetElementAttributes(SELECTOR_STICKY_CONTENT, PROPERTY_MARGIN);
@@ -69,20 +70,28 @@ class ScrollBarHelper {
 
     // Private
     _disableOverFlow() {
-        this._saveInitialAttribute(this._element, 'overflow');
-        this._element.style.overflow = 'hidden';
+        this._saveInitialAttribute(this._element, "overflow");
+        this._element.style.overflow = "hidden";
     }
 
     _setElementAttributes(selector, styleProperty, callback) {
         const scrollbarWidth = this.getWidth();
         const manipulationCallBack = (element) => {
-            if (element !== this._element && window.innerWidth > element.clientWidth + scrollbarWidth) {
+            if (
+                element !== this._element &&
+                window.innerWidth > element.clientWidth + scrollbarWidth
+            ) {
                 return;
             }
 
             this._saveInitialAttribute(element, styleProperty);
-            const calculatedValue = window.getComputedStyle(element).getPropertyValue(styleProperty);
-            element.style.setProperty(styleProperty, `${callback(Number.parseFloat(calculatedValue))}px`);
+            const calculatedValue = window
+                .getComputedStyle(element)
+                .getPropertyValue(styleProperty);
+            element.style.setProperty(
+                styleProperty,
+                `${callback(Number.parseFloat(calculatedValue))}px`
+            );
         };
 
         this._applyManipulationCallback(selector, manipulationCallBack);

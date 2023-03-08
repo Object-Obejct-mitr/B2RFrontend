@@ -1,10 +1,10 @@
-import SelectorEngine from '../dom/selector-engine';
-import { isVisible, typeCheckConfig } from './index';
+import SelectorEngine from "../dom/selector-engine";
+import { isVisible, typeCheckConfig } from "./index";
 
-const NAME = 'Stack';
+const NAME = "Stack";
 
 const DEFAULT_OPTIONS = {
-    position: 'top',
+    position: "top",
     container: null,
     refresh: 1000,
     filter: (el) => {
@@ -13,10 +13,10 @@ const DEFAULT_OPTIONS = {
 };
 
 const TYPE_OPTIONS = {
-    position: 'string',
-    container: '(undefined|null|string)',
-    refresh: 'number',
-    filter: 'function',
+    position: "string",
+    container: "(undefined|null|string)",
+    refresh: "number",
+    filter: "function",
 };
 
 class Stack {
@@ -42,10 +42,16 @@ class Stack {
                     return basicCondition;
                 }
 
-                return basicCondition && this._getBoundryOffset(rect) < this._offset;
+                return (
+                    basicCondition &&
+                    this._getBoundryOffset(rect) < this._offset
+                );
             })
             .sort((a, b) => {
-                return this._getBoundryOffset(b.rect) - this._getBoundryOffset(a.rect);
+                return (
+                    this._getBoundryOffset(b.rect) -
+                    this._getBoundryOffset(a.rect)
+                );
             });
     }
 
@@ -55,7 +61,10 @@ class Stack {
             .filter((el, i) => this._options.filter(el, i))
             .filter((el) => {
                 this._offset = null;
-                return this._getBoundryOffset(el.getBoundingClientRect()) > this._offset;
+                return (
+                    this._getBoundryOffset(el.getBoundingClientRect()) >
+                    this._offset
+                );
             });
     }
 
@@ -83,7 +92,7 @@ class Stack {
             parentBottomBoundry = parentRect.bottom;
         }
 
-        if (position === 'top') {
+        if (position === "top") {
             return rect.top - parentTopOffset;
         }
         return parentBottomBoundry - rect.bottom;
@@ -95,7 +104,9 @@ class Stack {
         if (!previousElement) {
             this._offset = 0;
         } else {
-            this._offset = this._getBoundryOffset(previousElement.rect) + previousElement.rect.height;
+            this._offset =
+                this._getBoundryOffset(previousElement.rect) +
+                previousElement.rect.height;
         }
 
         return this._offset;

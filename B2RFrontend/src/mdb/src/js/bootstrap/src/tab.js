@@ -10,17 +10,17 @@ import {
     getElementFromSelector,
     getNextActiveElement,
     isDisabled,
-} from './util/index';
-import EventHandler from './dom/event-handler';
-import SelectorEngine from './dom/selector-engine';
-import BaseComponent from './base-component';
+} from "./util/index";
+import EventHandler from "./dom/event-handler";
+import SelectorEngine from "./dom/selector-engine";
+import BaseComponent from "./base-component";
 
 /**
  * Constants
  */
 
-const NAME = 'tab';
-const DATA_KEY = 'bs.tab';
+const NAME = "tab";
+const DATA_KEY = "bs.tab";
 const EVENT_KEY = `.${DATA_KEY}`;
 
 const EVENT_HIDE = `hide${EVENT_KEY}`;
@@ -31,25 +31,25 @@ const EVENT_CLICK_DATA_API = `click${EVENT_KEY}`;
 const EVENT_KEYDOWN = `keydown${EVENT_KEY}`;
 const EVENT_LOAD_DATA_API = `load${EVENT_KEY}`;
 
-const ARROW_LEFT_KEY = 'ArrowLeft';
-const ARROW_RIGHT_KEY = 'ArrowRight';
-const ARROW_UP_KEY = 'ArrowUp';
-const ARROW_DOWN_KEY = 'ArrowDown';
+const ARROW_LEFT_KEY = "ArrowLeft";
+const ARROW_RIGHT_KEY = "ArrowRight";
+const ARROW_UP_KEY = "ArrowUp";
+const ARROW_DOWN_KEY = "ArrowDown";
 
-const CLASS_NAME_ACTIVE = 'active';
-const CLASS_NAME_FADE = 'fade';
-const CLASS_NAME_SHOW = 'show';
-const CLASS_DROPDOWN = 'dropdown';
+const CLASS_NAME_ACTIVE = "active";
+const CLASS_NAME_FADE = "fade";
+const CLASS_NAME_SHOW = "show";
+const CLASS_DROPDOWN = "dropdown";
 
-const SELECTOR_DROPDOWN_TOGGLE = '.dropdown-toggle';
-const SELECTOR_DROPDOWN_MENU = '.dropdown-menu';
-const NOT_SELECTOR_DROPDOWN_TOGGLE = ':not(.dropdown-toggle)';
+const SELECTOR_DROPDOWN_TOGGLE = ".dropdown-toggle";
+const SELECTOR_DROPDOWN_MENU = ".dropdown-menu";
+const NOT_SELECTOR_DROPDOWN_TOGGLE = ":not(.dropdown-toggle)";
 
 const SELECTOR_TAB_PANEL = '.list-group, .nav, [role="tablist"]';
-const SELECTOR_OUTER = '.nav-item, .list-group-item';
+const SELECTOR_OUTER = ".nav-item, .list-group-item";
 const SELECTOR_INNER = `.nav-link${NOT_SELECTOR_DROPDOWN_TOGGLE}, .list-group-item${NOT_SELECTOR_DROPDOWN_TOGGLE}, [role="tab"]${NOT_SELECTOR_DROPDOWN_TOGGLE}`;
 const SELECTOR_DATA_TOGGLE =
-  '[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]'; // todo:v6: could be only `tab`
+    '[data-bs-toggle="tab"], [data-bs-toggle="pill"], [data-bs-toggle="list"]'; // todo:v6: could be only `tab`
 const SELECTOR_INNER_ELEM = `${SELECTOR_INNER}, ${SELECTOR_DATA_TOGGLE}`;
 
 const SELECTOR_DATA_TOGGLE_ACTIVE = `.${CLASS_NAME_ACTIVE}[data-bs-toggle="tab"], .${CLASS_NAME_ACTIVE}[data-bs-toggle="pill"], .${CLASS_NAME_ACTIVE}[data-bs-toggle="list"]`;
@@ -72,7 +72,9 @@ class Tab extends BaseComponent {
         // Set up initial aria attributes
         this._setInitialAttributes(this._parent, this._getChildren());
 
-        EventHandler.on(this._element, EVENT_KEYDOWN, (event) => this._keydown(event));
+        EventHandler.on(this._element, EVENT_KEYDOWN, (event) =>
+            this._keydown(event)
+        );
     }
 
     // Getters
@@ -82,7 +84,7 @@ class Tab extends BaseComponent {
 
     // Public
     show() {
-    // Shows this elem and deactivate the active sibling if exists
+        // Shows this elem and deactivate the active sibling if exists
         const innerElem = this._element;
         if (this._elemIsActive(innerElem)) {
             return;
@@ -92,12 +94,19 @@ class Tab extends BaseComponent {
         const active = this._getActiveElem();
 
         const hideEvent = active
-            ? EventHandler.trigger(active, EVENT_HIDE, { relatedTarget: innerElem })
+            ? EventHandler.trigger(active, EVENT_HIDE, {
+                  relatedTarget: innerElem,
+              })
             : null;
 
-        const showEvent = EventHandler.trigger(innerElem, EVENT_SHOW, { relatedTarget: active });
+        const showEvent = EventHandler.trigger(innerElem, EVENT_SHOW, {
+            relatedTarget: active,
+        });
 
-        if (showEvent.defaultPrevented || (hideEvent && hideEvent.defaultPrevented)) {
+        if (
+            showEvent.defaultPrevented ||
+            (hideEvent && hideEvent.defaultPrevented)
+        ) {
             return;
         }
 
@@ -116,20 +125,24 @@ class Tab extends BaseComponent {
         this._activate(getElementFromSelector(element)); // Search and activate/show the proper section
 
         const complete = () => {
-            if (element.getAttribute('role') !== 'tab') {
+            if (element.getAttribute("role") !== "tab") {
                 element.classList.add(CLASS_NAME_SHOW);
                 return;
             }
 
-            element.removeAttribute('tabindex');
-            element.setAttribute('aria-selected', true);
+            element.removeAttribute("tabindex");
+            element.setAttribute("aria-selected", true);
             this._toggleDropDown(element, true);
             EventHandler.trigger(element, EVENT_SHOWN, {
                 relatedTarget: relatedElem,
             });
         };
 
-        this._queueCallback(complete, element, element.classList.contains(CLASS_NAME_FADE));
+        this._queueCallback(
+            complete,
+            element,
+            element.classList.contains(CLASS_NAME_FADE)
+        );
     }
 
     _deactivate(element, relatedElem) {
@@ -143,22 +156,35 @@ class Tab extends BaseComponent {
         this._deactivate(getElementFromSelector(element)); // Search and deactivate the shown section too
 
         const complete = () => {
-            if (element.getAttribute('role') !== 'tab') {
+            if (element.getAttribute("role") !== "tab") {
                 element.classList.remove(CLASS_NAME_SHOW);
                 return;
             }
 
-            element.setAttribute('aria-selected', false);
-            element.setAttribute('tabindex', '-1');
+            element.setAttribute("aria-selected", false);
+            element.setAttribute("tabindex", "-1");
             this._toggleDropDown(element, false);
-            EventHandler.trigger(element, EVENT_HIDDEN, { relatedTarget: relatedElem });
+            EventHandler.trigger(element, EVENT_HIDDEN, {
+                relatedTarget: relatedElem,
+            });
         };
 
-        this._queueCallback(complete, element, element.classList.contains(CLASS_NAME_FADE));
+        this._queueCallback(
+            complete,
+            element,
+            element.classList.contains(CLASS_NAME_FADE)
+        );
     }
 
     _keydown(event) {
-        if (![ARROW_LEFT_KEY, ARROW_RIGHT_KEY, ARROW_UP_KEY, ARROW_DOWN_KEY].includes(event.key)) {
+        if (
+            ![
+                ARROW_LEFT_KEY,
+                ARROW_RIGHT_KEY,
+                ARROW_UP_KEY,
+                ARROW_DOWN_KEY,
+            ].includes(event.key)
+        ) {
             return;
         }
 
@@ -179,16 +205,19 @@ class Tab extends BaseComponent {
     }
 
     _getChildren() {
-    // collection of inner elements
+        // collection of inner elements
         return SelectorEngine.find(SELECTOR_INNER_ELEM, this._parent);
     }
 
     _getActiveElem() {
-        return this._getChildren().find((child) => this._elemIsActive(child)) || null;
+        return (
+            this._getChildren().find((child) => this._elemIsActive(child)) ||
+            null
+        );
     }
 
     _setInitialAttributes(parent, children) {
-        this._setAttributeIfNotExists(parent, 'role', 'tablist');
+        this._setAttributeIfNotExists(parent, "role", "tablist");
 
         for (const child of children) {
             this._setInitialAttributesOnChild(child);
@@ -199,17 +228,17 @@ class Tab extends BaseComponent {
         child = this._getInnerElement(child);
         const isActive = this._elemIsActive(child);
         const outerElem = this._getOuterElement(child);
-        child.setAttribute('aria-selected', isActive);
+        child.setAttribute("aria-selected", isActive);
 
         if (outerElem !== child) {
-            this._setAttributeIfNotExists(outerElem, 'role', 'presentation');
+            this._setAttributeIfNotExists(outerElem, "role", "presentation");
         }
 
         if (!isActive) {
-            child.setAttribute('tabindex', '-1');
+            child.setAttribute("tabindex", "-1");
         }
 
-        this._setAttributeIfNotExists(child, 'role', 'tab');
+        this._setAttributeIfNotExists(child, "role", "tab");
 
         // set attributes to the related panel too
         this._setInitialAttributesOnTargetPanel(child);
@@ -222,10 +251,14 @@ class Tab extends BaseComponent {
             return;
         }
 
-        this._setAttributeIfNotExists(target, 'role', 'tabpanel');
+        this._setAttributeIfNotExists(target, "role", "tabpanel");
 
         if (child.id) {
-            this._setAttributeIfNotExists(target, 'aria-labelledby', `#${child.id}`);
+            this._setAttributeIfNotExists(
+                target,
+                "aria-labelledby",
+                `#${child.id}`
+            );
         }
     }
 
@@ -244,7 +277,7 @@ class Tab extends BaseComponent {
 
         toggle(SELECTOR_DROPDOWN_TOGGLE, CLASS_NAME_ACTIVE);
         toggle(SELECTOR_DROPDOWN_MENU, CLASS_NAME_SHOW);
-        outerElem.setAttribute('aria-expanded', open);
+        outerElem.setAttribute("aria-expanded", open);
     }
 
     _setAttributeIfNotExists(element, attribute, value) {
@@ -274,11 +307,15 @@ class Tab extends BaseComponent {
         return this.each(function () {
             const data = Tab.getOrCreateInstance(this);
 
-            if (typeof config !== 'string') {
+            if (typeof config !== "string") {
                 return;
             }
 
-            if (data[config] === undefined || config.startsWith('_') || config === 'constructor') {
+            if (
+                data[config] === undefined ||
+                config.startsWith("_") ||
+                config === "constructor"
+            ) {
                 throw new TypeError(`No method named "${config}"`);
             }
 
@@ -291,17 +328,22 @@ class Tab extends BaseComponent {
  * Data API implementation
  */
 
-EventHandler.on(document, EVENT_CLICK_DATA_API, SELECTOR_DATA_TOGGLE, function (event) {
-    if (['A', 'AREA'].includes(this.tagName)) {
-        event.preventDefault();
-    }
+EventHandler.on(
+    document,
+    EVENT_CLICK_DATA_API,
+    SELECTOR_DATA_TOGGLE,
+    function (event) {
+        if (["A", "AREA"].includes(this.tagName)) {
+            event.preventDefault();
+        }
 
-    if (isDisabled(this)) {
-        return;
-    }
+        if (isDisabled(this)) {
+            return;
+        }
 
-    Tab.getOrCreateInstance(this).show();
-});
+        Tab.getOrCreateInstance(this).show();
+    }
+);
 
 /**
  * Initialize on focus

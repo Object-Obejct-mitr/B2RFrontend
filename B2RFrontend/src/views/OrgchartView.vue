@@ -1,7 +1,6 @@
 <script setup>
-import OrgchartUser from "../components/Orgchart/OrgchartUser.vue"
-import Sidebar from "../components/Navbar/Sidebar.vue"
-
+import OrgchartUser from "../components/Orgchart/OrgchartUser.vue";
+import Sidebar from "../components/Navbar/Sidebar.vue";
 </script>
 
 <template>
@@ -29,7 +28,6 @@ import Sidebar from "../components/Navbar/Sidebar.vue"
                         <div class="col">
                             <OrgchartUser />
                         </div>
-
                     </div>
                 </div>
                 <div class="d-flex flex-column mt-5">

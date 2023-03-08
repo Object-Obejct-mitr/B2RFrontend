@@ -1,6 +1,6 @@
 <!-- TODO: Get unique IDs per element-->
 <script>
-import EditTaskModal from "./EditTaskModal.vue"
+import EditTaskModal from "./EditTaskModal.vue";
 let uuid = 0;
 
 export default {
@@ -14,18 +14,14 @@ export default {
 };
 </script>
 
-
 <template>
     <!-- <EditTaskModal /> -->
     <div id="accordionPanelsStayOpen" class="accordion accordion-flush">
         <div class="accordion-item">
             <div
-                :id="'flush-heading' + uuid" class="
-            accordion-header
-            d-flex
-            justify-content-between
-            align-items-center
-          ">
+                :id="'flush-heading' + uuid"
+                class="accordion-header d-flex justify-content-between align-items-center"
+            >
                 <div class="d-flex flex-row">
                     <div class="d-flex align-self-center fs-4">
                         {{ component }}
@@ -33,7 +29,11 @@ export default {
                 </div>
                 <div class="d-flex flex-row">
                     <div class="d-flex align-self-center">QTY:</div>
-                    <input class="ms-2 form-control number" value="3" type="number" />
+                    <input
+                        class="ms-2 form-control number"
+                        value="3"
+                        type="number"
+                    />
                     <div class="d-flex align-self-center ms-2">/</div>
                     <div class="d-flex align-self-center ms-2">10</div>
                 </div>
@@ -51,32 +51,50 @@ export default {
                 </div>
 
                 <button
-                    class="accordion-button collapsed noWidth" type="button" data-mdb-toggle="collapse"
-                    :data-mdb-target="'#panelsStayOpen-collapse' + uuid" aria-expanded="false"
-                    :aria-controls="'panelsStayOpen-collapseOne' + uuid"></button>
+                    class="accordion-button collapsed noWidth"
+                    type="button"
+                    data-mdb-toggle="collapse"
+                    :data-mdb-target="'#panelsStayOpen-collapse' + uuid"
+                    aria-expanded="false"
+                    :aria-controls="'panelsStayOpen-collapseOne' + uuid"
+                ></button>
             </div>
             <div
-                :id="'panelsStayOpen-collapse' + uuid" class="accordion-collapse collapse"
-                :aria-labelledby="'heading' + uuid">
-                <div class="accordion-body d-flex flex-row justify-content-around ">
+                :id="'panelsStayOpen-collapse' + uuid"
+                class="accordion-collapse collapse"
+                :aria-labelledby="'heading' + uuid"
+            >
+                <div
+                    class="accordion-body d-flex flex-row justify-content-around"
+                >
                     <div class="d-flex flex-column flex-fill w-25">
                         <div>
-                            "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                            enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                            reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                            nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                            sunt in culpa qui officia deserunt mollit anim id est laborum."
+                            "Lorem ipsum dolor sit amet, consectetur adipiscing
+                            elit, sed do eiusmod tempor incididunt ut labore et
+                            dolore magna aliqua. Ut enim ad minim veniam, quis
+                            nostrud exercitation ullamco laboris nisi ut aliquip
+                            ex ea commodo consequat. Duis aute irure dolor in
+                            reprehenderit in voluptate velit esse cillum dolore
+                            eu fugiat nulla pariatur. Excepteur sint occaecat
+                            cupidatat non proident, sunt in culpa qui officia
+                            deserunt mollit anim id est laborum."
                         </div>
                         <div class="mt-2">
-              
-                            <button type="button" class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#exampleModal">Edit Task</button>
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                data-mdb-toggle="modal"
+                                data-mdb-target="#exampleModal"
+                            >
+                                Edit Task
+                            </button>
                         </div>
                     </div>
 
-                    <div class="d-flex flex-column align-items-center flex-fill">
-                        <img src="https://via.placeholder.com/150">
+                    <div
+                        class="d-flex flex-column align-items-center flex-fill"
+                    >
+                        <img src="https://via.placeholder.com/150" />
                     </div>
                 </div>
             </div>
@@ -84,18 +102,17 @@ export default {
     </div>
 </template>
 
-
 <style scoped>
 .noWidth {
-  width: auto !important;
+    width: auto !important;
 }
 
 .number {
-  max-width: 75px;
-  height: 1lh;
+    max-width: 75px;
+    height: 1lh;
 }
 
 p {
-  height: 100%;
+    height: 100%;
 }
 </style>

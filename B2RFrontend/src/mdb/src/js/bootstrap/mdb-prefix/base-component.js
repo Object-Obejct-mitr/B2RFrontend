@@ -5,16 +5,16 @@
  * --------------------------------------------------------------------------
  */
 
-import Data from './dom/data';
-import { executeAfterTransition, getElement } from './util/index';
-import EventHandler from './dom/event-handler';
-import Config from './util/config';
+import Data from "./dom/data";
+import { executeAfterTransition, getElement } from "./util/index";
+import EventHandler from "./dom/event-handler";
+import Config from "./util/config";
 
 /**
  * Constants
  */
 
-const VERSION = '5.2.3';
+const VERSION = "5.2.3";
 
 /**
  * Class definition
@@ -63,7 +63,8 @@ class BaseComponent extends Config {
 
     static getOrCreateInstance(element, config = {}) {
         return (
-            this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
+            this.getInstance(element) ||
+            new this(element, typeof config === "object" ? config : null)
         );
     }
 

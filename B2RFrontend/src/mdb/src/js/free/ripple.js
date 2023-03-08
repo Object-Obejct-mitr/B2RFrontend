@@ -1,8 +1,13 @@
-import { element, getjQuery, typeCheckConfig, onDOMContentLoaded } from '../mdb/util/index';
-import Data from '../mdb/dom/data';
-import EventHandler from '../mdb/dom/event-handler';
-import Manipulator from '../mdb/dom/manipulator';
-import SelectorEngine from '../mdb/dom/selector-engine';
+import {
+    element,
+    getjQuery,
+    typeCheckConfig,
+    onDOMContentLoaded,
+} from "../mdb/util/index";
+import Data from "../mdb/dom/data";
+import EventHandler from "../mdb/dom/event-handler";
+import Manipulator from "../mdb/dom/manipulator";
+import SelectorEngine from "../mdb/dom/selector-engine";
 
 /**
  * ------------------------------------------------------------------------
@@ -10,26 +15,26 @@ import SelectorEngine from '../mdb/dom/selector-engine';
  * ------------------------------------------------------------------------
  */
 
-const NAME = 'ripple';
-const DATA_KEY = 'mdb.ripple';
-const CLASSNAME_RIPPLE = 'ripple-surface';
-const CLASSNAME_RIPPLE_WAVE = 'ripple-wave';
-const CLASSNAME_RIPPLE_WRAPPER = 'input-wrapper';
-const SELECTOR_COMPONENT = ['.btn', '.ripple'];
+const NAME = "ripple";
+const DATA_KEY = "mdb.ripple";
+const CLASSNAME_RIPPLE = "ripple-surface";
+const CLASSNAME_RIPPLE_WAVE = "ripple-wave";
+const CLASSNAME_RIPPLE_WRAPPER = "input-wrapper";
+const SELECTOR_COMPONENT = [".btn", ".ripple"];
 
-const CLASSNAME_UNBOUND = 'ripple-surface-unbound';
+const CLASSNAME_UNBOUND = "ripple-surface-unbound";
 const GRADIENT =
-  'rgba({{color}}, 0.2) 0, rgba({{color}}, 0.3) 40%, rgba({{color}}, 0.4) 50%, rgba({{color}}, 0.5) 60%, rgba({{color}}, 0) 70%';
+    "rgba({{color}}, 0.2) 0, rgba({{color}}, 0.3) 40%, rgba({{color}}, 0.4) 50%, rgba({{color}}, 0.5) 60%, rgba({{color}}, 0) 70%";
 const DEFAULT_RIPPLE_COLOR = [0, 0, 0];
 const BOOTSTRAP_COLORS = [
-    'primary',
-    'secondary',
-    'success',
-    'danger',
-    'warning',
-    'info',
-    'light',
-    'dark',
+    "primary",
+    "secondary",
+    "success",
+    "danger",
+    "warning",
+    "info",
+    "light",
+    "dark",
 ];
 
 // Sets value when run opacity transition
@@ -38,18 +43,18 @@ const TRANSITION_BREAK_OPACITY = 0.5;
 
 const Default = {
     rippleCentered: false,
-    rippleColor: '',
-    rippleDuration: '500ms',
+    rippleColor: "",
+    rippleDuration: "500ms",
     rippleRadius: 0,
     rippleUnbound: false,
 };
 
 const DefaultType = {
-    rippleCentered: 'boolean',
-    rippleColor: 'string',
-    rippleDuration: 'string',
-    rippleRadius: 'number',
-    rippleUnbound: 'boolean',
+    rippleCentered: "boolean",
+    rippleColor: "string",
+    rippleDuration: "string",
+    rippleRadius: "number",
+    rippleUnbound: "boolean",
 };
 
 /**
@@ -90,7 +95,7 @@ class Ripple {
 
     dispose() {
         Data.removeData(this._element, DATA_KEY);
-        EventHandler.off(this._element, 'click', this._clickHandler);
+        EventHandler.off(this._element, "click", this._clickHandler);
         this._element = null;
         this._options = null;
     }
@@ -107,34 +112,40 @@ class Ripple {
 
         this._options = this._getConfig();
 
-        if (this._element.tagName.toLowerCase() === 'input') {
+        if (this._element.tagName.toLowerCase() === "input") {
             const parent = this._element.parentNode;
 
             this._rippleInSpan = true;
 
-            if (parent.tagName.toLowerCase() === 'span' && parent.classList.contains(CLASSNAME_RIPPLE)) {
+            if (
+                parent.tagName.toLowerCase() === "span" &&
+                parent.classList.contains(CLASSNAME_RIPPLE)
+            ) {
                 this._element = parent;
             } else {
                 const shadow = getComputedStyle(this._element).boxShadow;
                 const btn = this._element;
-                const wrapper = document.createElement('span');
+                const wrapper = document.createElement("span");
 
-                if (btn.classList.contains('btn-block')) {
-                    wrapper.style.display = 'block';
+                if (btn.classList.contains("btn-block")) {
+                    wrapper.style.display = "block";
                 }
 
-                EventHandler.one(wrapper, 'mouseup', (e) => {
+                EventHandler.one(wrapper, "mouseup", (e) => {
                     // prevent submit on click other than LMB, ripple still triggered, but submit is blocked
                     if (e.button === 0) {
                         btn.click();
                     }
                 });
 
-                wrapper.classList.add(CLASSNAME_RIPPLE, CLASSNAME_RIPPLE_WRAPPER);
+                wrapper.classList.add(
+                    CLASSNAME_RIPPLE,
+                    CLASSNAME_RIPPLE_WRAPPER
+                );
 
                 Manipulator.addStyle(wrapper, {
                     border: 0,
-                    'box-shadow': shadow,
+                    "box-shadow": shadow,
                 });
 
                 // Put element as child
@@ -146,7 +157,9 @@ class Ripple {
         }
 
         if (!this._element.style.minWidth) {
-            Manipulator.style(this._element, { 'min-width': `${getComputedStyle(this._element).width}` });
+            Manipulator.style(this._element, {
+                "min-width": `${getComputedStyle(this._element).width}`,
+            });
             this._isMinWidthSet = true;
         }
 
@@ -155,12 +168,16 @@ class Ripple {
     }
 
     _addClickEvent(target) {
-        EventHandler.on(target, 'mousedown', this._clickHandler);
+        EventHandler.on(target, "mousedown", this._clickHandler);
     }
 
     _getEventLayer(event) {
-        const x = Math.round(event.clientX - event.target.getBoundingClientRect().x);
-        const y = Math.round(event.clientY - event.target.getBoundingClientRect().y);
+        const x = Math.round(
+            event.clientX - event.target.getBoundingClientRect().x
+        );
+        const y = Math.round(
+            event.clientY - event.target.getBoundingClientRect().y
+        );
         return { layerX: x, layerY: y };
     }
 
@@ -202,16 +219,22 @@ class Ripple {
             transitionDuration: `${duration}ms, ${opacity.duration}ms`,
         };
 
-        const rippleHTML = element('div');
+        const rippleHTML = element("div");
 
-        this._createHTMLRipple({ wrapper: this._element, ripple: rippleHTML, styles });
+        this._createHTMLRipple({
+            wrapper: this._element,
+            ripple: rippleHTML,
+            styles,
+        });
         this._removeHTMLRipple({ ripple: rippleHTML, duration });
     }
 
     _createHTMLRipple({ wrapper, ripple, styles }) {
-        Object.keys(styles).forEach((property) => (ripple.style[property] = styles[property]));
+        Object.keys(styles).forEach(
+            (property) => (ripple.style[property] = styles[property])
+        );
         ripple.classList.add(CLASSNAME_RIPPLE_WAVE);
-        if (this._options.rippleColor !== '') {
+        if (this._options.rippleColor !== "") {
             this._removeOldColorClasses(wrapper);
             this._addColor(ripple, wrapper);
         }
@@ -229,17 +252,28 @@ class Ripple {
             if (ripple) {
                 ripple.remove();
                 if (this._element) {
-                    SelectorEngine.find(`.${CLASSNAME_RIPPLE_WAVE}`, this._element).forEach((rippleEl) => {
+                    SelectorEngine.find(
+                        `.${CLASSNAME_RIPPLE_WAVE}`,
+                        this._element
+                    ).forEach((rippleEl) => {
                         rippleEl.remove();
                     });
                     if (this._isMinWidthSet) {
-                        Manipulator.style(this._element, { 'min-width': '' });
+                        Manipulator.style(this._element, { "min-width": "" });
                         this._isMinWidthSet = false;
                     }
-                    if (this._rippleInSpan && this._element.classList.contains(CLASSNAME_RIPPLE_WRAPPER)) {
+                    if (
+                        this._rippleInSpan &&
+                        this._element.classList.contains(
+                            CLASSNAME_RIPPLE_WRAPPER
+                        )
+                    ) {
                         this._removeWrapperSpan();
                     } else {
-                        Manipulator.removeClass(this._element, CLASSNAME_RIPPLE);
+                        Manipulator.removeClass(
+                            this._element,
+                            CLASSNAME_RIPPLE
+                        );
                     }
                 }
             }
@@ -256,7 +290,7 @@ class Ripple {
     }
 
     _durationToMsNumber(time) {
-        return Number(time.replace('ms', '').replace('s', '000'));
+        return Number(time.replace("ms", "").replace("s", "000"));
     }
 
     _getConfig(config = {}) {
@@ -275,7 +309,8 @@ class Ripple {
     _getDiameter({ offsetX, offsetY, height, width }) {
         const top = offsetY <= height / 2;
         const left = offsetX <= width / 2;
-        const pythagorean = (sideA, sideB) => Math.sqrt(sideA ** 2 + sideB ** 2);
+        const pythagorean = (sideA, sideB) =>
+            Math.sqrt(sideA ** 2 + sideB ** 2);
 
         const positionCenter = offsetY === height / 2 && offsetX === width / 2;
         // mouse position on the quadrants of the coordinate system
@@ -311,7 +346,7 @@ class Ripple {
         const FIX_ADD_RIPPLE_EFFECT = 50; // delay for active animations
         parent.appendChild(target);
         setTimeout(() => {
-            Manipulator.addClass(target, 'active');
+            Manipulator.addClass(target, "active");
         }, FIX_ADD_RIPPLE_EFFECT);
     }
 
@@ -334,15 +369,23 @@ class Ripple {
                 `${CLASSNAME_RIPPLE}-${this._options.rippleColor.toLowerCase()}`
             );
         } else {
-            const rgbValue = this._colorToRGB(this._options.rippleColor).join(',');
-            const gradientImage = GRADIENT.split('{{color}}').join(`${rgbValue}`);
+            const rgbValue = this._colorToRGB(this._options.rippleColor).join(
+                ","
+            );
+            const gradientImage = GRADIENT.split("{{color}}").join(
+                `${rgbValue}`
+            );
             target.style.backgroundImage = `radial-gradient(circle, ${gradientImage})`;
         }
     }
 
     _removeOldColorClasses(target) {
-        const REGEXP_CLASS_COLOR = new RegExp(`${CLASSNAME_RIPPLE}-[a-z]+`, 'gi');
-        const PARENT_CLASSS_COLOR = target.classList.value.match(REGEXP_CLASS_COLOR) || [];
+        const REGEXP_CLASS_COLOR = new RegExp(
+            `${CLASSNAME_RIPPLE}-[a-z]+`,
+            "gi"
+        );
+        const PARENT_CLASSS_COLOR =
+            target.classList.value.match(REGEXP_CLASS_COLOR) || [];
         PARENT_CLASSS_COLOR.forEach((className) => {
             target.classList.remove(className);
         });
@@ -363,14 +406,16 @@ class Ripple {
         }
 
         function namedColorsToRgba(color) {
-            const tempElem = document.body.appendChild(document.createElement('fictum'));
-            const flag = 'rgb(1, 2, 3)';
+            const tempElem = document.body.appendChild(
+                document.createElement("fictum")
+            );
+            const flag = "rgb(1, 2, 3)";
             tempElem.style.color = flag;
             if (tempElem.style.color !== flag) {
                 return DEFAULT_RIPPLE_COLOR;
             }
             tempElem.style.color = color;
-            if (tempElem.style.color === flag || tempElem.style.color === '') {
+            if (tempElem.style.color === flag || tempElem.style.color === "") {
                 return DEFAULT_RIPPLE_COLOR;
             } // color parse failed
             color = getComputedStyle(tempElem).color;
@@ -384,16 +429,16 @@ class Ripple {
             return color;
         }
 
-        if (color.toLowerCase() === 'transparent') {
+        if (color.toLowerCase() === "transparent") {
             return DEFAULT_RIPPLE_COLOR;
         }
-        if (color[0] === '#') {
+        if (color[0] === "#") {
             return hexToRgb(color);
         }
-        if (color.indexOf('rgb') === -1) {
+        if (color.indexOf("rgb") === -1) {
             color = namedColorsToRgba(color);
         }
-        if (color.indexOf('rgb') === 0) {
+        if (color.indexOf("rgb") === 0) {
             return rgbaToRgb(color);
         }
 
@@ -424,7 +469,8 @@ class Ripple {
 
     static getOrCreateInstance(element, config = {}) {
         return (
-            this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
+            this.getInstance(element) ||
+            new this(element, typeof config === "object" ? config : null)
         );
     }
 }
@@ -436,7 +482,12 @@ class Ripple {
  */
 
 SELECTOR_COMPONENT.forEach((selector) => {
-    EventHandler.one(document, 'mousedown', selector, Ripple.autoInitial(new Ripple()));
+    EventHandler.one(
+        document,
+        "mousedown",
+        selector,
+        Ripple.autoInitial(new Ripple())
+    );
 });
 
 /**

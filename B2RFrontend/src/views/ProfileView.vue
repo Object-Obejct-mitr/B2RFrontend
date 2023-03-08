@@ -1,8 +1,5 @@
-<script setup>
-</script>
+<script setup></script>
 
 <template>
-    <main>
-        Profile
-    </main>
+    <main>Profile</main>
 </template>
