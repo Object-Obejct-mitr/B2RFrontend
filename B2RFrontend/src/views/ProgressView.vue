@@ -13,7 +13,7 @@
                                 @end="drag = false" @change="onChange">
                                 <template #item="{ element }">
                                     <div>
-                                        <Task :component="element.name" :priority="element.priority" :desc="lorem"/>
+                                        <Task :component="element.name" :priority="element.priority" :desc="lorem" @quantity-checker="quantityUpdater"/>
                                     </div>
                                 </template>
                             </draggable>
@@ -24,7 +24,7 @@
                                 @end="drag = false" @change="onChange">
                                 <template #item="{ element }">
                                     <div>
-                                        <Task :component="element.name" :priority="element.priority" :desc="lorem" />
+                                        <Task :component="element.name" :priority="element.priority" :desc="lorem" @quantity-checker="quantityUpdater"/>
                                     </div>
                                 </template>
                             </draggable>
@@ -96,6 +96,9 @@ export default {
         onChange(event) {
             event[0]
             // this is where you can make API calls to update the database
+        },
+        quantityUpdater(quantityUpdate) {
+            
         }
     }
 

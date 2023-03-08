@@ -1,20 +1,30 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <!-- TODO: Get unique IDs per element-->
 <script>
 import EditTaskModal from "./EditTaskModal.vue"
 let uuid = 0;
 
 export default {
-    props: {
-        component: String,
-        priority: Number,
-        desc: String
-    },
     components: {
         EditTaskModal
     },
+    props: {
+        component: {type: String, default: "None"},
+        priority: {type: Number, default: 0},
+        desc: {type: String, default: "No description provided."},
+        quantity: {type: Number, default: 0},
+    },
+    emits: [
+        "quantityChecker"
+    ],
     beforeCreate() {
         this.uuid = uuid.toString();
         uuid += 1;
+    },
+    methods: {
+        quantityChecker(quantityUpdate){
+            this.$emit("quantityChecker", quantityUpdate)
+        }
     },
 };
 </script>
@@ -38,7 +48,7 @@ export default {
                 </div>
                 <div class="d-flex flex-row">
                     <div class="d-flex align-self-center">QTY:</div>
-                    <input class="ms-2 form-control number" value="3" type="number" />
+                    <input class="ms-2 form-control number" :value="quantity" @input="quantityChecker" type="number" />
                     <div class="d-flex align-self-center ms-2">/</div>
                     <div class="d-flex align-self-center ms-2">10</div>
                 </div>
@@ -70,7 +80,7 @@ export default {
                         </div>
                         <div class="mt-2">
               
-                            <EditTaskModal :component="component" :id="uuid" :priority="priority" :desc="desc"/>
+                            <EditTaskModal :id="uuid" :component="component" :priority="priority" :desc="desc"/>
                         </div>
                     </div>
 
