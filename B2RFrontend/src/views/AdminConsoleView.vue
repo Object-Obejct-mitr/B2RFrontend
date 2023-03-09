@@ -1,12 +1,12 @@
 <script setup>
-import Sidebar from "../components/Navbar/Sidebar.vue";
+import SideBar from "../components/Navbar/SideBar.vue";
 </script>
 
 <template>
     <main>
         <div class="d-flex flex-row">
             <!--Sidebar -->
-            <Sidebar />
+            <SideBar />
             <!--Main Content Container-->
             <div
                 id="adminConsoleViewContainer"

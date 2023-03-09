@@ -1,69 +1,68 @@
 {
     "Drivetrain": {
-      "todo": [
-        {
-          "name": "Drive Motor Assembly With A Super Long Name",
-          "designer": "John Smith",
-          "leadWorker": "Mary Johnson Long Long Name",
-          "quantity": 2,
-          "desiredQuantity": 300,
-          "priority": 8,
-          "description": "Assemble and mount four drive motors onto the robot chassis. Assemble and mount four drive motors onto the robot chassis. Assemble and mount four drive motors onto the robot chassis. Assemble and mount four drive motors onto the robot chassis. Assemble and mount four drive motors onto the robot chassis. Assemble and mount four drive motors onto the robot chassis. Assemble and mount four drive motors onto the robot chassis. Assemble and mount four drive motors onto the robot chassis. Assemble and mount four drive motors onto the robot chassis. "
-        },
-        {
-          "name": "Wheel Alignment",
-          "designer": "Emma Lee",
-          "leadWorker": "Michael Chen",
-          "quantity": 0,
-          "desiredQuantity": 1,
-          "priority": 5,
-          "description": "Align the wheels on the robot to ensure smooth and straight movement."
-        }
-      ],
-      "done": [
-        {
-          "name": "Chassis Fabrication",
-          "designer": "Alex Nguyen",
-          "leadWorker": "Michelle Rodriguez",
-          "quantity": 1,
-          "desiredQuantity": 1,
-          "priority": 9,
-          "description": "Fabricate and weld the robot chassis."
-        }
-      ]
+        "todo": [
+            {
+                "name": "Drive Motor Assembly With A Super Long Name",
+                "designer": "John Smith",
+                "leadWorker": "Mary Johnson Long Long Name",
+                "quantity": 2,
+                "desiredQuantity": 300,
+                "priority": 8,
+                "description": "Assemble and mount four drive motors onto the robot chassis. Assemble and mount four drive motors onto the robot chassis. Assemble and mount four drive motors onto the robot chassis. Assemble and mount four drive motors onto the robot chassis. Assemble and mount four drive motors onto the robot chassis. Assemble and mount four drive motors onto the robot chassis. Assemble and mount four drive motors onto the robot chassis. Assemble and mount four drive motors onto the robot chassis. Assemble and mount four drive motors onto the robot chassis. "
+            },
+            {
+                "name": "Wheel Alignment",
+                "designer": "Emma Lee",
+                "leadWorker": "Michael Chen",
+                "quantity": 0,
+                "desiredQuantity": 1,
+                "priority": 5,
+                "description": "Align the wheels on the robot to ensure smooth and straight movement."
+            }
+        ],
+        "done": [
+            {
+                "name": "Chassis Fabrication",
+                "designer": "Alex Nguyen",
+                "leadWorker": "Michelle Rodriguez",
+                "quantity": 1,
+                "desiredQuantity": 1,
+                "priority": 9,
+                "description": "Fabricate and weld the robot chassis."
+            }
+        ]
     },
     "Electronics": {
-      "todo": [
-        {
-          "name": "Sensor Integration",
-          "designer": "Sarah Kim",
-          "leadWorker": "David Nguyen",
-          "quantity": 0,
-          "desiredQuantity": 1,
-          "priority": 7,
-          "description": "Integrate sensors onto the robot to allow for autonomous navigation."
-        },
-        {
-          "name": "Wiring and Connections",
-          "designer": "Alex Patel",
-          "leadWorker": "Jennifer Wong",
-          "quantity": 0,
-          "desiredQuantity": 1,
-          "priority": 6,
-          "description": "Wire and connect all electronics components on the robot."
-        }
-      ],
-      "done": [
-        {
-          "name": "Battery Installation",
-          "designer": "Rachel Kim",
-          "leadWorker": "James Lee",
-          "quantity": 1,
-          "desiredQuantity": 1,
-          "priority": 4,
-          "description": "Install the robot's battery onto the chassis."
-        }
-      ]
+        "todo": [
+            {
+                "name": "Sensor Integration",
+                "designer": "Sarah Kim",
+                "leadWorker": "David Nguyen",
+                "quantity": 0,
+                "desiredQuantity": 1,
+                "priority": 7,
+                "description": "Integrate sensors onto the robot to allow for autonomous navigation."
+            },
+            {
+                "name": "Wiring and Connections",
+                "designer": "Alex Patel",
+                "leadWorker": "Jennifer Wong",
+                "quantity": 0,
+                "desiredQuantity": 1,
+                "priority": 6,
+                "description": "Wire and connect all electronics components on the robot."
+            }
+        ],
+        "done": [
+            {
+                "name": "Battery Installation",
+                "designer": "Rachel Kim",
+                "leadWorker": "James Lee",
+                "quantity": 1,
+                "desiredQuantity": 1,
+                "priority": 4,
+                "description": "Install the robot's battery onto the chassis."
+            }
+        ]
     }
-  }
-  
+}

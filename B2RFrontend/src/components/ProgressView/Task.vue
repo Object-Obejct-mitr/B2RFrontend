@@ -9,7 +9,7 @@ export default {
         EditTaskModal,
     },
     props: {
-        data: Object
+        data: Object,
         // component: {
         //     type: String,
         //     default: "None",
@@ -71,7 +71,10 @@ export default {
                 class="accordion-header d-flex justify-content-between align-items-center"
             >
                 <div class="d-flex flex-row text-wrap" style="width: 30ch">
-                    <div class="d-flex align-self-center fs-4" style="user-select: text">
+                    <div
+                        class="d-flex align-self-center fs-4"
+                        style="user-select: text"
+                    >
                         {{ data.name }}
                     </div>
                 </div>
@@ -81,19 +84,21 @@ export default {
                         v-model="localQuantity"
                         class="ms-2 form-control number"
                         type="number"
-                        
                         @input="quantityChecker(localQuantity)"
                     />
                     <div class="d-flex align-self-center ms-2">/</div>
-                    <div class="d-flex align-self-center ms-2">{{ data.desiredQuantity }}</div>
+                    <div class="d-flex align-self-center ms-2">
+                        {{ data.desiredQuantity }}
+                    </div>
                 </div>
-                <!-- <div class="d-flex flex-row">
-                    <div class="d-flex align-self-center">Designer:</div>
-                    <div class="d-flex align-self-center ms-2">None</div>
-                </div> -->
+
                 <div class="d-flex flex-row" style="width: 30ch">
-                    <div class="d-flex align-self-center text-wrap">Worker:</div>
-                    <div class="d-flex align-self-center ms-2">{{data.leadWorker}}</div>
+                    <div class="d-flex align-self-center text-wrap">
+                        Worker:
+                    </div>
+                    <div class="d-flex align-self-center ms-2">
+                        {{ data.leadWorker }}
+                    </div>
                 </div>
                 <div class="d-flex flex-row">
                     <div class="d-flex align-self-center">Priority:</div>
@@ -119,9 +124,19 @@ export default {
                 <div
                     class="accordion-body d-flex flex-row justify-content-around"
                 >
-                    <div class="d-flex flex-column flex-fill w-25 justify-content-between">
+                    <div
+                        class="d-flex flex-column flex-fill w-25 justify-content-between"
+                    >
                         <div>
                             {{ data.description }}
+                            <div class="d-flex flex-row mt-2 ms-2 h5">
+                                <div class="d-flex align-self-center">
+                                    Designer:
+                                </div>
+                                <div class="d-flex align-self-center ms-2">
+                                    {{ data.designer }}
+                                </div>
+                            </div>
                         </div>
                         <div class="mt-2">
                             <EditTaskModal

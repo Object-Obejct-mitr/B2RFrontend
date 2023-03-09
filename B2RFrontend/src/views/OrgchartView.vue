@@ -1,12 +1,12 @@
 <script setup>
 import OrgchartUser from "../components/Orgchart/OrgchartUser.vue";
-import Sidebar from "../components/Navbar/Sidebar.vue";
+import SideBar from "../components/Navbar/SideBar.vue";
 </script>
 
 <template>
     <main>
         <div class="d-flex flex-row">
-            <Sidebar />
+            <SideBar />
             <div class="d-flex flex-column flex-fill">
                 <div class="d-flex flex-column mt-5">
                     <h1 class="text-center">Team Mentors</h1>

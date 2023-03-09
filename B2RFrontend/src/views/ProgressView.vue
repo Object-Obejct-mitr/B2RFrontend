@@ -6,14 +6,26 @@
                 :key="name"
                 class="h-100 d-flex align-items-center mt-5 flex-fill"
             > -->
-            <div v-for="(componentData, componentName) in TaskData" :key="componentData"
-                class="h-100 d-flex align-items-center mt-5 flex-fill">
-                <div class="d-flex justify-content-center flex-column flex-fill">
+            <div
+                v-for="(componentData, componentName) in TaskData"
+                :key="componentData"
+                class="h-100 d-flex align-items-center mt-5 flex-fill"
+            >
+                <div
+                    class="d-flex justify-content-center flex-column flex-fill"
+                >
                     <h1 class="text-center">{{ componentName }}</h1>
-                    <div class="d-flex flex-row flex-fill justify-content-around">
-                        <div class="d-flex flex-column flex-fill ms-5 me-auto w-50">
+                    <div
+                        class="d-flex flex-row flex-fill justify-content-around"
+                    >
+                        <div
+                            class="d-flex flex-column flex-fill ms-5 me-auto w-50"
+                        >
                             <h2 class="text-center">To-Do</h2>
-                            <div v-for="task in componentData.todo" :key="task.name">
+                            <div
+                                v-for="task in componentData.todo"
+                                :key="task.name"
+                            >
                                 <Task :data="task" />
                             </div>
                             <!-- <div>{{ TaskData.component }}</div> -->
@@ -39,9 +51,14 @@
                                 </template>
                             </draggable> -->
                         </div>
-                        <div class="d-flex flex-column flex-fill ms-5 me-auto w-50">
+                        <div
+                            class="d-flex flex-column flex-fill ms-5 me-auto w-50"
+                        >
                             <h2 class="text-center">Done</h2>
-                            <div v-for="task in componentData.done" :key="task.name">
+                            <div
+                                v-for="task in componentData.done"
+                                :key="task.name"
+                            >
                                 <Task :data="task" />
                             </div>
                             <!-- <draggable
@@ -155,10 +172,11 @@ export default {
             });
         },
         sortEverything() {
-            for (const taskName of this.tasks) {
-                this.todo[taskName].sort((a, b) => b.priority - a.priority)
-                this.done[taskName].sort((a, b) => b.priority - a.priority)
-            }
+            // for (const taskName of this.tasks) {
+            //     this.todo[taskName].sort((a, b) => b.priority - a.priority)
+            //     this.done[taskName].sort((a, b) => b.priority - a.priority)
+            // }
+            console.log("Not Implemented")
         },
         handleStart() {
             this.drag == true;
