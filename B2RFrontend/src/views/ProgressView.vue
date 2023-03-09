@@ -75,7 +75,6 @@
 <script lang="js">
 import Task from "@/components/ProgressView/Task.vue";
 import draggable from "vuedraggable"
-import { toRaw } from "vue";
 
 
 export default {
@@ -133,13 +132,13 @@ export default {
             console.log(quantityArray[0]) //quantity
             console.log(quantityArray[1]) //id
             console.log(quantityArray[2]) //task name
-            
-            
+
+
             this.todo[quantityArray[2]].forEach((task) => {
                 console.log(task)
                 if (task["id"] == quantityArray[1]) {
                     task["quantity"] = quantityArray[0]
-                    return 
+                    return
                 }
             });
 
@@ -147,7 +146,7 @@ export default {
                 console.log(task)
                 if (task["id"] == quantityArray[1]) {
                     task["quantity"] = quantityArray[0]
-                    return 
+                    return
                 }
             });
         },

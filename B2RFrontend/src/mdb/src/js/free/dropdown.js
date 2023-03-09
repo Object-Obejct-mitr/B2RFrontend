@@ -249,15 +249,15 @@ class Dropdown extends BSDropdown {
 
     _dropdownAnimationStart(action) {
         switch (action) {
-            case "show":
-                this._menu.classList.add(ANIMATION_CLASS, ANIMATION_SHOW_CLASS);
-                this._menu.classList.remove(ANIMATION_HIDE_CLASS);
-                break;
-            default:
-                // hide
-                this._menu.classList.add(ANIMATION_CLASS, ANIMATION_HIDE_CLASS);
-                this._menu.classList.remove(ANIMATION_SHOW_CLASS);
-                break;
+        case "show":
+            this._menu.classList.add(ANIMATION_CLASS, ANIMATION_SHOW_CLASS);
+            this._menu.classList.remove(ANIMATION_HIDE_CLASS);
+            break;
+        default:
+            // hide
+            this._menu.classList.add(ANIMATION_CLASS, ANIMATION_HIDE_CLASS);
+            this._menu.classList.remove(ANIMATION_SHOW_CLASS);
+            break;
         }
 
         this._bindAnimationEnd();

@@ -4,48 +4,47 @@
 import EditTaskModal from "./EditTaskModal.vue";
 let uuid = 0;
 
-
 export default {
     components: {
         EditTaskModal,
     },
     props: {
-        component: { 
+        component: {
             type: String,
             default: "None",
-            required: true 
+            required: true,
         },
-        priority: { 
+        priority: {
             type: Number,
             default: 0,
-            required: true 
+            required: true,
         },
-        desc: { 
+        desc: {
             type: String,
-            default: "No description provided.", 
-            required: true
+            default: "No description provided.",
+            required: true,
         },
         elemId: {
             type: Number,
             default: 0,
-            required: true
+            required: true,
         },
-        quantity: { 
+        quantity: {
             type: Number,
             default: 0,
-            required: true
+            required: true,
         },
-        parentName: { 
+        parentName: {
             type: String,
             default: "None",
-            required: true
-        }
+            required: true,
+        },
     },
     emits: ["quantityChecker"],
     data() {
         return {
-            localQuantity: this.quantity
-        }
+            localQuantity: this.quantity,
+        };
     },
     beforeCreate() {
         this.uuid = uuid.toString();
@@ -53,10 +52,13 @@ export default {
     },
     methods: {
         quantityChecker(quantityUpdate) {
-            this.$emit("quantityChecker", [quantityUpdate, this.elemId, this.parentName]);
+            this.$emit("quantityChecker", [
+                quantityUpdate,
+                this.elemId,
+                this.parentName,
+            ]);
         },
     },
-    
 };
 </script>
 
@@ -75,7 +77,7 @@ export default {
                 <div class="d-flex flex-row">
                     <div class="d-flex align-self-center">QTY:</div>
                     <input
-                        v-model="localQuantity" 
+                        v-model="localQuantity"
                         class="ms-2 form-control number"
                         type="number"
                         @input="quantityChecker(localQuantity)"

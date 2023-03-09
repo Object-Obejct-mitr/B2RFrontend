@@ -152,21 +152,21 @@ class Toast extends BaseComponent {
 
     _onInteraction(event, isInteracting) {
         switch (event.type) {
-            case "mouseover":
-            case "mouseout": {
-                this._hasMouseInteraction = isInteracting;
-                break;
-            }
+        case "mouseover":
+        case "mouseout": {
+            this._hasMouseInteraction = isInteracting;
+            break;
+        }
 
-            case "focusin":
-            case "focusout": {
-                this._hasKeyboardInteraction = isInteracting;
-                break;
-            }
+        case "focusin":
+        case "focusout": {
+            this._hasKeyboardInteraction = isInteracting;
+            break;
+        }
 
-            default: {
-                break;
-            }
+        default: {
+            break;
+        }
         }
 
         if (isInteracting) {

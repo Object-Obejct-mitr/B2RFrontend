@@ -49,8 +49,8 @@ export default {
                                 <!--Component Name-->
                                 <div class="form-outline mt-3">
                                     <input
-                                        type="text"
                                         :id="'componentName' + id"
+                                        type="text"
                                         class="form-control active"
                                         :value="component"
                                     /><label
@@ -71,8 +71,8 @@ export default {
                                 <div class="d-flex flex-row ms-3">
                                     <div class="form-outline w-50 mt-3">
                                         <input
-                                            type="number"
                                             :id="'componentPrio' + id"
+                                            type="number"
                                             class="form-control active"
                                             :value="priority"
                                         /><label
@@ -97,8 +97,8 @@ export default {
                                     <!--Quantity-->
                                     <div class="form-outline w-50 mt-3 ms-3">
                                         <input
-                                            type="number"
                                             :id="'componentQTY' + id"
+                                            type="number"
                                             class="form-control active"
                                             :value="priority"
                                         /><label
@@ -127,8 +127,8 @@ export default {
                                 <!--Designer (No select)-->
                                 <div class="form-outline w-33 mt-3 me-2">
                                     <input
-                                        type="text"
                                         :id="'designer' + id"
+                                        type="text"
                                         class="form-control active"
                                         :value="component"
                                     /><label
@@ -149,8 +149,8 @@ export default {
                                 <!--Lead Worker-->
                                 <div class="form-outline w-33 mt-3 ms-2">
                                     <input
-                                        type="text"
                                         :id="'leadWorker' + id"
+                                        type="text"
                                         class="form-control active"
                                         :value="component"
                                     /><label
@@ -182,9 +182,9 @@ export default {
                                 -->
                             <div class="form-outline mt-3">
                                 <textarea
+                                    :id="'componentDesc' + id"
                                     class="form-control active"
                                     :value="desc"
-                                    :id="'componentDesc' + id"
                                     rows="6"
                                 ></textarea>
                                 <label class="form-label" for="textAreaExample"
@@ -270,9 +270,9 @@ export default {
                                         >Upload New CAD/Design Files</label
                                     >
                                     <input
+                                        :id="'designFile' + id"
                                         class="form-control"
                                         type="file"
-                                        :id="'designFile' + id"
                                         multiple
                                     />
                                 </div>
@@ -286,9 +286,9 @@ export default {
                                             >Upload New Photos</label
                                         >
                                         <input
+                                            :id="'photoFile' + id"
                                             class="form-control"
                                             type="file"
-                                            :id="'photoFile' + id"
                                             multiple
                                         />
                                     </div>
