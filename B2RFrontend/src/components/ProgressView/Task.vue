@@ -10,10 +10,36 @@ export default {
         EditTaskModal,
     },
     props: {
-        component: { type: String, default: "None" },
-        priority: { type: Number, default: 0 },
-        desc: { type: String, default: "No description provided." },
-        quantity: { type: Number, default: 0 },
+        component: { 
+            type: String,
+            default: "None",
+            required: true 
+        },
+        priority: { 
+            type: Number,
+            default: 0,
+            required: true 
+        },
+        desc: { 
+            type: String,
+            default: "No description provided.", 
+            required: true
+        },
+        elemId: {
+            type: Number,
+            default: 0,
+            required: true
+        },
+        quantity: { 
+            type: Number,
+            default: 0,
+            required: true
+        },
+        parentName: { 
+            type: String,
+            default: "None",
+            required: true
+        }
     },
     emits: ["quantityChecker"],
     data() {
@@ -27,7 +53,7 @@ export default {
     },
     methods: {
         quantityChecker(quantityUpdate) {
-            this.$emit("quantityChecker", quantityUpdate);
+            this.$emit("quantityChecker", [quantityUpdate, this.elemId, this.parentName]);
         },
     },
     
