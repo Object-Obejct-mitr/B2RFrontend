@@ -26,20 +26,13 @@
                             >
                                 <template #item="{ element }">
                                     <div>
-                                        <<<<<<< HEAD
                                         <Task
                                             :component="element.name"
                                             :priority="element.priority"
                                             :desc="lorem"
                                             @quantity-checker="quantityUpdater"
                                         />
-                                        =======
-                                        <Task
-                                            :component="element.name"
-                                            :priority="element.priority"
-                                            :desc="lorem"
-                                        />
-                                        >>>>>>> dev
+
                                     </div>
                                 </template>
                             </draggable>
@@ -57,20 +50,12 @@
                             >
                                 <template #item="{ element }">
                                     <div>
-                                        <<<<<<< HEAD
                                         <Task
                                             :component="element.name"
                                             :priority="element.priority"
                                             :desc="lorem"
                                             @quantity-checker="quantityUpdater"
                                         />
-                                        =======
-                                        <Task
-                                            :component="element.name"
-                                            :priority="element.priority"
-                                            :desc="lorem"
-                                        />
-                                        >>>>>>> dev
                                     </div>
                                 </template>
                             </draggable>
@@ -138,14 +123,9 @@ export default {
         this.sortEverything()
     },
     methods: {
-        onChange(event) {
-            event[0]
-            // this is where you can make API calls to update the database
-        },
         quantityUpdater(quantityUpdate) {
-            
+                
         },
-
         sortEverything() {
             for ( const taskName of this.tasks ) {
                 this.todo[taskName].sort((a,b) => b.priority - a.priority)

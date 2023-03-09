@@ -200,8 +200,8 @@ export default {
                                 </div>
                             </div>
 
-                        <!--Designer WORK IN PROGRESS-->
-                        <!--
+                            <!--Designer WORK IN PROGRESS-->
+                            <!--
                                 <div :id="'designer'+id" class="select-wrapper">
                                     <div class="form-outline"><input class="form-control select-input active" type="text"
                                             role="listbox" aria-multiselectable="false" aria-disabled="false"
