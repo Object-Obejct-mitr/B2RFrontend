@@ -1,20 +1,63 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <!-- TODO: Get unique IDs per element-->
 <script>
 import EditTaskModal from "./EditTaskModal.vue";
 let uuid = 0;
 
 export default {
-    props: {
-        component: String,
-        priority: Number,
-        desc: String,
-    },
     components: {
         EditTaskModal,
+    },
+    props: {
+        component: {
+            type: String,
+            default: "None",
+            required: true,
+        },
+        priority: {
+            type: Number,
+            default: 0,
+            required: true,
+        },
+        desc: {
+            type: String,
+            default: "No description provided.",
+            required: true,
+        },
+        elemId: {
+            type: Number,
+            default: 0,
+            required: true,
+        },
+        quantity: {
+            type: Number,
+            default: 0,
+            required: true,
+        },
+        parentName: {
+            type: String,
+            default: "None",
+            required: true,
+        },
+    },
+    emits: ["quantityChecker"],
+    data() {
+        return {
+            localQuantity: this.quantity,
+        };
     },
     beforeCreate() {
         this.uuid = uuid.toString();
         uuid += 1;
+    },
+    methods: {
+        quantityChecker(quantityUpdate) {
+            this.$emit("quantityChecker", [
+                quantityUpdate,
+                this.elemId,
+                this.parentName,
+            ]);
+        },
     },
 };
 </script>
@@ -34,9 +77,10 @@ export default {
                 <div class="d-flex flex-row">
                     <div class="d-flex align-self-center">QTY:</div>
                     <input
+                        v-model="localQuantity"
                         class="ms-2 form-control number"
-                        value="3"
                         type="number"
+                        @input="quantityChecker(localQuantity)"
                     />
                     <div class="d-flex align-self-center ms-2">/</div>
                     <div class="d-flex align-self-center ms-2">10</div>
@@ -79,8 +123,8 @@ export default {
                         </div>
                         <div class="mt-2">
                             <EditTaskModal
-                                :component="component"
                                 :id="uuid"
+                                :component="component"
                                 :priority="priority"
                                 :desc="desc"
                             />
