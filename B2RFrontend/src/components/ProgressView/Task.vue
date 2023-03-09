@@ -4,6 +4,7 @@
 import EditTaskModal from "./EditTaskModal.vue";
 let uuid = 0;
 
+
 export default {
     components: {
         EditTaskModal,
@@ -15,6 +16,11 @@ export default {
         quantity: { type: Number, default: 0 },
     },
     emits: ["quantityChecker"],
+    data() {
+        return {
+            localQuantity: this.quantity
+        }
+    },
     beforeCreate() {
         this.uuid = uuid.toString();
         uuid += 1;
@@ -24,6 +30,7 @@ export default {
             this.$emit("quantityChecker", quantityUpdate);
         },
     },
+    
 };
 </script>
 
@@ -42,10 +49,10 @@ export default {
                 <div class="d-flex flex-row">
                     <div class="d-flex align-self-center">QTY:</div>
                     <input
+                        v-model="localQuantity" 
                         class="ms-2 form-control number"
-                        :value="quantity"
-                        @input="quantityChecker"
                         type="number"
+                        @input="quantityChecker(localQuantity)"
                     />
                     <div class="d-flex align-self-center ms-2">/</div>
                     <div class="d-flex align-self-center ms-2">10</div>

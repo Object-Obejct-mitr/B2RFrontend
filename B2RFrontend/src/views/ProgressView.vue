@@ -124,7 +124,10 @@ export default {
     },
     methods: {
         quantityUpdater(quantityUpdate) {
-                
+            console.log("recieved quantity to be updated")
+            console.log(quantityUpdate)
+            
+
         },
         sortEverything() {
             for ( const taskName of this.tasks ) {
