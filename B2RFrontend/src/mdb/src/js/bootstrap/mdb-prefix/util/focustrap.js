@@ -5,23 +5,23 @@
  * --------------------------------------------------------------------------
  */
 
-import EventHandler from '../dom/event-handler';
-import SelectorEngine from '../dom/selector-engine';
-import Config from './config';
+import EventHandler from "../dom/event-handler";
+import SelectorEngine from "../dom/selector-engine";
+import Config from "./config";
 
 /**
  * Constants
  */
 
-const NAME = 'focustrap';
-const DATA_KEY = 'bs.focustrap';
+const NAME = "focustrap";
+const DATA_KEY = "bs.focustrap";
 const EVENT_KEY = `.${DATA_KEY}`;
 const EVENT_FOCUSIN = `focusin${EVENT_KEY}`;
 const EVENT_KEYDOWN_TAB = `keydown.tab${EVENT_KEY}`;
 
-const TAB_KEY = 'Tab';
-const TAB_NAV_FORWARD = 'forward';
-const TAB_NAV_BACKWARD = 'backward';
+const TAB_KEY = "Tab";
+const TAB_NAV_FORWARD = "forward";
+const TAB_NAV_BACKWARD = "backward";
 
 const Default = {
     autofocus: true,
@@ -29,8 +29,8 @@ const Default = {
 };
 
 const DefaultType = {
-    autofocus: 'boolean',
-    trapElement: 'element',
+    autofocus: "boolean",
+    trapElement: "element",
 };
 
 /**
@@ -69,8 +69,12 @@ class FocusTrap extends Config {
         }
 
         EventHandler.off(document, EVENT_KEY); // guard against infinite focus loop
-        EventHandler.on(document, EVENT_FOCUSIN, (event) => this._handleFocusin(event));
-        EventHandler.on(document, EVENT_KEYDOWN_TAB, (event) => this._handleKeydown(event));
+        EventHandler.on(document, EVENT_FOCUSIN, (event) =>
+            this._handleFocusin(event)
+        );
+        EventHandler.on(document, EVENT_KEYDOWN_TAB, (event) =>
+            this._handleKeydown(event)
+        );
 
         this._isActive = true;
     }
@@ -90,8 +94,8 @@ class FocusTrap extends Config {
 
         if (
             event.target === document ||
-      event.target === trapElement ||
-      trapElement.contains(event.target)
+            event.target === trapElement ||
+            trapElement.contains(event.target)
         ) {
             return;
         }
@@ -112,7 +116,9 @@ class FocusTrap extends Config {
             return;
         }
 
-        this._lastTabNavDirection = event.shiftKey ? TAB_NAV_BACKWARD : TAB_NAV_FORWARD;
+        this._lastTabNavDirection = event.shiftKey
+            ? TAB_NAV_BACKWARD
+            : TAB_NAV_FORWARD;
     }
 }
 

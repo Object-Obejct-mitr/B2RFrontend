@@ -5,17 +5,17 @@
  * --------------------------------------------------------------------------
  */
 
-import { defineJQueryPlugin, reflow } from './util/index';
-import EventHandler from './dom/event-handler';
-import BaseComponent from './base-component';
-import { enableDismissTrigger } from './util/component-functions';
+import { defineJQueryPlugin, reflow } from "./util/index";
+import EventHandler from "./dom/event-handler";
+import BaseComponent from "./base-component";
+import { enableDismissTrigger } from "./util/component-functions";
 
 /**
  * Constants
  */
 
-const NAME = 'toast';
-const DATA_KEY = 'bs.toast';
+const NAME = "toast";
+const DATA_KEY = "bs.toast";
 const EVENT_KEY = `.${DATA_KEY}`;
 
 const EVENT_MOUSEOVER = `mouseover${EVENT_KEY}`;
@@ -27,15 +27,15 @@ const EVENT_HIDDEN = `hidden${EVENT_KEY}`;
 const EVENT_SHOW = `show${EVENT_KEY}`;
 const EVENT_SHOWN = `shown${EVENT_KEY}`;
 
-const CLASS_NAME_FADE = 'fade';
-const CLASS_NAME_HIDE = 'hide'; // @deprecated - kept here only for backwards compatibility
-const CLASS_NAME_SHOW = 'show';
-const CLASS_NAME_SHOWING = 'showing';
+const CLASS_NAME_FADE = "fade";
+const CLASS_NAME_HIDE = "hide"; // @deprecated - kept here only for backwards compatibility
+const CLASS_NAME_SHOW = "show";
+const CLASS_NAME_SHOWING = "showing";
 
 const DefaultType = {
-    animation: 'boolean',
-    autohide: 'boolean',
-    delay: 'number',
+    animation: "boolean",
+    autohide: "boolean",
+    delay: "number",
 };
 
 const Default = {
@@ -152,21 +152,21 @@ class Toast extends BaseComponent {
 
     _onInteraction(event, isInteracting) {
         switch (event.type) {
-        case 'mouseover':
-        case 'mouseout': {
-            this._hasMouseInteraction = isInteracting;
-            break;
-        }
+            case "mouseover":
+            case "mouseout": {
+                this._hasMouseInteraction = isInteracting;
+                break;
+            }
 
-        case 'focusin':
-        case 'focusout': {
-            this._hasKeyboardInteraction = isInteracting;
-            break;
-        }
+            case "focusin":
+            case "focusout": {
+                this._hasKeyboardInteraction = isInteracting;
+                break;
+            }
 
-        default: {
-            break;
-        }
+            default: {
+                break;
+            }
         }
 
         if (isInteracting) {
@@ -175,7 +175,10 @@ class Toast extends BaseComponent {
         }
 
         const nextElement = event.relatedTarget;
-        if (this._element === nextElement || this._element.contains(nextElement)) {
+        if (
+            this._element === nextElement ||
+            this._element.contains(nextElement)
+        ) {
             return;
         }
 
@@ -183,10 +186,18 @@ class Toast extends BaseComponent {
     }
 
     _setListeners() {
-        EventHandler.on(this._element, EVENT_MOUSEOVER, (event) => this._onInteraction(event, true));
-        EventHandler.on(this._element, EVENT_MOUSEOUT, (event) => this._onInteraction(event, false));
-        EventHandler.on(this._element, EVENT_FOCUSIN, (event) => this._onInteraction(event, true));
-        EventHandler.on(this._element, EVENT_FOCUSOUT, (event) => this._onInteraction(event, false));
+        EventHandler.on(this._element, EVENT_MOUSEOVER, (event) =>
+            this._onInteraction(event, true)
+        );
+        EventHandler.on(this._element, EVENT_MOUSEOUT, (event) =>
+            this._onInteraction(event, false)
+        );
+        EventHandler.on(this._element, EVENT_FOCUSIN, (event) =>
+            this._onInteraction(event, true)
+        );
+        EventHandler.on(this._element, EVENT_FOCUSOUT, (event) =>
+            this._onInteraction(event, false)
+        );
     }
 
     _clearTimeout() {
@@ -199,8 +210,8 @@ class Toast extends BaseComponent {
         return this.each(function () {
             const data = Toast.getOrCreateInstance(this, config);
 
-            if (typeof config === 'string') {
-                if (typeof data[config] === 'undefined') {
+            if (typeof config === "string") {
+                if (typeof data[config] === "undefined") {
                     throw new TypeError(`No method named "${config}"`);
                 }
 

@@ -1,9 +1,9 @@
-import { element, getjQuery, onDOMContentLoaded } from '../mdb/util/index';
-import Data from '../mdb/dom/data';
-import EventHandler from '../mdb/dom/event-handler';
-import Manipulator from '../mdb/dom/manipulator';
-import SelectorEngine from '../mdb/dom/selector-engine';
-import 'detect-autofill';
+import { element, getjQuery, onDOMContentLoaded } from "../mdb/util/index";
+import Data from "../mdb/dom/data";
+import EventHandler from "../mdb/dom/event-handler";
+import Manipulator from "../mdb/dom/manipulator";
+import SelectorEngine from "../mdb/dom/selector-engine";
+import "detect-autofill";
 
 /**
  * ------------------------------------------------------------------------
@@ -11,17 +11,17 @@ import 'detect-autofill';
  * ------------------------------------------------------------------------
  */
 
-const NAME = 'input';
-const DATA_KEY = 'mdb.input';
-const CLASSNAME_WRAPPER = 'form-outline';
-const CLASSNAME_ACTIVE = 'active';
-const CLASSNAME_NOTCH = 'form-notch';
-const CLASSNAME_NOTCH_LEADING = 'form-notch-leading';
-const CLASSNAME_NOTCH_MIDDLE = 'form-notch-middle';
-const CLASSNAME_NOTCH_TRAILING = 'form-notch-trailing';
-const CLASSNAME_PLACEHOLDER_ACTIVE = 'placeholder-active';
-const CLASSNAME_HELPER = 'form-helper';
-const CLASSNAME_COUNTER = 'form-counter';
+const NAME = "input";
+const DATA_KEY = "mdb.input";
+const CLASSNAME_WRAPPER = "form-outline";
+const CLASSNAME_ACTIVE = "active";
+const CLASSNAME_NOTCH = "form-notch";
+const CLASSNAME_NOTCH_LEADING = "form-notch-leading";
+const CLASSNAME_NOTCH_MIDDLE = "form-notch-middle";
+const CLASSNAME_NOTCH_TRAILING = "form-notch-trailing";
+const CLASSNAME_PLACEHOLDER_ACTIVE = "placeholder-active";
+const CLASSNAME_HELPER = "form-helper";
+const CLASSNAME_COUNTER = "form-counter";
 
 const SELECTOR_OUTLINE_INPUT = `.${CLASSNAME_WRAPPER} input`;
 const SELECTOR_OUTLINE_TEXTAREA = `.${CLASSNAME_WRAPPER} textarea`;
@@ -64,8 +64,8 @@ class Input {
 
     get input() {
         const inputElement =
-      SelectorEngine.findOne('input', this._element) ||
-      SelectorEngine.findOne('textarea', this._element);
+            SelectorEngine.findOne("input", this._element) ||
+            SelectorEngine.findOne("textarea", this._element);
         return inputElement;
     }
 
@@ -125,7 +125,7 @@ class Input {
   */
 
     _getLabelData() {
-        this._label = SelectorEngine.findOne('label', this._element);
+        this._label = SelectorEngine.findOne("label", this._element);
         if (this._label === null) {
             this._showPlaceholder();
         } else {
@@ -140,7 +140,7 @@ class Input {
     }
 
     _getCounter() {
-        this._counter = Manipulator.getDataAttribute(this.input, 'showcounter');
+        this._counter = Manipulator.getDataAttribute(this.input, "showcounter");
         if (this._counter) {
             this._maxLength = this.input.maxLength;
             this._showCounter();
@@ -148,11 +148,11 @@ class Input {
     }
 
     _showCounter() {
-        const counters = SelectorEngine.find('.form-counter', this._element);
+        const counters = SelectorEngine.find(".form-counter", this._element);
         if (counters.length > 0) {
             return;
         }
-        this._counterElement = document.createElement('div');
+        this._counterElement = document.createElement("div");
         Manipulator.addClass(this._counterElement, CLASSNAME_COUNTER);
         const actualLength = this.input.value.length;
         this._counterElement.innerHTML = `${actualLength} / ${this._maxLength}`;
@@ -161,14 +161,14 @@ class Input {
     }
 
     _bindCounter() {
-        EventHandler.on(this.input, 'input', () => {
+        EventHandler.on(this.input, "input", () => {
             const actualLength = this.input.value.length;
             this._counterElement.innerHTML = `${actualLength} / ${this._maxLength}`;
         });
     }
 
     _toggleDefaultDatePlaceholder(input = this.input) {
-        const isTypeDate = input.getAttribute('type') === 'date';
+        const isTypeDate = input.getAttribute("type") === "date";
 
         if (!isTypeDate) {
             return;
@@ -188,8 +188,14 @@ class Input {
     }
 
     _getNotchData() {
-        this._notchMiddle = SelectorEngine.findOne(SELECTOR_NOTCH_MIDDLE, this._element);
-        this._notchLeading = SelectorEngine.findOne(SELECTOR_NOTCH_LEADING, this._element);
+        this._notchMiddle = SelectorEngine.findOne(
+            SELECTOR_NOTCH_MIDDLE,
+            this._element
+        );
+        this._notchLeading = SelectorEngine.findOne(
+            SELECTOR_NOTCH_LEADING,
+            this._element
+        );
     }
 
     _getLabelWidth() {
@@ -199,9 +205,9 @@ class Input {
     _getLabelPositionInInputGroup() {
         this._labelMarginLeft = 0;
 
-        if (!this._element.classList.contains('input-group')) return;
+        if (!this._element.classList.contains("input-group")) return;
         const input = this.input;
-        const prefix = SelectorEngine.prev(input, '.input-group-text')[0];
+        const prefix = SelectorEngine.prev(input, ".input-group-text")[0];
         if (prefix === undefined) {
             this._labelMarginLeft = 0;
         } else {
@@ -210,14 +216,17 @@ class Input {
     }
 
     _applyDivs() {
-        const allNotchWrappers = SelectorEngine.find(SELECTOR_NOTCH, this._element);
-        const notchWrapper = element('div');
+        const allNotchWrappers = SelectorEngine.find(
+            SELECTOR_NOTCH,
+            this._element
+        );
+        const notchWrapper = element("div");
         Manipulator.addClass(notchWrapper, CLASSNAME_NOTCH);
-        this._notchLeading = element('div');
+        this._notchLeading = element("div");
         Manipulator.addClass(this._notchLeading, CLASSNAME_NOTCH_LEADING);
-        this._notchMiddle = element('div');
+        this._notchMiddle = element("div");
         Manipulator.addClass(this._notchMiddle, CLASSNAME_NOTCH_MIDDLE);
-        this._notchTrailing = element('div');
+        this._notchTrailing = element("div");
         Manipulator.addClass(this._notchTrailing, CLASSNAME_NOTCH_TRAILING);
         if (allNotchWrappers.length >= 1) {
             return;
@@ -246,7 +255,7 @@ class Input {
             this._getElements(event);
             const input = event ? event.target : this.input;
 
-            if (input.value !== '') {
+            if (input.value !== "") {
                 Manipulator.addClass(input, CLASSNAME_ACTIVE);
             }
             this._toggleDefaultDatePlaceholder(input);
@@ -256,7 +265,7 @@ class Input {
     _getElements(event) {
         if (event) {
             this._element = event.target.parentNode;
-            this._label = SelectorEngine.findOne('label', this._element);
+            this._label = SelectorEngine.findOne("label", this._element);
         }
 
         if (event && this._label) {
@@ -264,7 +273,10 @@ class Input {
             this._getLabelData();
 
             if (prevLabelWidth !== this._labelWidth) {
-                this._notchMiddle = SelectorEngine.findOne('.form-notch-middle', event.target.parentNode);
+                this._notchMiddle = SelectorEngine.findOne(
+                    ".form-notch-middle",
+                    event.target.parentNode
+                );
                 this._notchLeading = SelectorEngine.findOne(
                     SELECTOR_NOTCH_LEADING,
                     event.target.parentNode
@@ -277,7 +289,7 @@ class Input {
     _deactivate(event) {
         const input = event ? event.target : this.input;
 
-        if (input.value === '') {
+        if (input.value === "") {
             input.classList.remove(CLASSNAME_ACTIVE);
         }
         this._toggleDefaultDatePlaceholder(input);
@@ -298,15 +310,15 @@ class Input {
     static jQueryInterface(config, options) {
         return this.each(function () {
             let data = Data.getData(this, DATA_KEY);
-            const _config = typeof config === 'object' && config;
+            const _config = typeof config === "object" && config;
             if (!data && /dispose/.test(config)) {
                 return;
             }
             if (!data) {
                 data = new Input(this, _config);
             }
-            if (typeof config === 'string') {
-                if (typeof data[config] === 'undefined') {
+            if (typeof config === "string") {
+                if (typeof data[config] === "undefined") {
                     throw new TypeError(`No method named "${config}"`);
                 }
                 data[config](options);
@@ -320,20 +332,51 @@ class Input {
 
     static getOrCreateInstance(element, config = {}) {
         return (
-            this.getInstance(element) || new this(element, typeof config === 'object' ? config : null)
+            this.getInstance(element) ||
+            new this(element, typeof config === "object" ? config : null)
         );
     }
 }
 
-EventHandler.on(document, 'focus', SELECTOR_OUTLINE_INPUT, Input.activate(new Input()));
-EventHandler.on(document, 'input', SELECTOR_OUTLINE_INPUT, Input.activate(new Input()));
-EventHandler.on(document, 'blur', SELECTOR_OUTLINE_INPUT, Input.deactivate(new Input()));
+EventHandler.on(
+    document,
+    "focus",
+    SELECTOR_OUTLINE_INPUT,
+    Input.activate(new Input())
+);
+EventHandler.on(
+    document,
+    "input",
+    SELECTOR_OUTLINE_INPUT,
+    Input.activate(new Input())
+);
+EventHandler.on(
+    document,
+    "blur",
+    SELECTOR_OUTLINE_INPUT,
+    Input.deactivate(new Input())
+);
 
-EventHandler.on(document, 'focus', SELECTOR_OUTLINE_TEXTAREA, Input.activate(new Input()));
-EventHandler.on(document, 'input', SELECTOR_OUTLINE_TEXTAREA, Input.activate(new Input()));
-EventHandler.on(document, 'blur', SELECTOR_OUTLINE_TEXTAREA, Input.deactivate(new Input()));
+EventHandler.on(
+    document,
+    "focus",
+    SELECTOR_OUTLINE_TEXTAREA,
+    Input.activate(new Input())
+);
+EventHandler.on(
+    document,
+    "input",
+    SELECTOR_OUTLINE_TEXTAREA,
+    Input.activate(new Input())
+);
+EventHandler.on(
+    document,
+    "blur",
+    SELECTOR_OUTLINE_TEXTAREA,
+    Input.deactivate(new Input())
+);
 
-EventHandler.on(window, 'shown.bs.modal', (e) => {
+EventHandler.on(window, "shown.bs.modal", (e) => {
     SelectorEngine.find(SELECTOR_OUTLINE_INPUT, e.target).forEach((element) => {
         const instance = Input.getInstance(element.parentNode);
         if (!instance) {
@@ -341,42 +384,50 @@ EventHandler.on(window, 'shown.bs.modal', (e) => {
         }
         instance.update();
     });
-    SelectorEngine.find(SELECTOR_OUTLINE_TEXTAREA, e.target).forEach((element) => {
-        const instance = Input.getInstance(element.parentNode);
-        if (!instance) {
-            return;
+    SelectorEngine.find(SELECTOR_OUTLINE_TEXTAREA, e.target).forEach(
+        (element) => {
+            const instance = Input.getInstance(element.parentNode);
+            if (!instance) {
+                return;
+            }
+            instance.update();
         }
-        instance.update();
-    });
+    );
 });
 
-EventHandler.on(window, 'shown.bs.dropdown', (e) => {
-    const target = e.target.parentNode.querySelector('.dropdown-menu');
+EventHandler.on(window, "shown.bs.dropdown", (e) => {
+    const target = e.target.parentNode.querySelector(".dropdown-menu");
     if (target) {
-        SelectorEngine.find(SELECTOR_OUTLINE_INPUT, target).forEach((element) => {
-            const instance = Input.getInstance(element.parentNode);
-            if (!instance) {
-                return;
+        SelectorEngine.find(SELECTOR_OUTLINE_INPUT, target).forEach(
+            (element) => {
+                const instance = Input.getInstance(element.parentNode);
+                if (!instance) {
+                    return;
+                }
+                instance.update();
             }
-            instance.update();
-        });
-        SelectorEngine.find(SELECTOR_OUTLINE_TEXTAREA, target).forEach((element) => {
-            const instance = Input.getInstance(element.parentNode);
-            if (!instance) {
-                return;
+        );
+        SelectorEngine.find(SELECTOR_OUTLINE_TEXTAREA, target).forEach(
+            (element) => {
+                const instance = Input.getInstance(element.parentNode);
+                if (!instance) {
+                    return;
+                }
+                instance.update();
             }
-            instance.update();
-        });
+        );
     }
 });
 
-EventHandler.on(window, 'shown.bs.tab', (e) => {
+EventHandler.on(window, "shown.bs.tab", (e) => {
     let targetId;
 
     if (e.target.href) {
-        targetId = e.target.href.split('#')[1];
+        targetId = e.target.href.split("#")[1];
     } else {
-        targetId = Manipulator.getDataAttribute(e.target, 'target').split('#')[1];
+        targetId = Manipulator.getDataAttribute(e.target, "target").split(
+            "#"
+        )[1];
     }
 
     const target = SelectorEngine.findOne(`#${targetId}`);
@@ -387,20 +438,24 @@ EventHandler.on(window, 'shown.bs.tab', (e) => {
         }
         instance.update();
     });
-    SelectorEngine.find(SELECTOR_OUTLINE_TEXTAREA, target).forEach((element) => {
-        const instance = Input.getInstance(element.parentNode);
-        if (!instance) {
-            return;
+    SelectorEngine.find(SELECTOR_OUTLINE_TEXTAREA, target).forEach(
+        (element) => {
+            const instance = Input.getInstance(element.parentNode);
+            if (!instance) {
+                return;
+            }
+            instance.update();
         }
-        instance.update();
-    });
+    );
 });
 
 // auto-init
-SelectorEngine.find(`.${CLASSNAME_WRAPPER}`).map((element) => new Input(element));
+SelectorEngine.find(`.${CLASSNAME_WRAPPER}`).map(
+    (element) => new Input(element)
+);
 
 // form reset handler
-EventHandler.on(window, 'reset', (e) => {
+EventHandler.on(window, "reset", (e) => {
     SelectorEngine.find(SELECTOR_OUTLINE_INPUT, e.target).forEach((element) => {
         const instance = Input.getInstance(element.parentNode);
         if (!instance) {
@@ -408,17 +463,19 @@ EventHandler.on(window, 'reset', (e) => {
         }
         instance.forceInactive();
     });
-    SelectorEngine.find(SELECTOR_OUTLINE_TEXTAREA, e.target).forEach((element) => {
-        const instance = Input.getInstance(element.parentNode);
-        if (!instance) {
-            return;
+    SelectorEngine.find(SELECTOR_OUTLINE_TEXTAREA, e.target).forEach(
+        (element) => {
+            const instance = Input.getInstance(element.parentNode);
+            if (!instance) {
+                return;
+            }
+            instance.forceInactive();
         }
-        instance.forceInactive();
-    });
+    );
 });
 
 // auto-fill
-EventHandler.on(window, 'onautocomplete', (e) => {
+EventHandler.on(window, "onautocomplete", (e) => {
     const instance = Input.getInstance(e.target.parentNode);
     if (!instance || !e.cancelable) {
         return;

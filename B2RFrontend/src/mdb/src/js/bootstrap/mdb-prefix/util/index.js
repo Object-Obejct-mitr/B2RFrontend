@@ -7,7 +7,7 @@
 
 const MAX_UID = 1_000_000;
 const MILLISECONDS_MULTIPLIER = 1000;
-const TRANSITION_END = 'transitionend';
+const TRANSITION_END = "transitionend";
 
 // Shout-out Angus Croll (https://goo.gl/pxwQGp)
 const toType = (object) => {
@@ -34,25 +34,31 @@ const getUID = (prefix) => {
 };
 
 const getSelector = (element) => {
-    let selector = element.getAttribute('data-mdb-target');
+    let selector = element.getAttribute("data-mdb-target");
 
-    if (!selector || selector === '#') {
-        let hrefAttribute = element.getAttribute('href');
+    if (!selector || selector === "#") {
+        let hrefAttribute = element.getAttribute("href");
 
         // The only valid content that could double as a selector are IDs or classes,
         // so everything starting with `#` or `.`. If a "real" URL is used as the selector,
         // `document.querySelector` will rightfully complain it is invalid.
         // See https://github.com/twbs/bootstrap/issues/32273
-        if (!hrefAttribute || (!hrefAttribute.includes('#') && !hrefAttribute.startsWith('.'))) {
+        if (
+            !hrefAttribute ||
+            (!hrefAttribute.includes("#") && !hrefAttribute.startsWith("."))
+        ) {
             return null;
         }
 
         // Just in case some CMS puts out a full URL with the anchor appended
-        if (hrefAttribute.includes('#') && !hrefAttribute.startsWith('#')) {
-            hrefAttribute = `#${hrefAttribute.split('#')[1]}`;
+        if (hrefAttribute.includes("#") && !hrefAttribute.startsWith("#")) {
+            hrefAttribute = `#${hrefAttribute.split("#")[1]}`;
         }
 
-        selector = hrefAttribute && hrefAttribute !== '#' ? hrefAttribute.trim() : null;
+        selector =
+            hrefAttribute && hrefAttribute !== "#"
+                ? hrefAttribute.trim()
+                : null;
     }
 
     return selector;
@@ -80,7 +86,8 @@ const getTransitionDurationFromElement = (element) => {
     }
 
     // Get transition-duration of the element
-    let { transitionDuration, transitionDelay } = window.getComputedStyle(element);
+    let { transitionDuration, transitionDelay } =
+        window.getComputedStyle(element);
 
     const floatTransitionDuration = Number.parseFloat(transitionDuration);
     const floatTransitionDelay = Number.parseFloat(transitionDelay);
@@ -91,12 +98,13 @@ const getTransitionDurationFromElement = (element) => {
     }
 
     // If multiple durations are defined, take the first
-    transitionDuration = transitionDuration.split(',')[0];
-    transitionDelay = transitionDelay.split(',')[0];
+    transitionDuration = transitionDuration.split(",")[0];
+    transitionDelay = transitionDelay.split(",")[0];
 
     return (
-        (Number.parseFloat(transitionDuration) + Number.parseFloat(transitionDelay)) *
-    MILLISECONDS_MULTIPLIER
+        (Number.parseFloat(transitionDuration) +
+            Number.parseFloat(transitionDelay)) *
+        MILLISECONDS_MULTIPLIER
     );
 };
 
@@ -105,15 +113,15 @@ const triggerTransitionEnd = (element) => {
 };
 
 const isElement = (object) => {
-    if (!object || typeof object !== 'object') {
+    if (!object || typeof object !== "object") {
         return false;
     }
 
-    if (typeof object.jquery !== 'undefined') {
+    if (typeof object.jquery !== "undefined") {
         object = object[0];
     }
 
-    return typeof object.nodeType !== 'undefined';
+    return typeof object.nodeType !== "undefined";
 };
 
 const getElement = (object) => {
@@ -122,7 +130,7 @@ const getElement = (object) => {
         return object.jquery ? object[0] : object;
     }
 
-    if (typeof object === 'string' && object.length > 0) {
+    if (typeof object === "string" && object.length > 0) {
         return document.querySelector(object);
     }
 
@@ -134,16 +142,17 @@ const isVisible = (element) => {
         return false;
     }
 
-    const elementIsVisible = getComputedStyle(element).getPropertyValue('visibility') === 'visible';
+    const elementIsVisible =
+        getComputedStyle(element).getPropertyValue("visibility") === "visible";
     // Handle `details` element as its content may falsie appear visible when it is closed
-    const closedDetails = element.closest('details:not([open])');
+    const closedDetails = element.closest("details:not([open])");
 
     if (!closedDetails) {
         return elementIsVisible;
     }
 
     if (closedDetails !== element) {
-        const summary = element.closest('summary');
+        const summary = element.closest("summary");
         if (summary && summary.parentNode !== closedDetails) {
             return false;
         }
@@ -161,15 +170,18 @@ const isDisabled = (element) => {
         return true;
     }
 
-    if (element.classList.contains('disabled')) {
+    if (element.classList.contains("disabled")) {
         return true;
     }
 
-    if (typeof element.disabled !== 'undefined') {
+    if (typeof element.disabled !== "undefined") {
         return element.disabled;
     }
 
-    return element.hasAttribute('disabled') && element.getAttribute('disabled') !== 'false';
+    return (
+        element.hasAttribute("disabled") &&
+        element.getAttribute("disabled") !== "false"
+    );
 };
 
 const findShadowRoot = (element) => {
@@ -178,7 +190,7 @@ const findShadowRoot = (element) => {
     }
 
     // Can find the shadow root otherwise it'll return the document
-    if (typeof element.getRootNode === 'function') {
+    if (typeof element.getRootNode === "function") {
         const root = element.getRootNode();
         return root instanceof ShadowRoot ? root : null;
     }
@@ -210,7 +222,7 @@ const reflow = (element) => {
 };
 
 const getjQuery = () => {
-    if (window.jQuery && !document.body.hasAttribute('data-mdb-no-jquery')) {
+    if (window.jQuery && !document.body.hasAttribute("data-mdb-no-jquery")) {
         return window.jQuery;
     }
 
@@ -220,10 +232,10 @@ const getjQuery = () => {
 const DOMContentLoadedCallbacks = [];
 
 const onDOMContentLoaded = (callback) => {
-    if (document.readyState === 'loading') {
-    // add listener on the first call when the document is in loading state
+    if (document.readyState === "loading") {
+        // add listener on the first call when the document is in loading state
         if (!DOMContentLoadedCallbacks.length) {
-            document.addEventListener('DOMContentLoaded', () => {
+            document.addEventListener("DOMContentLoaded", () => {
                 for (const callback of DOMContentLoadedCallbacks) {
                     callback();
                 }
@@ -236,7 +248,7 @@ const onDOMContentLoaded = (callback) => {
     }
 };
 
-const isRTL = () => document.documentElement.dir === 'rtl';
+const isRTL = () => document.documentElement.dir === "rtl";
 
 const defineJQueryPlugin = (plugin) => {
     onDOMContentLoaded(() => {
@@ -256,19 +268,24 @@ const defineJQueryPlugin = (plugin) => {
 };
 
 const execute = (callback) => {
-    if (typeof callback === 'function') {
+    if (typeof callback === "function") {
         callback();
     }
 };
 
-const executeAfterTransition = (callback, transitionElement, waitForTransition = true) => {
+const executeAfterTransition = (
+    callback,
+    transitionElement,
+    waitForTransition = true
+) => {
     if (!waitForTransition) {
         execute(callback);
         return;
     }
 
     const durationPadding = 5;
-    const emulatedDuration = getTransitionDurationFromElement(transitionElement) + durationPadding;
+    const emulatedDuration =
+        getTransitionDurationFromElement(transitionElement) + durationPadding;
 
     let called = false;
 
@@ -299,14 +316,21 @@ const executeAfterTransition = (callback, transitionElement, waitForTransition =
  * @param isCycleAllowed
  * @return {Element|elem} The proper element
  */
-const getNextActiveElement = (list, activeElement, shouldGetNext, isCycleAllowed) => {
+const getNextActiveElement = (
+    list,
+    activeElement,
+    shouldGetNext,
+    isCycleAllowed
+) => {
     const listLength = list.length;
     let index = list.indexOf(activeElement);
 
     // if the element does not exist in the list return an element
     // depending on the direction and if cycle is allowed
     if (index === -1) {
-        return !shouldGetNext && isCycleAllowed ? list[listLength - 1] : list[0];
+        return !shouldGetNext && isCycleAllowed
+            ? list[listLength - 1]
+            : list[0];
     }
 
     index += shouldGetNext ? 1 : -1;
