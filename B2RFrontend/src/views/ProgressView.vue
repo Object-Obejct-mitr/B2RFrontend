@@ -1,17 +1,25 @@
 <template>
     <main>
         <div class="d-flex flex-column">
-            <div 
-                v-for="(componentData, componentName) in taskData" :key="componentData"
-                class="h-100 d-flex align-items-center mt-5 flex-fill">
-                <div class="d-flex justify-content-center flex-column flex-fill">
+            <div
+                v-for="(componentData, componentName) in taskData"
+                :key="componentData"
+                class="h-100 d-flex align-items-center mt-5 flex-fill"
+            >
+                <div
+                    class="d-flex justify-content-center flex-column flex-fill"
+                >
                     <h1 class="text-center">{{ componentName }}</h1>
-                    <div class="d-flex flex-row flex-fill justify-content-around">
-                        <div class="d-flex flex-column flex-fill ms-5 me-auto w-50">
+                    <div
+                        class="d-flex flex-row flex-fill justify-content-around"
+                    >
+                        <div
+                            class="d-flex flex-column flex-fill ms-5 me-auto w-50"
+                        >
                             <h2 class="text-center">To-Do</h2>
-                            <draggable 
-                                :key="componentData.todo" 
-                                v-model="componentData.todo" 
+                            <draggable
+                                :key="componentData.todo"
+                                v-model="componentData.todo"
                                 item-key="name"
                                 :group="componentName"
                                 @start="handleStart"
@@ -22,11 +30,13 @@
                                 </template>
                             </draggable>
                         </div>
-                        <div class="d-flex flex-column flex-fill ms-5 me-auto w-50">
+                        <div
+                            class="d-flex flex-column flex-fill ms-5 me-auto w-50"
+                        >
                             <h2 class="text-center">Done</h2>
-                            <draggable 
-                                :key="componentData.done" 
-                                v-model="componentData.done" 
+                            <draggable
+                                :key="componentData.done"
+                                v-model="componentData.done"
                                 item-key="name"
                                 :group="componentName"
                                 @start="handleStart"

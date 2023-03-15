@@ -23,7 +23,7 @@ import SideBar from "../components/Navbar/SideBar.vue";
                         >
                             Drivetrain<span
                                 class="badge badge-primary rounded-pill"
-                                >3 Tasks</span
+                            >3 Tasks</span
                             >
                         </li>
                         <li
@@ -31,14 +31,14 @@ import SideBar from "../components/Navbar/SideBar.vue";
                         >
                             Electronics<span
                                 class="badge badge-primary rounded-pill"
-                                >1 Task</span
+                            >1 Task</span
                             >
                         </li>
                         <li
                             class="list-group-item d-flex justify-content-between align-items-center"
                         >
                             Lifter<span class="badge badge-primary rounded-pill"
-                                >0 Tasks</span
+                            >0 Tasks</span
                             >
                         </li>
                         <li
@@ -46,7 +46,7 @@ import SideBar from "../components/Navbar/SideBar.vue";
                         >
                             Grabber<span
                                 class="badge badge-primary rounded-pill"
-                                >6 Tasks</span
+                            >6 Tasks</span
                             >
                         </li>
                     </ul>

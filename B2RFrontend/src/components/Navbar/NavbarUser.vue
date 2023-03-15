@@ -21,9 +21,9 @@ export default {
             <h4>Welcome, {{ user }}</h4>
             <div class="d-flex flex-row">
                 <RouterLink to="/profile"
-                    ><button class="btn btn-primary px-3">
-                        View Profile
-                    </button></RouterLink
+                ><button class="btn btn-primary px-3">
+                    View Profile
+                </button></RouterLink
                 >
                 <button class="btn btn-link px-3">Sign Out</button>
             </div>

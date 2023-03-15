@@ -56,7 +56,7 @@ export default {
                                     /><label
                                         class="form-label"
                                         :for="'componentName' + id"
-                                        >Component Name</label
+                                    >Component Name</label
                                     >
                                     <div class="form-notch">
                                         <div class="form-notch-leading"></div>
@@ -134,7 +134,7 @@ export default {
                                     /><label
                                         class="form-label"
                                         :for="'designer' + id"
-                                        >Designer
+                                    >Designer
                                     </label>
                                     <div class="form-notch">
                                         <div class="form-notch-leading"></div>
@@ -156,7 +156,7 @@ export default {
                                     /><label
                                         class="form-label"
                                         :for="'leadWorker' + id"
-                                        >Lead Worker
+                                    >Lead Worker
                                     </label>
                                     <div class="form-notch">
                                         <div class="form-notch-leading"></div>
@@ -188,7 +188,7 @@ export default {
                                     rows="6"
                                 ></textarea>
                                 <label class="form-label" for="textAreaExample"
-                                    >Description</label
+                                >Description</label
                                 >
                                 <div class="form-notch">
                                     <div class="form-notch-leading"></div>
@@ -210,7 +210,7 @@ export default {
                                     <label
                                         :for="'designFile' + id"
                                         class="form-label"
-                                        >Upload New CAD/Design Files</label
+                                    >Upload New CAD/Design Files</label
                                     >
                                     <input
                                         :id="'designFile' + id"
@@ -226,7 +226,7 @@ export default {
                                         <label
                                             :for="'photoFile' + id"
                                             class="form-label"
-                                            >Upload New Photos</label
+                                        >Upload New Photos</label
                                         >
                                         <input
                                             :id="'photoFile' + id"
