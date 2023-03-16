@@ -9,36 +9,37 @@ export default {
         EditTaskModal,
     },
     props: {
-        component: {
-            type: String,
-            default: "None",
-            required: true,
-        },
-        priority: {
-            type: Number,
-            default: 0,
-            required: true,
-        },
-        desc: {
-            type: String,
-            default: "No description provided.",
-            required: true,
-        },
-        elemId: {
-            type: Number,
-            default: 0,
-            required: true,
-        },
-        quantity: {
-            type: Number,
-            default: 0,
-            required: true,
-        },
-        parentName: {
-            type: String,
-            default: "None",
-            required: true,
-        },
+        data: Object,
+        // component: {
+        //     type: String,
+        //     default: "None",
+        //     required: true,
+        // },
+        // priority: {
+        //     type: Number,
+        //     default: 0,
+        //     required: true,
+        // },
+        // desc: {
+        //     type: String,
+        //     default: "No description provided.",
+        //     required: true,
+        // },
+        // elemId: {
+        //     type: Number,
+        //     default: 0,
+        //     required: true,
+        // },
+        // quantity: {
+        //     type: Number,
+        //     default: 0,
+        //     required: true,
+        // },
+        // parentName: {
+        //     type: String,
+        //     default: "None",
+        //     required: true,
+        // },
     },
     emits: ["quantityChecker"],
     data() {
@@ -69,12 +70,15 @@ export default {
                 :id="'flush-heading' + uuid"
                 class="accordion-header d-flex justify-content-between align-items-center"
             >
-                <div class="d-flex flex-row">
-                    <div class="d-flex align-self-center fs-4">
-                        {{ component }}
+                <div class="d-flex flex-row text-wrap" style="width: 30ch">
+                    <div
+                        class="d-flex align-self-center fs-4"
+                        style="user-select: text"
+                    >
+                        {{ data.name }}
                     </div>
                 </div>
-                <div class="d-flex flex-row">
+                <div class="d-flex flex-row" style="width: 20ch">
                     <div class="d-flex align-self-center">QTY:</div>
                     <input
                         v-model="localQuantity"
@@ -83,20 +87,23 @@ export default {
                         @input="quantityChecker(localQuantity)"
                     />
                     <div class="d-flex align-self-center ms-2">/</div>
-                    <div class="d-flex align-self-center ms-2">10</div>
+                    <div class="d-flex align-self-center ms-2">
+                        {{ data.desiredQuantity }}
+                    </div>
                 </div>
-                <!-- <div class="d-flex flex-row">
-                    <div class="d-flex align-self-center">Designer:</div>
-                    <div class="d-flex align-self-center ms-2">None</div>
-                </div> -->
-                <div class="d-flex flex-row">
-                    <div class="d-flex align-self-center">Worker:</div>
-                    <div class="d-flex align-self-center ms-2">None</div>
+
+                <div class="d-flex flex-row" style="width: 30ch">
+                    <div class="d-flex align-self-center text-wrap">
+                        Worker:
+                    </div>
+                    <div class="d-flex align-self-center ms-2">
+                        {{ data.leadWorker }}
+                    </div>
                 </div>
                 <div class="d-flex flex-row">
                     <div class="d-flex align-self-center">Priority:</div>
                     <div class="d-flex align-self-center ms-2">
-                        {{ priority }}
+                        {{ data.priority }}
                     </div>
                 </div>
 
@@ -117,9 +124,19 @@ export default {
                 <div
                     class="accordion-body d-flex flex-row justify-content-around"
                 >
-                    <div class="d-flex flex-column flex-fill w-25">
+                    <div
+                        class="d-flex flex-column flex-fill w-25 justify-content-between"
+                    >
                         <div>
-                            {{ desc }}
+                            {{ data.description }}
+                            <div class="d-flex flex-row mt-2 ms-2 h5">
+                                <div class="d-flex align-self-center">
+                                    Designer:
+                                </div>
+                                <div class="d-flex align-self-center ms-2">
+                                    {{ data.designer }}
+                                </div>
+                            </div>
                         </div>
                         <div class="mt-2">
                             <EditTaskModal
@@ -158,6 +175,7 @@ p {
 
 .grab {
     cursor: grab;
+    user-select: none;
 }
 
 .grab:active {
