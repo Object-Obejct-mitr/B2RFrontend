@@ -1,7 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore, collection } from 'firebase/firestore'
-
+import { getFirestore, collection } from "firebase/firestore";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDPzKhOtQedN7QnhCY_0p8K9KoQwopSpdU",
@@ -10,14 +9,12 @@ const firebaseConfig = {
     storageBucket: "b2r-planner.appspot.com",
     messagingSenderId: "476080925703",
     appId: "1:476080925703:web:4712ee13e196f63c414ea2",
-    measurementId: "G-2EEP4225P0"
-  };
+    measurementId: "G-2EEP4225P0",
+};
 
-
-
-export const firebaseApp = initializeApp(firebaseConfig)
+export const firebaseApp = initializeApp(firebaseConfig);
 
 const db = getFirestore(firebaseApp);
 export const auth = getAuth();
 
-export const databaseRef = collection(db, 'database')
+export const databaseRef = collection(db, "database");
