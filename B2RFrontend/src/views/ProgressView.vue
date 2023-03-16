@@ -2,14 +2,14 @@
     <main>
         <div class="d-flex flex-column">
             <div
-                v-for="name in tasks"
-                :key="name"
+                v-for="(componentData, componentName) in taskData"
+                :key="componentData"
                 class="h-100 d-flex align-items-center mt-5 flex-fill"
             >
                 <div
                     class="d-flex justify-content-center flex-column flex-fill"
                 >
-                    <h1 class="text-center">{{ name }}</h1>
+                    <h1 class="text-center">{{ componentName }}</h1>
                     <div
                         class="d-flex flex-row flex-fill justify-content-around"
                     >
@@ -18,20 +18,15 @@
                         >
                             <h2 class="text-center">To-Do</h2>
                             <draggable
-                                v-model="todo[name]"
-                                :group="name"
-                                item-key="id"
+                                :key="componentData.todo"
+                                v-model="componentData.todo"
+                                item-key="name"
+                                :group="componentName"
                                 @start="handleStart"
                                 @end="handleEnd"
                             >
                                 <template #item="{ element }">
-                                    <div>
-                                        <Task
-                                            :component="element.name"
-                                            :priority="element.priority"
-                                            :desc="lorem"
-                                        />
-                                    </div>
+                                    <Task :data="element" :componentName="componentName"/>
                                 </template>
                             </draggable>
                         </div>
@@ -40,20 +35,15 @@
                         >
                             <h2 class="text-center">Done</h2>
                             <draggable
-                                v-model="done[name]"
-                                :group="name"
-                                item-key="id"
+                                :key="componentData.done"
+                                v-model="componentData.done"
+                                item-key="name"
+                                :group="componentName"
                                 @start="handleStart"
                                 @end="handleEnd"
                             >
                                 <template #item="{ element }">
-                                    <div>
-                                        <Task
-                                            :component="element.name"
-                                            :priority="element.priority"
-                                            :desc="lorem"
-                                        />
-                                    </div>
+                                    <Task :data="element" :componentName="componentName" />
                                 </template>
                             </draggable>
                         </div>
@@ -66,8 +56,8 @@
 
 <script lang="js">
 import Task from "@/components/ProgressView/Task.vue";
+import TaskData from "../assets/TaskData.json";
 import draggable from "vuedraggable"
-import { toRaw } from "vue";
 
 
 export default {
@@ -78,53 +68,47 @@ export default {
     },
     data() {
         return {
+            taskData: TaskData,
             drag: false,
-            lorem: "\" Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\"",
-            todo: {
-                Drivetrain: [
-                    { name: "Component 0", id: 0, priority: 7 },
-                    { name: "Component 1", id: 1, priority: 6 },
-                    { name: "Component 2", id: 2, priority: 5 },
-                    { name: "Component 3", id: 3, priority: 4 },
-                    { name: "Component 4", id: 4, priority: 3 }
-                ],
-                Electronics: [
-                    { name: "Component 0", id: 0, priority: 0 },
-                    { name: "Component 1", id: 1, priority: 1 },
-                    { name: "Component 2", id: 2, priority: 2 },
-                    { name: "Component 3", id: 3, priority: 3 },
-                    { name: "Component 4", id: 4, priority: 4 }
-                ]
-            },
-            done: {
-                Drivetrain: [
-                    { name: "Component 5", id: 5, priority: 0 },
-                    { name: "Component 6", id: 6, priority: 1 },
-                    { name: "Component 7", id: 7, priority: 2 }
-                ],
-                Electronics: [
-                    { name: "Component 5", id: 5, priority: 5 },
-                    { name: "Component 6", id: 6, priority: 6 },
-                    { name: "Component 7", id: 7, priority: 7 }
-                ]
-            },
-            tasks: [
-                "Drivetrain",
-                "Electronics"
-            ]
         }
 
     },
+
     mounted() {
         console.log("progressview page mounted")
         this.sortEverything()
+        console.log(this.taskData)
     },
     methods: {
+        quantityUpdater(quantityArray) {
+            console.log("recieved quantity to be updated")
+            console.log(quantityArray[0]) //quantity
+            console.log(quantityArray[1]) //id
+            console.log(quantityArray[2]) //task name
+
+
+            this.todo[quantityArray[2]].forEach((task) => {
+                console.log(task)
+                if (task["id"] == quantityArray[1]) {
+                    task["quantity"] = quantityArray[0]
+                    return
+                }
+            });
+
+            this.done[quantityArray[2]].forEach((task) => {
+                console.log(task)
+                if (task["id"] == quantityArray[1]) {
+                    task["quantity"] = quantityArray[0]
+                    return
+                }
+            });
+        },
         sortEverything() {
-            for ( const taskName of this.tasks ) {
-                this.todo[taskName].sort((a,b) => b.priority - a.priority)
-                this.done[taskName].sort((a,b) => b.priority - a.priority)
-            }
+            // for (const taskName of this.tasks) {
+            //     this.todo[taskName].sort((a, b) => b.priority - a.priority)
+            //     this.done[taskName].sort((a, b) => b.priority - a.priority)
+            // }
+            console.log("Not Implemented")
         },
         handleStart() {
             this.drag == true;

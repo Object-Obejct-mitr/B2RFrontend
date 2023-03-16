@@ -95,8 +95,8 @@ class Tab extends BaseComponent {
 
         const hideEvent = active
             ? EventHandler.trigger(active, EVENT_HIDE, {
-                  relatedTarget: innerElem,
-              })
+                relatedTarget: innerElem,
+            })
             : null;
 
         const showEvent = EventHandler.trigger(innerElem, EVENT_SHOW, {
