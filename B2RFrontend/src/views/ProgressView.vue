@@ -26,7 +26,7 @@
                                 @end="handleEnd"
                             >
                                 <template #item="{ element }">
-                                    <Task :data="element" />
+                                    <Task :data="element" :componentName="componentName"/>
                                 </template>
                             </draggable>
                         </div>
@@ -43,7 +43,7 @@
                                 @end="handleEnd"
                             >
                                 <template #item="{ element }">
-                                    <Task :data="element" />
+                                    <Task :data="element" :componentName="componentName" />
                                 </template>
                             </draggable>
                         </div>

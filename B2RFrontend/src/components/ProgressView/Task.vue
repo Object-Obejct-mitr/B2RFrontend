@@ -10,6 +10,7 @@ export default {
     },
     props: {
         data: Object,
+        componentName: String,
         // component: {
         //     type: String,
         //     default: "None",
@@ -44,7 +45,7 @@ export default {
     emits: ["quantityChecker"],
     data() {
         return {
-            localQuantity: this.quantity,
+            localQuantity: this.data.quantity,
         };
     },
     beforeCreate() {
@@ -84,6 +85,7 @@ export default {
                         v-model="localQuantity"
                         class="ms-2 form-control number"
                         type="number"
+                        
                         @input="quantityChecker(localQuantity)"
                     />
                     <div class="d-flex align-self-center ms-2">/</div>
@@ -141,9 +143,8 @@ export default {
                         <div class="mt-2">
                             <EditTaskModal
                                 :id="uuid"
-                                :component="component"
-                                :priority="priority"
-                                :desc="desc"
+                                :componentName="componentName"
+                                :data="data"
                             />
                         </div>
                     </div>
