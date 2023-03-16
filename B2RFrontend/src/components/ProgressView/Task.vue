@@ -45,7 +45,7 @@ export default {
     emits: ["quantityChecker"],
     data() {
         return {
-            localQuantity: this.quantity,
+            localQuantity: this.data.quantity,
         };
     },
     beforeCreate() {
@@ -85,6 +85,7 @@ export default {
                         v-model="localQuantity"
                         class="ms-2 form-control number"
                         type="number"
+                        
                         @input="quantityChecker(localQuantity)"
                     />
                     <div class="d-flex align-self-center ms-2">/</div>
