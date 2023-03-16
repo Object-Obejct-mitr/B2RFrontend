@@ -168,18 +168,6 @@ export default {
                                     </div>
                                 </div>
                             </div>
-                            <!--Component Name-->
-                            <!--
-                                        <div class="form-outline mt-3">
-                                            <input type="text" :id="'componentDesc' + id" class="form-control active"
-                                                :value="desc"><label class="form-label" :for="'componentDesc' + id">Description</label>
-                                            <div class="form-notch">
-                                            <div class="form-notch-leading"></div>
-                                            <div class="form-notch-middle" style="width: 8ch;"></div>
-                                            <div class="form-notch-trailing"></div>
-                                        </div>
-                                    </div>
-                                -->
                             <div class="form-outline mt-3">
                                 <textarea
                                     :id="'componentDesc' + id"
@@ -199,63 +187,6 @@ export default {
                                     <div class="form-notch-trailing"></div>
                                 </div>
                             </div>
-
-                            <!--Designer WORK IN PROGRESS-->
-                            <!--
-                                <div :id="'designer'+id" class="select-wrapper">
-                                    <div class="form-outline"><input class="form-control select-input active" type="text"
-                                            role="listbox" aria-multiselectable="false" aria-disabled="false"
-                                            aria-haspopup="true" aria-expanded="false" readonly="true"><label
-                                            class="form-label select-label active">Designer
-                                            </label><span class="select-arrow"></span>
-                                        <div class="form-notch">
-                                                                <div class="form-notch-leading"></div>
-                                                                    <div class="form-notch-middle" style="width: 7ch"></div>
-                                                                    <div class="form-notch-trailing"></div>
-                                            </div>
-                                        <div class="form-label select-fake-value">One</div>
-                                    </div><select class="select select-initialized">
-                                        <option value="1">One</option>
-                                                            <option value="2">Two</option>
-                                                                <option value="3">Three</option>
-                                            <option value="4">Four</option>
-                                        <option value="5">Five</option>
-                                    </select>
-                                -->
-
-                            <!--TODO: Automate this all, get this working nicely-->
-                            <!--
-                                    <div class="select-dropdown-container" :id="'designerDropdown'+id"
-                                    style="position: absolute;"
-                                        data-popper-placement="bottom-start">
-                                    -->
-                            <!--Add "open" to class to add functionality-->
-                            <!--
-                                        <div tabindex="0" class="select-dropdown">
-                                            <div class="select-options-wrapper" style="max-height: 190px;">
-                                                <div class="select-options-list">
-                                                    <div class="select-option selected active" data-mdb-id="option-720364"
-                                                        role="option" aria-selected="true" aria-disabled="false"
-                                                        style="height: 38px;"><span class="select-option-text">One</span>
-                                                    </div>
-                                                    <div class="select-option" data-mdb-id="option-780119" role="option"
-                                                        aria-selected="false" aria-disabled="false" style="height: 38px;">
-                                                        <span class="select-option-text">Two</span></div>
-                                                    <div class="select-option" data-mdb-id="option-450924" role="option"
-                                                        aria-selected="false" aria-disabled="false" style="height: 38px;">
-                                                                            <span class="select-option-text">Three</span></div>
-                                                                            <div class="select-option" data-mdb-id="option-572262" role="option"
-                                                                                aria-selected="false" aria-disabled="false" style="height: 38px;">
-                                                                                <span class="select-option-text">Four</span></div>
-                                                                            <div class="select-option" data-mdb-id="option-928559" role="option"
-                                                                                aria-selected="false" aria-disabled="false" style="height: 38px;">
-                                                                                <span class="select-option-text">Five</span></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    -->
 
                             <!--Lead Worker-->
                             <div class="h3 mt-3">Files</div>
