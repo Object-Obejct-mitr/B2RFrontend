@@ -14,10 +14,7 @@
         "lodash.uniqueid": "^4.0.1",
         "mdb-calendar": "git+https://oauth2:yCfC16vXePeyyHk4W_vb@git.mdbootstrap.com/mdb/standard/plugins/prd/calendar",
         "vue": "^3.2.45",
-        "vue-google-signin-button": "^1.0.4",
         "vue-router": "^4.1.6",
-        "vue-session": "^1.0.0",
-        "vue3-google-login": "^2.0.15",
         "vuedraggable": "^4.1.0",
         "vuefire": "^3.1.0"
     },
