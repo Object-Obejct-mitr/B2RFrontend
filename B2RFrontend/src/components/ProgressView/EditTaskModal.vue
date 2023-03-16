@@ -2,9 +2,8 @@
 export default {
     props: {
         id: String,
-        component: String,
-        priority: Number,
-        desc: String,
+        data: Object,
+        componentName: String,        
     },
 };
 </script>
@@ -29,7 +28,7 @@ export default {
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 :id="'exampleModalLabel' + id" class="modal-title">
-                        Editing {{ component }}
+                        Editing {{ data.name }}
                     </h5>
                     <button
                         type="button"
@@ -47,12 +46,33 @@ export default {
                             <hr />
                             <div class="d-flex flex-row">
                                 <!--Component Name-->
-                                <div class="form-outline mt-3">
+                                <div class="form-outline mt-3 me-2 w-66">
+                                    <input
+                                        :id="'taskName' + id"
+                                        type="text"
+                                        class="form-control active"
+                                        :value="data.name"
+                                    /><label
+                                        class="form-label"
+                                        :for="'taskName' + id"
+                                        >Task Name</label
+                                    >
+                                    <div class="form-notch">
+                                        <div class="form-notch-leading"></div>
+                                        <div
+                                            class="form-notch-middle"
+                                            style="width: 13ch"
+                                        ></div>
+                                        <div class="form-notch-trailing"></div>
+                                    </div>
+                                </div>
+                                <!--Component-->
+                                <div class="form-outline mt-3 ms-2 w-33">
                                     <input
                                         :id="'componentName' + id"
                                         type="text"
                                         class="form-control active"
-                                        :value="component"
+                                        :value="componentName"
                                     /><label
                                         class="form-label"
                                         :for="'componentName' + id"
@@ -68,59 +88,7 @@ export default {
                                     </div>
                                 </div>
                                 <!--Priority-->
-                                <div class="d-flex flex-row ms-3">
-                                    <div class="form-outline w-50 mt-3">
-                                        <input
-                                            :id="'componentPrio' + id"
-                                            type="number"
-                                            class="form-control active"
-                                            :value="priority"
-                                        /><label
-                                            class="form-label"
-                                            :for="'componentPrio' + id"
-                                        >
-                                            Priority</label
-                                        >
-                                        <div class="form-notch">
-                                            <div
-                                                class="form-notch-leading"
-                                            ></div>
-                                            <div
-                                                class="form-notch-middle"
-                                                style="width: 6ch"
-                                            ></div>
-                                            <div
-                                                class="form-notch-trailing"
-                                            ></div>
-                                        </div>
-                                    </div>
-                                    <!--Quantity-->
-                                    <div class="form-outline w-50 mt-3 ms-3">
-                                        <input
-                                            :id="'componentQTY' + id"
-                                            type="number"
-                                            class="form-control active"
-                                            :value="priority"
-                                        /><label
-                                            class="form-label"
-                                            :for="'componentQTY' + id"
-                                        >
-                                            Quantity</label
-                                        >
-                                        <div class="form-notch">
-                                            <div
-                                                class="form-notch-leading"
-                                            ></div>
-                                            <div
-                                                class="form-notch-middle"
-                                                style="width: 6ch"
-                                            ></div>
-                                            <div
-                                                class="form-notch-trailing"
-                                            ></div>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                             </div>
 
                             <div class="d-flex flex-row">
@@ -130,7 +98,7 @@ export default {
                                         :id="'designer' + id"
                                         type="text"
                                         class="form-control active"
-                                        :value="component"
+                                        :value="data.designer"
                                     /><label
                                         class="form-label"
                                         :for="'designer' + id"
@@ -152,7 +120,7 @@ export default {
                                         :id="'leadWorker' + id"
                                         type="text"
                                         class="form-control active"
-                                        :value="component"
+                                        :value="data.leadWorker"
                                     /><label
                                         class="form-label"
                                         :for="'leadWorker' + id"
@@ -168,14 +136,92 @@ export default {
                                     </div>
                                 </div>
                             </div>
+                            <div class="d-flex flex-row">
+                                    <div class="form-outline w-50 mt-3">
+                                        <input
+                                            :id="'taskPrio' + id"
+                                            type="number"
+                                            class="form-control active"
+                                            :value="data.priority"
+                                        /><label
+                                            class="form-label"
+                                            :for="'taskPrio' + id"
+                                        >
+                                            Priority</label
+                                        >
+                                        <div class="form-notch">
+                                            <div
+                                                class="form-notch-leading"
+                                            ></div>
+                                            <div
+                                                class="form-notch-middle"
+                                                style="width: 6ch"
+                                            ></div>
+                                            <div
+                                                class="form-notch-trailing"
+                                            ></div>
+                                        </div>
+                                    </div>
+                                    <!--Quantity-->
+                                    <div class="form-outline w-50 mt-3 ms-3">
+                                        <input
+                                            :id="'taskQTY' + id"
+                                            type="number"
+                                            class="form-control active"
+                                            :value="data.quantity"
+                                        /><label
+                                            class="form-label"
+                                            :for="'taskQTY' + id"
+                                        >
+                                            Quantity</label
+                                        >
+                                        <div class="form-notch">
+                                            <div
+                                                class="form-notch-leading"
+                                            ></div>
+                                            <div
+                                                class="form-notch-middle"
+                                                style="width: 6ch"
+                                            ></div>
+                                            <div
+                                                class="form-notch-trailing"
+                                            ></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-outline w-50 mt-3 ms-3">
+                                        <input
+                                            :id="'taskQTY' + id"
+                                            type="number"
+                                            class="form-control active"
+                                            :value="data.desiredQuantity"
+                                        /><label
+                                            class="form-label"
+                                            :for="'taskQTY' + id"
+                                        >
+                                            Desired Quantity</label
+                                        >
+                                        <div class="form-notch">
+                                            <div
+                                                class="form-notch-leading"
+                                            ></div>
+                                            <div
+                                                class="form-notch-middle"
+                                                style="width: 6ch"
+                                            ></div>
+                                            <div
+                                                class="form-notch-trailing"
+                                            ></div>
+                                        </div>
+                                    </div>
+                                </div>
                             <div class="form-outline mt-3">
                                 <textarea
-                                    :id="'componentDesc' + id"
+                                    :id="'taskDesc' + id"
                                     class="form-control active"
-                                    :value="desc"
+                                    :value="data.description"
                                     rows="6"
                                 ></textarea>
-                                <label class="form-label" for="textAreaExample"
+                                <label class="form-label" :for="'taskDesc'+id"
                                     >Description</label
                                 >
                                 <div class="form-notch">

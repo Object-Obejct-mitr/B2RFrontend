@@ -10,6 +10,7 @@ export default {
     },
     props: {
         data: Object,
+        componentName: String,
         // component: {
         //     type: String,
         //     default: "None",
@@ -141,9 +142,8 @@ export default {
                         <div class="mt-2">
                             <EditTaskModal
                                 :id="uuid"
-                                :component="component"
-                                :priority="priority"
-                                :desc="desc"
+                                :componentName="componentName"
+                                :data="data"
                             />
                         </div>
                     </div>
