@@ -11,36 +11,6 @@ export default {
     props: {
         data: Object,
         componentName: String,
-        // component: {
-        //     type: String,
-        //     default: "None",
-        //     required: true,
-        // },
-        // priority: {
-        //     type: Number,
-        //     default: 0,
-        //     required: true,
-        // },
-        // desc: {
-        //     type: String,
-        //     default: "No description provided.",
-        //     required: true,
-        // },
-        // elemId: {
-        //     type: Number,
-        //     default: 0,
-        //     required: true,
-        // },
-        // quantity: {
-        //     type: Number,
-        //     default: 0,
-        //     required: true,
-        // },
-        // parentName: {
-        //     type: String,
-        //     default: "None",
-        //     required: true,
-        // },
     },
     emits: ["quantityChecker"],
     data() {
