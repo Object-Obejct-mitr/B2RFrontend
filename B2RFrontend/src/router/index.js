@@ -52,7 +52,7 @@ const router = createRouter({
             name: "contacts",
             component: ContactsView,
             meta: {
-                requiresAuth: true
+                requiresAuth: false
             }
         },
         {
