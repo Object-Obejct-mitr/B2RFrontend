@@ -1,0 +1,246 @@
+{
+    "users": [
+      {
+        "UserID": 1,
+        "firstName": "Ryan",
+        "surName": "Williams",
+        "phoneNumber": "210-345-2305",
+        "email": "ryan.williams@example.com",
+        "List": [
+          "mentors"
+        ],
+        "tags": [
+          "Development",
+          "Marketing"
+        ],
+        "description": "Ryan is an experienced software developer and marketer, with a passion for building innovative digital products and solutions."
+      },
+      {
+        "UserID": 2,
+        "firstName": "Emma",
+        "surName": "Johnson",
+        "phoneNumber": "555-1234",
+        "email": "emma.johnson@example.com",
+        "List": [
+          "mentors"
+        ],
+        "tags": [
+          "Design",
+          "Finance"
+        ],
+        "description": "Emma is a talented designer and financial expert, with a track record of delivering high-quality design work and financial analysis for top companies."
+      },
+      {
+        "UserID": 3,
+        "firstName": "Liam",
+        "surName": "Garcia",
+        "phoneNumber": "555-5678",
+        "email": "liam.garcia@example.com",
+        "List": [
+          "mentors"
+        ],
+        "tags": [
+          "Sales",
+          "Management"
+        ],
+        "description": "Liam is a seasoned sales professional and management consultant, with a wealth of experience in driving revenue growth and optimizing business processes."
+      },
+      {
+        "UserID": 4,
+        "firstName": "Ava",
+        "surName": "Brown",
+        "phoneNumber": "555-9876",
+        "email": "ava.brown@example.com",
+        "List": [
+          "mentors"
+        ],
+        "tags": [
+          "Development",
+          "Engineering"
+        ],
+        "description": "Ava is a skilled software developer and engineer, with a passion for building scalable and reliable systems that meet the needs of modern businesses."
+      },
+      {
+        "UserID": 5,
+        "firstName": "Oliver",
+        "surName": "Lee",
+        "phoneNumber": "555-5678",
+        "email": "oliver.lee@example.com",
+        "List": [
+          "mentors"
+        ],
+        "tags": [
+          "Marketing",
+          "Design"
+        ],
+        "description": "Oliver is a creative marketer and designer, with a flair for developing compelling brand identities and marketing campaigns that resonate with audiences."
+      },
+      {
+        "UserID": 6,
+        "firstName": "Mia",
+        "surName": "Lopez",
+        "phoneNumber": "555-4321",
+        "email": "mia.lopez@example.com",
+        "List": [
+          "mentors"
+        ],
+        "tags": [
+          "Sales",
+          "Finance"
+        ],
+        "description": "Mia is a skilled sales professional and financial analyst, with a deep understanding of how to drive revenue growth and optimize financial performance."
+      },
+      {
+        "UserID": 7,
+        "firstName": "Ethan",
+        "surName": "Davis",
+        "phoneNumber": "555-8765",
+        "email": "ethan.davis@example.com",
+        "List": [
+          "mentors"
+        ],
+        "tags": [
+          "Development",
+          "Engineering"
+        ],
+        "description": "Ethan is a seasoned software developer and engineer, with a talent for creating innovative and reliable software solutions that meet."
+      },
+      {
+        "UserID": 8,
+        "firstName": "Sophia",
+        "surName": "Martinez",
+        "phoneNumber": "555-2345",
+        "email": "sophia.martinez@example.com",
+        "List": [
+          "none"
+        ],
+        "tags": [
+          "Marketing",
+          "Design"
+        ],
+        "description": "Sophia is a creative marketing and design specialist, with experience developing effective advertising campaigns and designing eye-catching graphics."
+      },
+      {
+        "UserID": 9,
+        "firstName": "Logan",
+        "surName": "Taylor",
+        "phoneNumber": "555-7890",
+        "email": "logan.taylor@example.com",
+        "List": [
+          "faculty"
+        ],
+        "tags": [
+          "Sales",
+          "Management"
+        ],
+        "description": "Logan is an experienced sales and management professional, with a track record of building strong customer relationships and driving revenue growth."
+      },
+      {
+        "UserID": 10,
+        "firstName": "Emily",
+        "surName": "Johnson",
+        "phoneNumber": "555-5555",
+        "email": "emily.johnson@example.com",
+        "List": [
+          "mentors"
+        ],
+        "tags": [
+          "Marketing",
+          "Design"
+        ],
+        "description": "Emily is a creative marketing and design specialist, with experience developing effective advertising campaigns and designing eye-catching graphics."
+      },
+      {
+        "UserID": 11,
+        "firstName": "William",
+        "surName": "Anderson",
+        "phoneNumber": "555-7777",
+        "email": "william.anderson@example.com",
+        "List": [
+          "mentors"
+        ],
+        "tags": [
+          "Development",
+          "Engineering"
+        ],
+        "description": "William is a talented software developer and engineer, with experience creating innovative and reliable software solutions that meet the needs of clients."
+      },
+      {
+        "UserID": 11,
+        "firstName": "Samantha",
+        "surName": "Johnson",
+        "phoneNumber": "555-1234",
+        "email": "samantha.johnson@example.com",
+        "List": [
+        "mentors"
+        ],
+        "tags": [
+        "Development",
+        "Engineering"
+        ],
+        "description": "Samantha is a highly skilled software developer and engineer, with expertise in creating complex and scalable software systems."
+      },
+      {
+        "UserID": 12,
+        "firstName": "Elijah",
+        "surName": "Brown",
+        "phoneNumber": "555-9876",
+        "email": "elijah.brown@example.com",
+        "List": [
+        "mentors"
+        ],
+        "tags": [
+        "Marketing",
+        "Design"
+        ],
+        "description": "Elijah is a creative and strategic marketer, with a passion for designing engaging and effective marketing campaigns."
+      },
+      {
+        "UserID": 13,
+        "firstName": "Avery",
+        "surName": "Davis",
+        "phoneNumber": "555-8765",
+        "email": "avery.davis@example.com",
+        "List": [
+        "mentors"
+        ],
+        "tags": [
+        "Sales",
+        "Management"
+        ],
+        "description": "Avery is a seasoned sales and management professional, with a proven track record of building successful sales teams and driving revenue growth."
+      },
+      {
+        "UserID": 14,
+        "firstName": "Mason",
+        "surName": "Martinez",
+        "phoneNumber": "555-2345",
+        "email": "mason.martinez@example.com",
+        "List": [
+        "none"
+        ],
+        "tags": [
+        "Development",
+        "Engineering"
+        ],
+        "description": "Mason is a skilled software developer and engineer, with expertise in designing and implementing robust and reliable software solutions."
+      },
+      {
+        "UserID": 15,
+        "firstName": "Charlotte",
+        "surName": "Taylor",
+        "phoneNumber": "555-7890",
+        "email": "charlotte.taylor@example.com",
+        "List": [
+        "faculty"
+        ],
+        "tags": [
+        "Marketing",
+        "Design"
+        ],
+        "description": "Charlotte is a creative and detail-oriented designer, with experience in creating visually appealing and effective designs for a variety of mediums."
+      } 
+      ]
+  }
+         
+  
