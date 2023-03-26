@@ -19,6 +19,8 @@
           </nav>
         </div>
         <div class="col-lg-9">
+          <button class="btn btn-primary" @click="showModal = true">Add Contact</button>
+          <AddContactModal :show-modal="showModal" @add-contact="addContact"></AddContactModal>
           <table class="table table-striped">
             <thead>
               <tr>
@@ -73,39 +75,49 @@
   </style>
   
   <script>
+  import AddContactModal from '@/components/Contactsview/contactModal.vue';
   import userData from '@/assets/ContactData.json';
   import { ref, computed } from 'vue';  
   
   export default {
     setup() {
-      const selectedList = ref('all');
-      const toggleUserDesc = (user) => {
-      const userDesc = document.getElementById('userDesc' + user.UserID);
-      const isCollapsed = userDesc.classList.contains('show');
-      isCollapsed ? userDesc.classList.remove('show') : userDesc.classList.add('show');
-    };
+  const selectedList = ref('all');
+  const toggleUserDesc = (user) => {
+    const userDesc = document.getElementById('userDesc' + user.UserID);
+    const isCollapsed = userDesc.classList.contains('show');
+    isCollapsed ? userDesc.classList.remove('show') : userDesc.classList.add('show');
+  };
 
-      const filteredUsers = computed(() => {
-        if (selectedList.value === 'all') {
-          return userData.users;
-        } else if (selectedList.value === 'mentors') {
-          return userData.users.filter(user => user.List.includes('mentors'));
-        } else {
-          return [];
-        }
-      });
-  
-      const selectList = (list) => {
-        selectedList.value = list;
-      };
-  
-      return {
-        selectedList,
-        filteredUsers,
-        selectList,
-        toggleUserDesc
-      }
+  const filteredUsers = computed(() => {
+    if (selectedList.value === 'all') {
+      return userData.users;
+    } else if (selectedList.value === 'mentors') {
+      return userData.users.filter(user => user.List.includes('mentors'));
+    } else {
+      return [];
     }
+  });
+
+  const selectList = (list) => {
+    selectedList.value = list;
+  };
+
+  const showModal = ref(false); // add this line to create a reactive variable to control the visibility of the modal
+
+  const toggleModal = () => { // add this function to toggle the visibility of the modal
+    showModal.value = !showModal.value;
+  }
+
+  return {
+    selectedList,
+    filteredUsers,
+    selectList,
+    toggleUserDesc,
+    showModal, // add the new reactive variable to the returned object
+    toggleModal // add the new function to the returned object
+  }
+}
+
   }
 
 
