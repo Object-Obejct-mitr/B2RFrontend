@@ -1,12 +1,11 @@
 <template>
-    <div class="modal" tabindex="-1" role="dialog">
+    <button class="btn btn-primary" data-mdb-toggle="modal" :data-mdb-target="'#contactModal' + id" >Add Contact</button>
+    <div class="modal" :id="'contactModal' + id" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title">Add Contact</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
             <form>
@@ -33,7 +32,7 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Cancel</button>
             <button type="button" class="btn btn-primary" @click="addContact">Add Contact</button>
           </div>
         </div>
@@ -43,6 +42,10 @@
   
   <script>
   export default {
+    props: {
+        id: String
+    },
+    
     data() {
       return {
         newContact: {
@@ -58,6 +61,7 @@
       addContact() {
         // send new contact data to the server
         // close the modal dialog
+        $("#contactModal" + id).modal('hide');
       },
     },
   };

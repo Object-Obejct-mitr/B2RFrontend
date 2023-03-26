@@ -19,8 +19,7 @@
           </nav>
         </div>
         <div class="col-lg-9">
-          <button class="btn btn-primary" @click="showModal = true">Add Contact</button>
-          <AddContactModal :show-modal="showModal" @add-contact="addContact"></AddContactModal>
+          <AddContactModal id="" :show-modal="showModal" @add-contact="addContact"></AddContactModal>
           <table class="table table-striped">
             <thead>
               <tr>
@@ -80,6 +79,9 @@
   import { ref, computed } from 'vue';  
   
   export default {
+    components: {
+        AddContactModal
+    },
     setup() {
   const selectedList = ref('all');
   const toggleUserDesc = (user) => {
