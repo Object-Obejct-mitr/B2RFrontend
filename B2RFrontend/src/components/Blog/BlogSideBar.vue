@@ -1,10 +1,15 @@
 
 <template>
     <div>
-        this is the blog side bar component
-        <button @click="debug">
+        <div v-if="view=='list'">
+            side bar list view
+        </div>
+        <div v-else>
+            side bar post view
+        </div>
+        <!-- <button @click="debug">
             debug
-        </button>
+        </button> -->
     </div>
 </template>
 
@@ -12,6 +17,7 @@
 
 export default {
     props: {
+        // either "post" or "list"
         view: {
             type: String,
             required: true,

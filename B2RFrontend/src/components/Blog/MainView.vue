@@ -1,11 +1,11 @@
 <template>
     <div v-if="view=='list'">
         <!-- for loop here to iterate over the first x posts -->
-        List view
+        main List view
     </div>
     <div v-else>
         <!-- quill editor here -->
-        Blog view
+        main Blog view
     </div>
 
 </template>
