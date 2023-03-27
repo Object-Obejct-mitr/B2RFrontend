@@ -1,9 +1,8 @@
-
 <template>
     <div>
-        <div v-if="view=='list'">
+        <div v-if="view == 'list'">
             <h2>Filter by Date</h2>
-            <hr/>
+            <hr />
             <h2>Filter by Tags</h2>
         </div>
         <div v-else>
@@ -16,7 +15,6 @@
 </template>
 
 <script>
-
 export default {
     props: {
         // either "post" or "list"
@@ -27,13 +25,13 @@ export default {
         view: {
             type: String,
             required: true,
-            default: "list"
-        }
+            default: "list",
+        },
     },
     methods: {
         debug() {
-            console.log(this.view)
-        }
-    }
-}
+            console.log(this.view);
+        },
+    },
+};
 </script>
