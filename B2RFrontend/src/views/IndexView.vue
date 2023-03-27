@@ -7,7 +7,7 @@
             id="mainView"
             :view="view"
             :posts="blogData"
-            @show-ost="showPost"
+            @show-post="showPost"
         />
         <BlogSideBar
             id="blogSideBar"

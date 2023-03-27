@@ -17,16 +17,25 @@
     </div>
     <div v-else>
         <!-- quill editor here -->
-        main Blog view
+        <QuillEditor :key="readOnly" theme="bubble" :read-only="readOnly" @ready="postReady" v-model:content="postContent"/>
+        <button @click="toggleReadOnly()">toggle read only</button>
     </div>
 </template>
 
 <script>
+
+import '@vueup/vue-quill/dist/vue-quill.bubble.css';
+import { QuillEditor } from '@vueup/vue-quill'
+
 export default {
+    components: {
+        QuillEditor
+    },
     props: {
-        // can be either "list" or "post"
-        // if it is "list" view then it shows eveyrthing
-        // if it is "post" view then it shows a specific post
+        // either list or post view
+        // if it is list view then it shows eveyrthing
+        // if it is post view then it shows a specific post
+        //  note: the prop "view" will be the post index in the array
         view: {
             type: String,
             required: true,
@@ -39,10 +48,33 @@ export default {
         },
     },
     emits: ["showPost"],
+    data() {
+        return {
+            quill: null,
+            postContent: null,
+            postIndex: 0,
+            readOnly: false,
+        }
+    },
     methods: {
         showPost(index) {
+            this.postIndex = index;
             this.$emit("showPost", index);
         },
+        postReady(quill) {
+            this.quill = quill;
+            console.log("editor ready")
+            console.log(this.view)
+            
+            console.log(this.posts[parseInt(this.postIndex)])
+            this.postContent = this.posts[parseInt(this.postIndex)].delta
+            quill.setContents(this.posts[parseInt(this.postIndex)].delta, "api")
+        },
+        toggleReadOnly() {
+            console.log(this.readOnly)
+            this.readOnly = !this.readOnly
+            console.log(this.readOnly)
+        }
     },
 };
 </script>
