@@ -5,11 +5,9 @@
             <h2>Filter by Date</h2>
             <hr/>
             <h2>Filter by Tags</h2>
-            <!-- side bar list view -->
         </div>
         <div v-else>
             <h2>Recent Posts</h2>
-            <!-- side bar post view -->
         </div>
         <!-- <button @click="debug">
             debug
