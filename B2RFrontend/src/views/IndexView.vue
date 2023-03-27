@@ -50,11 +50,13 @@ export default {
 }
 
 #mainView {
-    width: 64vw;
+    outline: 1px solid fuchsia;
+    width: 70vw;
 }
 
 #blogSideBar {
-    width: 32vw;
+    outline: 1px solid black;
+    width: 25vw;
 }
 
 
