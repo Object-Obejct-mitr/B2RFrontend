@@ -2,10 +2,14 @@
 <template>
     <div>
         <div v-if="view=='list'">
-            side bar list view
+            <h2>Filter by Date</h2>
+            <hr/>
+            <h2>Filter by Tags</h2>
+            <!-- side bar list view -->
         </div>
         <div v-else>
-            side bar post view
+            <h2>Recent Posts</h2>
+            <!-- side bar post view -->
         </div>
         <!-- <button @click="debug">
             debug
@@ -18,6 +22,10 @@
 export default {
     props: {
         // either "post" or "list"
+        // if the view is post:
+        //  show recent posts in the sidebar
+        // if the view is list:
+        //  show filtering options (date then tags) on the sidebar
         view: {
             type: String,
             required: true,

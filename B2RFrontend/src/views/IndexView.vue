@@ -3,19 +3,20 @@
 <template>
     <main id="blogView">
         <!-- list posts on list view or blog post on main view -->
-        <MainView id="mainView" :view="view"/>
+        <MainView id="mainView" :view="view" :posts="blogData"/>
         <span class="space"></span>
         <BlogSideBar id="blogSideBar" :view="view"/>
-        <button @click="debug()">
-            switch views
-        </button>
     </main>
+    <button @click="debug()">
+        switch views
+    </button>
 </template>
 
 
 <script>
 import MainView from "@/components/Blog/MainView.vue"
 import BlogSideBar from "@/components/Blog/BlogSideBar.vue"
+import BlogData from "@/assets/BlogData.json"
 
 export default {
     components: {
@@ -24,15 +25,19 @@ export default {
     },
     data() {
         return {
-            view: "list"
+            view: "list",
+            blogData: BlogData
         }
+    },
+    mounted() {
+        
     },
     methods: {
         debug() {
             this.view = (this.view == "list" ? "post" : "list")
         }
-
-    }
+    },
+    
 }
 
 
@@ -40,12 +45,13 @@ export default {
 
 <style>
 .space {
-    flex-grow: 1;
+    /* flex-grow: 1; */
 }
 
 #blogView {
     display: flex;
     width: 90%;
+    min-height: 75vh;
     margin: 0 auto;
 }
 
@@ -56,7 +62,8 @@ export default {
 
 #blogSideBar {
     outline: 1px solid black;
-    width: 25vw;
+    width: 20vw;
+    flex-grow: 1;
 }
 
 
