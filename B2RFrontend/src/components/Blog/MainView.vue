@@ -17,8 +17,6 @@
     </div>
     <div v-else>
         <!-- quill editor here -->
-        <QuillEditor :key="readOnly" theme="bubble" :read-only="readOnly" @ready="postReady" v-model:content="postContent"/>
-        <button @click="toggleReadOnly()">toggle read only</button>
     </div>
 </template>
 
