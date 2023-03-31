@@ -10,6 +10,7 @@
         "pretty": "prettier .  --write"
     },
     "dependencies": {
+        "@vueup/vue-quill": "^1.1.1",
         "firebase": "^9.17.2",
         "lodash.uniqueid": "^4.0.1",
         "mdb-calendar": "git+https://oauth2:yCfC16vXePeyyHk4W_vb@git.mdbootstrap.com/mdb/standard/plugins/prd/calendar",
