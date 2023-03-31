@@ -66,7 +66,8 @@ export default {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    overflow-y: scroll;
+    overflow-x: hidden;
+    overflow-y: auto;
     height: calc(99vh - 106px - 30px);
 }
 

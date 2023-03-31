@@ -17,6 +17,9 @@
     </div>
     <div v-else>
         <!-- quill editor here -->
+        <QuillEditor theme="bubble" @ready="postReady"/>
+        
+
     </div>
 </template>
 
