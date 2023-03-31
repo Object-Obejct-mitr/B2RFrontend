@@ -14,10 +14,12 @@
             </div>
           </div>
         </nav>
+        <div class="contactModal">
+          <AddContactList></AddContactList>
+        </div>
       </div>
       <div class="col-lg-9">
         <div class="modals">
-          <AddContactList></AddContactList>
           <AddContactModal></AddContactModal>
         </div>
         <table class="table table-striped">
@@ -74,7 +76,10 @@
   .modals {
     margin-top: 1rem;
   }
-
+.contactModal {
+    margin-top: 1rem;
+    text-align: center;
+}
   </style>
   
   <script>
