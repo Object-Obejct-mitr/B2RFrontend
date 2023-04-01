@@ -1,4 +1,7 @@
-import InputNotch from '../Misc/InputNotch.vue';
+import InputText from '../Misc/InputText.vue';
+import InputNumber from '../Misc/InputNumber.vue';
+import InputTextArea from '../Misc/InputTextArea.vue';
+import InputSelect from '../Misc/InputSelect.vue';
 
 import { useToast, POSITION } from "vue-toastification";
 
@@ -30,14 +33,29 @@ export default {
     },
     methods: {
         onPhotoSelected(event) {
-            this.Photos = event.target.files;
-            console.log(this.Photos);
+            const photos = Array.from(event.target.files);
+            this.Photos = [...this.Photos, ...photos];
+        },
+        deletePhoto(index) {
+            this.Photos.splice(index, 1);
         },
         onCadFileSelected(event) {
-            this.CADFiles = event.target.files;
+            const CADFiles = Array.from(event.target.files);
+            this.CADFiles = [...this.CADFiles, ...CADFiles];
         },
-
+        deleteFile(index) {
+            this.CADFiles.splice(index, 1);
+        },
+        resetFiles(){
+            this.Photos = [];
+            this.CADFiles = [];
+        },
+      
+        isMobile() {
+            return $(window).width() < 760
+        },
         async handleSubmit() {
+            console.log("AAAAAAAAA");
             $("#submitData").prepend("<span id=\"submitSpinner\" class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\">")
             $("#submitData").prop("disabled", true);
             // //Steps: Check to see if the component exists, if it does, then fetch its id and add a task to the ToDo section
@@ -51,8 +69,9 @@ export default {
             } else {
                 categoryId = querySnapshot.docs[0].id;
             }
-
+            console.log(this.Name + " " + this.Component + " " + this.Designer); 
             if (categoryId != '') {
+            //if (false) {
                 const cadPromises = Array.from(this.CADFiles).map(async file => {
                     const storageRef = ref(storage, 'files/' + file.name);
                     const uploadTask = uploadBytesResumable(storageRef, file);
@@ -114,7 +133,7 @@ export default {
                 $("#addTaskModal").modal('hide');
 
             } else {
-                this.toast.error("Component Does Not Nxist", {
+                this.toast.error("Component Does Not Exist", {
                     timeout: 10000,
                     position: POSITION.BOTTOM_RIGHT
                 });
@@ -122,8 +141,8 @@ export default {
             $("#submitSpinner").remove();
             $("#submitData").prop("disabled", false);
 
-            
+
         }
     },
-    components: { InputNotch }
+    components: { InputText, InputNumber, InputTextArea, InputSelect }
 };
