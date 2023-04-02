@@ -32,8 +32,26 @@
                         <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <label>Title: </label>
-                        <!-- <input v-model="postData.title"> -->
+                        <input v-model="postData.title" placeholder = "Input Title">
+                        <br/>
+                        <label>Tags: </label>
+                        <div v-for="(tag,index) in postData.tags" :key=tag>
+                            <input v-model="postData.tags[index]">
+                        </div>
+                        <!-- For loop for each tag as inputs -->
+                        <button class = "sm btn btn-secondary">+</button>
+                        <input placeholder="Type tag">
+                        <br/>
+                        <label>Authors: </label>
+                        <div v-for="(author,index) in postData.authors" :key=author>
+                            <input v-model="postData.authors[index]">
+                        </div>
+                        <button class = "sm btn btn-secondary">+</button>
+                        <input placeholder="Type author">
+                        <br/>
+                        <!-- For loop for each author as inputs -->
+                        <br/>
+                        <QuillEditor theme="snow" />
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
@@ -51,11 +69,14 @@ import MainView from "@/components/Blog/MainView.vue";
 import BlogSideBar from "@/components/Blog/BlogSideBar.vue";
 import BlogData from "@/assets/BlogData.json";
 import Tags from "@/assets/Tags.json";
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 
 export default {
     components: {
         BlogSideBar,
         MainView,
+        QuillEditor
     },
     data() {
         return {
@@ -63,7 +84,15 @@ export default {
             blogData: BlogData,
             tags: Tags,
             postIndex: 0,
-            postData: null,
+            postData: 
+            {
+                "title": "",
+                "date": "",
+                "authors": [],
+                "tags": [],
+                "preview": "",
+                "delta": []
+            },
         };
     },
     mounted() {},
@@ -142,6 +171,10 @@ export default {
     margin-top: 10%; 
     margin-bottom: 10%; 
     padding-bottom: 15%;
+    width: fit-content;
+}
+
+.sm {
     width: fit-content;
 }
 </style>
