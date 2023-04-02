@@ -14,10 +14,12 @@
             <p class="preview">{{ post.preview }}</p>
             <!-- <hr v-if="index != posts.length - 1"/> -->
         </div>
+        
     </div>
     <div v-else>
         <!-- quill editor here -->
         <QuillEditor theme="bubble" @ready="postReady"/>
+        <button>Save Article</button>
         
 
     </div>
@@ -59,7 +61,11 @@ export default {
     },
     methods: {
         showPost(index) {
-            this.postIndex = index;
+            if (index == -1) {
+                this.postIndex = -1;
+            } else {
+                this.postIndex = index;
+            }
             this.$emit("showPost", index);
         },
         postReady(quill) {
@@ -68,9 +74,10 @@ export default {
             console.log(this.view)
             
             console.log(this.posts[parseInt(this.postIndex)])
-            this.postContent = this.posts[parseInt(this.postIndex)].delta
+            this.postContent = this.posts[parseInt(this.postIndex)].delta 
             quill.setContents(this.posts[parseInt(this.postIndex)].delta, "api")
         },
+
         toggleReadOnly() {
             console.log(this.readOnly)
             this.readOnly = !this.readOnly

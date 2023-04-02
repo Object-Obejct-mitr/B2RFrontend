@@ -14,6 +14,7 @@
             :view="view"
             :posts="blogData"
             :tags="tags"
+            @create-modify-post="createModifyPost"
         />
     </main>
     <button @click="debug()">switch views</button>
@@ -35,6 +36,7 @@ export default {
             view: "list",
             blogData: BlogData,
             tags: Tags,
+            postIndex: null,
         };
     },
     mounted() {},
@@ -44,8 +46,20 @@ export default {
         },
         showPost(index) {
             this.view = "post";
+            this.postIndex = index;
             console.log(index);
         },
+
+        createModifyPost(postType) {
+            if (postType == "create") {
+                //create a post
+                console.log("creating a post")
+            } else if (postType == "modify") {
+                //edit a post
+                console.log("emitting a post")
+
+            }
+        }
     },
 };
 </script>
@@ -72,7 +86,7 @@ export default {
 }
 
 #blogSideBar {
-    outline: 1px solid black;
+    /* outline: 1px solid black; */
     width: 20vw;
     flex-grow: 1;
     height: fit-content;
