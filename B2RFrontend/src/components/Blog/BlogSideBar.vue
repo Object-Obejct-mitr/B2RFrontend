@@ -1,13 +1,13 @@
 <template>
     <div>
         
-        <div class = "sideBar" v-if="view == 'list'">
+        <div v-if="view == 'list'" class = "sideBar">
             <button class="buttonSpacing btn btn-secondary" @click="createModifyPost()">New Post</button>
             <h2>Filter by Date</h2>
             <hr />
             <h2>Filter by Tags</h2>
         </div>
-        <div class = "sideBar" v-else>
+        <div v-else class = "sideBar" >
             <button class="buttonSpacing btn btn-secondary" @click="createModifyPost()">Edit Post</button>
             <h2>Recent Posts</h2>
         </div>
