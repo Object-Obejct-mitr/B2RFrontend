@@ -1,13 +1,14 @@
 
 <template>
-    <button type="button" class="btn btn-primary" :class="buttonClass" data-mdb-toggle="modal" :data-mdb-target="'#taskModal' + id">
+    <button type="button" class="btn btn-primary" :class="buttonClass" data-mdb-toggle="modal"
+        :data-mdb-target="'#taskModal' + id">
         Edit Task
     </button>
-    <div :id="'taskModal' + id" class="modal fade nonGrab modal-lg container-fluid" tabindex="-1" :aria-labelledby="'modalLabel' + id"
-        data-mdb-backdrop="static" data-mdb-keyboard="false" aria-hidden="true">
+    <div :id="'taskModal' + id" class="modal fade nonGrab modal-lg container-fluid" tabindex="-1"
+        :aria-labelledby="'modalLabel' + id" data-mdb-backdrop="static" data-mdb-keyboard="false" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form :id="'editTaskForm'+id" @submit.prevent="handleSubmit">
+                <form :id="'editTaskForm' + id" @submit.prevent="handleSubmit">
                     <div class="modal-header">
                         <h5 :id="'ModalLabel' + id" class="modal-title">
                             Editing {{ Name }}
