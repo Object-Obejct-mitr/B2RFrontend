@@ -3,7 +3,6 @@ export default {
     props: {
         notchWidth: String,
         label: String,
-        vModelReference: String,
         id: String,
         min: {
             type: Number,
@@ -19,7 +18,7 @@ export default {
         },
         modelValue: {
             type: Number,
-            default: ''
+            default: NaN
         }
     },
     methods: {
@@ -34,8 +33,8 @@ export default {
 <template>
     <div class="form-outline">
         <input :id="id" type="number" class="form-control" :value="modelValue" @input="updateValue" :required="isRequired"
-            :class="[this.modelValue == '' ? '' : 'active']" />
-
+            :class="[isNaN(this.modelValue) ? '' : 'active']" />
+       
         <label class="form-label" :for="id">{{ label }}</label>
 
         <div class="form-notch">

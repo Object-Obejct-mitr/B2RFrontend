@@ -53,12 +53,9 @@ export default {
         applyRegex(inputString) {
             const regex = new RegExp("..*%2F(.*?)\?alt");
             const matches = inputString.match(regex);
-            console.log(matches);
             if (matches) {
-                if (matches[1].endsWith("?")) {
-                    return matches[1].slice(0, -1);
-                }
-                return matches[1];
+                
+                return matches[1].substring(0, matches[1].lastIndexOf("%"));
             } else {
                 return "Regex Error";
             }

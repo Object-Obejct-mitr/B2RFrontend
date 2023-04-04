@@ -65,7 +65,7 @@
                                 <InputNumber notchWidth="12ch" id="desTaskQTY" label="Desired Quantity"
                                     v-model="DesiredQuantity" :isRequired="true" class="w-50 mt-3 ms-3" />
                             </div>
-                            <InputTextArea id="addTaskDesc" numRows="6" v-model="Description" label="Description"
+                            <InputTextArea id="addTaskDesc" :numRows="6" v-model="Description" label="Description"
                                 notchWidth="8ch" class="mt-3" />
 
                             <!--Lead Worker-->

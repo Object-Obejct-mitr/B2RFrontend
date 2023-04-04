@@ -22,10 +22,10 @@ export default {
             Component: 'Select a Component',
             Description: '',
             Designer: '',
-            DesiredQuantity: '',
+            DesiredQuantity: NaN,
             LeadWorker: '',
-            Priority: '',
-            Quantity: '',
+            Priority: NaN,
+            Quantity: NaN,
             CADFiles: [],
             Photos: []
         };
@@ -55,7 +55,6 @@ export default {
             return $(window).width() < 760
         },
         async handleSubmit() {
-            console.log("AAAAAAAAA");
             $("#submitData").prepend("<span id=\"submitSpinner\" class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\">")
             $("#submitData").prop("disabled", true);
             // //Steps: Check to see if the component exists, if it does, then fetch its id and add a task to the ToDo section
@@ -69,11 +68,10 @@ export default {
             } else {
                 categoryId = querySnapshot.docs[0].id;
             }
-            console.log(this.Name + " " + this.Component + " " + this.Designer); 
             if (categoryId != '') {
-            //if (false) {
                 const cadPromises = Array.from(this.CADFiles).map(async file => {
-                    const storageRef = ref(storage, 'files/' + file.name);
+                    let randomString = Math.random().toString(10).substring(2, 7);
+                    const storageRef = ref(storage, 'files/' + file.name+"$"+randomString);
                     const uploadTask = uploadBytesResumable(storageRef, file);
 
                     return new Promise((resolve, reject) => {
@@ -93,7 +91,8 @@ export default {
                 });
 
                 const photoPromises = Array.from(this.Photos).map(async file => {
-                    const storageRef = ref(storage, 'images/' + file.name);
+                    let randomString = Math.random().toString(10).substring(2, 7);
+                    const storageRef = ref(storage, 'images/' + file.name+"+"+randomString);
                     const uploadTask = uploadBytesResumable(storageRef, file);
 
                     return new Promise((resolve, reject) => {
