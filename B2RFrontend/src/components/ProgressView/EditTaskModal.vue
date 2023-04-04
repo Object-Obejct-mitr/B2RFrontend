@@ -8,7 +8,7 @@
         :aria-labelledby="'modalLabel' + id" data-mdb-backdrop="static" data-mdb-keyboard="false" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form :id="'editTaskForm' + id" @submit.prevent="handleSubmit">
+                <form :id="'editTaskForm' + id" @submit.prevent="handleSubmit(id)">
                     <div class="modal-header">
                         <h5 :id="'ModalLabel' + id" class="modal-title">
                             Editing {{ ModifiedState.Name }}
@@ -58,15 +58,16 @@
                             <!--Priority-->
                             <div class="d-flex flex-row">
 
-                                <InputNumber notchWidth="6ch" id="addTaskPrio" label="Priority" v-model="ModifiedState.Priority"
+                                <InputNumber notchWidth="6ch" id="addTaskPrio" label="Priority" v-model.number="ModifiedState.Priority"
                                     :isRequired="true" class="w-50 mt-3" />
                                 <!--Quantity-->
-                                <InputNumber notchWidth="6ch" id="addTaskQTY" label="Quantity" v-model="ModifiedState.Quantity"
+                                <InputNumber notchWidth="6ch" id="addTaskQTY" label="Quantity" v-model.number="ModifiedState.Quantity"
                                     :isRequired="true" class="w-50 mt-3 ms-3" />
+                                    
                                 <InputNumber notchWidth="12ch" id="desTaskQTY" label="Desired Quantity"
-                                    v-model="DesiredQuantity" :isRequired="true" class="w-50 mt-3 ms-3" />
+                                    v-model.number="ModifiedState.DesiredQuantity" :isRequired="true" class="w-50 mt-3 ms-3" />
                             </div>
-                            <InputTextArea id="addTaskDesc" :numRows="6" v-model="Description" label="Description"
+                            <InputTextArea id="addTaskDesc" :numRows="6" v-model="ModifiedState.Description" label="Description"
                                 notchWidth="8ch" class="mt-3" />
 
                             <!--Lead Worker-->
@@ -135,7 +136,7 @@
                             <button type="button" class="btn btn-secondary me-3" data-mdb-dismiss="modal" @click="revertState">
                                 Cancel
                             </button>
-                            <button type="submit" id="submitData" class="btn btn-primary">
+                            <button type="submit" :id="'submitData'+id" class="btn btn-primary">
                                 Save changes
                             </button>
                         </div>

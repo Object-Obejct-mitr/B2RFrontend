@@ -7,7 +7,7 @@ import { useToast, POSITION } from "vue-toastification";
 
 import { db, storage } from "../../firebase"
 
-import { collection, getDocs, query, where, addDoc } from "firebase/firestore"
+import { collection, getDocs, query, where, addDoc, updateDoc, getDoc } from "firebase/firestore"
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 
 export default {
@@ -65,13 +65,14 @@ export default {
 
             if (querySnapshot.empty) {
                 console.log("Error, component " + this.Component + " does not exist")
+                
             } else {
                 categoryId = querySnapshot.docs[0].id;
             }
             if (categoryId != '') {
                 const cadPromises = Array.from(this.CADFiles).map(async file => {
                     let randomString = Math.random().toString(10).substring(2, 7);
-                    const storageRef = ref(storage, 'files/' + file.name+"$"+randomString);
+                    const storageRef = ref(storage, 'files/' + file.name+"+"+randomString);
                     const uploadTask = uploadBytesResumable(storageRef, file);
 
                     return new Promise((resolve, reject) => {
@@ -124,12 +125,21 @@ export default {
                     Quantity: this.Quantity,
                     Photos: photoDownloadUrls,
                     CADFiles: cadDownloadUrls
+                }).then(docRef=>{
+                    updateDoc(docRef, {id: docRef.id});
+                    this.toast.success("Added Task Successfully", {
+                        timeout: 2000,
+                        position: POSITION.BOTTOM_RIGHT
+                    });
+                    $("#addTaskModal").modal('hide');
+                }).catch(error => {
+                    console.log("Add document error " + error)
+                    this.toast.error("Could Not Add Task", {
+                        timeout: 10000,
+                        position: POSITION.BOTTOM_RIGHT
+                    });
                 });
-                this.toast.success("Added Task Successfully", {
-                    timeout: 2000,
-                    position: POSITION.BOTTOM_RIGHT
-                });
-                $("#addTaskModal").modal('hide');
+                
 
             } else {
                 this.toast.error("Component Does Not Exist", {
