@@ -100,7 +100,8 @@ export default {
                         "CADFiles": subDoc.data().CADFiles,
                         "CatID": doc.id,
                         "Status": "ToDo",
-                        "ID": subDoc.id
+                        "ID": subDoc.id,
+                        "Hidden": subDoc.data().Hidden
                     }
                     this.taskData[doc.data().ComponentName]["ToDo"].push(Task)
                 })
@@ -123,7 +124,8 @@ export default {
                         "CADFiles": subDoc.data().CADFiles,
                         "CatID": doc.id,
                         "Status": "Done",
-                        "ID": subDoc.id
+                        "ID": subDoc.id,
+                        "Hidden": subDoc.data().Hidden
                     }
                     this.taskData[doc.data().ComponentName]["Done"].push(Task)
                 })

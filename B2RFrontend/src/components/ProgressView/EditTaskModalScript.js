@@ -195,7 +195,8 @@ export default {
                         Quantity: this.ModifiedState.Quantity,
                         Photos: this.ModifiedState.Photos,
                         CADFiles: this.ModifiedState.CADFiles,
-                        id: this.data.ID
+                        id: this.data.ID,
+                        Hidden: this.data.Hidden
                     }).then(() => {
                         console.log("Added, deleting old:");
                         deleteDoc(doc(db, "ProgressViewTasks/" + this.CatID + "/" + this.Status, this.data.ID)).then(() => {
