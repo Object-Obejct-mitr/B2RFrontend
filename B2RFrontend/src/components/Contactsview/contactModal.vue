@@ -42,7 +42,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Cancel</button>
-          <button type="submit" id="contactSubmit" class="btn btn-primary">Add Contact</button>
+          <button type="submit" id="contactSubmit" class="btn btn-primary" data-mdb-dismiss="modal">Add Contact</button>
         </div>
       </form>
       </div>
@@ -86,8 +86,6 @@ export default {
   },
   methods: {
     async addContact() {
-    $("#contactSubmit").prepend("<span id=\"submitSpinner\" class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\">")
-    $("#contactSubmit").prop("disabled", true);
     const contactPageCollectionRef = collection(db, "contactPage");
 
     // check if all input fields are filled in
@@ -114,19 +112,19 @@ export default {
     console.log("CategoryId: " + categoryId);
     try {
       await addDoc(collection(db, "contactPage/" + categoryId + "/contactsList"), { 
-        UserID: user_id,
+        userID: user_id,
         firstName: this.newContact.firstName,
         surName: this.newContact.surName,
         phoneNumber: this.newContact.phoneNumber,
         email: this.newContact.email,
         tags: this.newContact.tags.split(',').map(tag => tag.trim()),
         description: this.newContact.description,
+        category: this.newContact.category
       });
-    $("#submitSpinner").remove();
-    $("#contactSubmit").prop("disabled", false);
     } catch (error) {
       console.log("Error adding contact: " + error);
     }
+    window.location.reload();
 }
 
   },

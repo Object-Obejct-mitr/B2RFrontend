@@ -1,5 +1,5 @@
 <template>
-    <button class="btn btn-primary" data-mdb-toggle="modal" :data-mdb-target="'#add_list' + id" >Add Contact List</button>
+    <button class="btn btn-primary" data-mdb-toggle="modal" :data-mdb-target="'#add_list' + id" ><i class="fas fa-plus"></i></button>
     <div class="modal" :id="'add_list' + id" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -16,7 +16,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Cancel</button>
-            <button type="submit" id="contactSubmit" class="btn btn-primary">Add Contact</button>
+            <button type="submit" id="contactSubmit" class="btn btn-primary" data-mdb-dismiss="modal">Add Contact</button>
           </div>
         </form>
         </div>
@@ -26,8 +26,8 @@
     
   <script>
   import { db } from "../../firebase";
-  import { addDoc, collection, doc, getDocs, query, where, setDoc } from "firebase/firestore"; 
-  import { ref, computed, watchEffect, reactive } from 'vue';
+  import { collection, doc , setDoc } from "firebase/firestore"; 
+  import { ref } from 'vue';
   
   export default {
     props: {
@@ -35,7 +35,7 @@
     },
   
     setup() {
-      const categories = ref([]);  
+      const categories = ref([]);
       return {
         categories
       }
@@ -43,24 +43,29 @@
 
     methods: {
       async addContactList() {
+        if (!this.listName) {
+        alert('Please Enter a List Name');
+        return;
+       }
+        
         try {
           // Get a reference to the "contactPage" collection
           const contactPageCollectionRef = collection(db, "contactPage");
           const newDocRef = doc(contactPageCollectionRef);
           const newDocData = { category: this.listName };
           await setDoc(newDocRef, newDocData);
-          // Create a subcollection called "contactsList" within the new document
-          const contactsListCollectionRef = collection(newDocRef, "contactsList");
         } catch (error) {
           console.error(error);
         }
+        window.location.reload();
       }
 
     },
     data() {
       return {
+        // Automatically Updating whenver ListName Changes
+        listName: ""
       }
     }
   }
   </script>
-  
