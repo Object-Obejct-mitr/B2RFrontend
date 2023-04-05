@@ -18,8 +18,7 @@
     </div>
     <div v-else>
         <!-- quill editor here -->
-        <QuillEditor theme="bubble" @ready="postReady"/>
-        <button>Save Article</button>
+        <QuillEditor theme="bubble" read-only="true" @ready="postReady"/>
         
 
     </div>
