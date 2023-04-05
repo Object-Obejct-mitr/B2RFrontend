@@ -11,8 +11,24 @@
         />
         <div class="sideBar">
     
-            <button v-if="view == 'list'" class="buttonSpacing btn btn-secondary" @click="createModifyPost('create')" data-mdb-toggle='modal' data-mdb-target='#createModal'>New Post</button>
-            <button v-else class="buttonSpacing btn btn-secondary" @click="createModifyPost('modify')" data-mdb-toggle='modal' data-mdb-target='#createModal'>Edit Post</button>
+            <button 
+                v-if="view == 'list'" 
+                class="buttonSpacing btn btn-secondary" 
+                data-mdb-target='#createModal' 
+                data-mdb-toggle='modal'
+                @click="createModifyPost('create')"  
+            >
+                New Post
+            </button>
+            <button 
+                v-else 
+                class="buttonSpacing btn btn-secondary" 
+                data-mdb-toggle='modal' 
+                data-mdb-target='#createModal'
+                @click="createModifyPost('modify')" 
+            >
+                Edit Post
+            </button>
     
             <BlogSideBar
                 id="blogSideBar"
@@ -23,12 +39,17 @@
             />
         </div>
         <!-- create/modify modal -->
-        <div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div 
+            id="createModal" 
+            class="modal fade"  
+            tabindex="-1" 
+            aria-labelledby="modalTitle" 
+            aria-hidden="true"
+        >
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 v-if="view == 'list'" class="modal-title" id="exampleModalLabel1">Create Post</h5>
-                        <h5 v-if="view == 'post'" class="modal-title" id="exampleModalLabel2">Modify Post</h5>
+                        <h5 id="modalTitle" class="modal-title" >{{view=="list" ? "Create Post" : "Modify Post"}}</h5>
                         <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
