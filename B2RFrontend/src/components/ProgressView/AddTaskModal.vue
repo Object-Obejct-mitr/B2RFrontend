@@ -23,12 +23,11 @@
                             <hr />
                             <div class="d-flex flex-row">
                                 <!--Task Name-->
-                                <div class="form-outline mt-3 me-2 w-66">
-                                    <input id="addTaskName" type="text" class="form-control" v-model="Name" required />
-                                    <label class="form-label" for="addTaskName">Task Name</label>
-                                    <InputNotch width="8ch" />
-                                </div>
+
+                                <InputText notchWidth="8ch" id="addTaskName" label="Task Name" v-model="Name"
+                                    :isRequired="true" class="mt-3 me-2 w-66" />
                                 <!--Component Category-->
+                                <!--Couldn't make this its own component, issues with v-model binding, oh well-->
                                 <div class="form-outline mt-3 ms-2 w-33">
                                     <i class="fas fa-angle-down trailing"></i>
 
@@ -38,86 +37,85 @@
                                         <option value="Electronics">Electronics</option>
                                     </select>
                                     <label class="form-label" for="addComponentName">Component Name</label>
-                                    <InputNotch width="13ch" />
+                                    <div class="form-notch">
+                                        <div class="form-notch-leading"></div>
+                                        <div style="width: 13ch" class="form-notch-middle"></div>
+                                        <div class="form-notch-trailing"></div>
+                                    </div>
                                 </div>
 
                             </div>
 
                             <div class="d-flex flex-row">
-                                <div class="form-outline w-33 mt-3 me-2">
-                                    <input id="addTaskDesigner" type="text" class="form-control" v-model="Designer"
-                                        required />
-                                    <label class="form-label" for="addTaskDesigner">Designer</label>
-                                    <InputNotch width="7ch" />
-                                </div>
 
-                                <!--Lead Worker-->
-                                <div class="form-outline w-33 mt-3 ms-2">
-                                    <input id="addLeadWorker" type="text" class="form-control" v-model="LeadWorker"
-                                        required />
-                                    <label class="form-label" for="addLeadWorker">Lead Worker</label>
-                                    <InputNotch width="9ch" />
-                                </div>
+                                <InputText notchWidth="7ch" id="addTaskDesigner" label="Designer" v-model="Designer"
+                                    :isRequired="true" class="w-33 mt-3 me-2" />
+
+                                <InputText notchWidth="9ch" id="addLeadWorker" label="Lead Worker" v-model="LeadWorker"
+                                    :isRequired="true" class="w-33 mt-3 ms-2" />
                             </div>
                             <!--Priority-->
                             <div class="d-flex flex-row">
-                                <div class="form-outline w-50 mt-3">
-                                    <input id="addTaskPrio" type="number" class="form-control" v-model="Priority"
-                                        required />
-                                    <label class="form-label" for="addTaskPrio">Priority</label>
-                                    <InputNotch width="6ch" />
-                                </div>
+
+                                <InputNumber notchWidth="6ch" id="addTaskPrio" label="Priority" v-model="Priority"
+                                    :isRequired="true" class="w-50 mt-3" />
                                 <!--Quantity-->
-                                <div class="form-outline w-50 mt-3 ms-3">
-                                    <input id="addTaskQTY" type="number" class="form-control" v-model="Quantity" required />
-                                    <label class="form-label" for="addTaskQTY">Quantity</label>
-                                    <InputNotch width="6ch" />
-                                </div>
-                                <div class="form-outline w-50 mt-3 ms-3">
-                                    <input id="addTaskQTY" type="number" class="form-control" v-model="DesiredQuantity"
-                                        required />
-                                    <label class="form-label" for="addTaskQTY">Desired Quantity</label>
-                                    <InputNotch width="12ch" />
-                                </div>
+                                <InputNumber notchWidth="6ch" id="addTaskQTY" label="Quantity" v-model="Quantity"
+                                    :isRequired="true" class="w-50 mt-3 ms-3" />
+                                <InputNumber notchWidth="12ch" id="desTaskQTY" label="Desired Quantity"
+                                    v-model="DesiredQuantity" :isRequired="true" class="w-50 mt-3 ms-3" />
                             </div>
-                            <div class="form-outline mt-3">
-                                <textarea id="addTaskDesc" class="form-control" rows="6" v-model="Description"></textarea>
-                                <label class="form-label" for="addTaskDesc">Description</label>
-                                <InputNotch width="8ch" />
-                            </div>
+                            <InputTextArea id="addTaskDesc" :numRows="6" v-model="Description" label="Description"
+                                notchWidth="8ch" class="mt-3" />
 
                             <!--Lead Worker-->
                             <div class="h3 mt-3">Files</div>
                             <hr />
-                            <div class="d-flex flex-row">
+                            <div class="d-flex" :class="[isMobile() ? 'flex-column' : 'flex-row']">
                                 <!--Files-->
-                                <div class="d-flex flex-column me-3 w-50">
-                                    <div class="h5">CAD/Design</div>
-                                    <label for="addDesignFile" class="form-label">Upload New
-                                        CAD/Design Files</label>
-                                    <input id="addDesignFile" class="form-control" type="file" multiple
-                                        @change="onCadFileSelected" />
+                                <div class="d-flex flex-column me-3 mb-3" :class="[isMobile() ? 'w-100' : 'w-50']">
+                                    <div class="d-flex flex-column mb-3">
 
+                                        <div class="h5">CAD/Design</div>
+                                        <label for="addDesignFile" class="form-label">Upload New
+                                            CAD/Design Files</label>
+                                        <input id="addDesignFile" class="form-control" type="file" multiple
+                                            @change="onCadFileSelected" />
+                                    </div>
+                                    <div v-for="(file, index) in CADFiles" :key="index" class="d-flex flex-row w-100 pe-3">
+                                        <span class="me-auto" style="text-overflow: ellipsis; overflow: hidden;"
+                                            :style="[isMobile() ? 'width=20ch;' : '']">
+                                            {{ file.name }}
+                                        </span>
+
+                                        <i class="fas fa-times" @click="deleteFile(index)"></i>
+                                    </div>
                                 </div>
+
                                 <!--Images-->
-                                <div class="d-flex flex-column ms-3 w-50">
-                                    <div class="d-flex flex-column">
+                                <div class="d-flex flex-column" :class="[isMobile() ? 'w-100' : 'w-50 ms-3']">
+                                    <div class="d-flex flex-column mb-3">
                                         <div class="h5">Photos</div>
                                         <label for="addPhotoFile" class="form-label">Upload New
                                             Photos</label>
                                         <input id="addPhotoFile" class="form-control" type="file" multiple
                                             @change="onPhotoSelected" />
                                     </div>
-                                    <div v-for="(file, index) in Photos" :key="index">
-                                        <p>{{ file.name }}</p>
+                                    <div v-for="(file, index) in Photos" :key="index" class="d-flex flex-row w-100 pe-3">
+                                        <span class="me-auto" style="text-overflow: ellipsis; overflow: hidden;"
+                                            :style="[isMobile() ? 'width=20ch;' : '']">
+                                            {{ file.name }}
+                                        </span>
+                                        <i class="fas fa-times" @click="deletePhoto(index)"></i>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">
+                        <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal" @click="resetFiles">
                             Cancel
                         </button>
                         <button type="submit" id="submitData" class="btn btn-primary">

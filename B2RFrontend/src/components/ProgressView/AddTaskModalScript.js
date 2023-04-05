@@ -1,10 +1,13 @@
-import InputNotch from '../Misc/InputNotch.vue';
+import InputText from '../Misc/InputText.vue';
+import InputNumber from '../Misc/InputNumber.vue';
+import InputTextArea from '../Misc/InputTextArea.vue';
+import InputSelect from '../Misc/InputSelect.vue';
 
 import { useToast, POSITION } from "vue-toastification";
 
 import { db, storage } from "../../firebase"
 
-import { collection, getDocs, query, where, addDoc } from "firebase/firestore"
+import { collection, getDocs, query, where, addDoc, updateDoc, getDoc } from "firebase/firestore"
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"
 
 export default {
@@ -19,10 +22,10 @@ export default {
             Component: 'Select a Component',
             Description: '',
             Designer: '',
-            DesiredQuantity: '',
+            DesiredQuantity: NaN,
             LeadWorker: '',
-            Priority: '',
-            Quantity: '',
+            Priority: NaN,
+            Quantity: NaN,
             CADFiles: [],
             Photos: []
         };
@@ -30,13 +33,27 @@ export default {
     },
     methods: {
         onPhotoSelected(event) {
-            this.Photos = event.target.files;
-            console.log(this.Photos);
+            const photos = Array.from(event.target.files);
+            this.Photos = [...this.Photos, ...photos];
+        },
+        deletePhoto(index) {
+            this.Photos.splice(index, 1);
         },
         onCadFileSelected(event) {
-            this.CADFiles = event.target.files;
+            const CADFiles = Array.from(event.target.files);
+            this.CADFiles = [...this.CADFiles, ...CADFiles];
         },
-
+        deleteFile(index) {
+            this.CADFiles.splice(index, 1);
+        },
+        resetFiles(){
+            this.Photos = [];
+            this.CADFiles = [];
+        },
+      
+        isMobile() {
+            return $(window).width() < 760
+        },
         async handleSubmit() {
             $("#submitData").prepend("<span id=\"submitSpinner\" class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\">")
             $("#submitData").prop("disabled", true);
@@ -48,13 +65,14 @@ export default {
 
             if (querySnapshot.empty) {
                 console.log("Error, component " + this.Component + " does not exist")
+                
             } else {
                 categoryId = querySnapshot.docs[0].id;
             }
-
             if (categoryId != '') {
                 const cadPromises = Array.from(this.CADFiles).map(async file => {
-                    const storageRef = ref(storage, 'files/' + file.name);
+                    let randomString = Math.random().toString(10).substring(2, 7);
+                    const storageRef = ref(storage, 'files/' + file.name+"+"+randomString);
                     const uploadTask = uploadBytesResumable(storageRef, file);
 
                     return new Promise((resolve, reject) => {
@@ -74,7 +92,8 @@ export default {
                 });
 
                 const photoPromises = Array.from(this.Photos).map(async file => {
-                    const storageRef = ref(storage, 'images/' + file.name);
+                    let randomString = Math.random().toString(10).substring(2, 7);
+                    const storageRef = ref(storage, 'images/' + file.name+"+"+randomString);
                     const uploadTask = uploadBytesResumable(storageRef, file);
 
                     return new Promise((resolve, reject) => {
@@ -106,15 +125,24 @@ export default {
                     Quantity: this.Quantity,
                     Photos: photoDownloadUrls,
                     CADFiles: cadDownloadUrls
+                }).then(docRef=>{
+                    updateDoc(docRef, {id: docRef.id});
+                    this.toast.success("Added Task Successfully", {
+                        timeout: 2000,
+                        position: POSITION.BOTTOM_RIGHT
+                    });
+                    $("#addTaskModal").modal('hide');
+                }).catch(error => {
+                    console.log("Add document error " + error)
+                    this.toast.error("Could Not Add Task", {
+                        timeout: 10000,
+                        position: POSITION.BOTTOM_RIGHT
+                    });
                 });
-                this.toast.success("Added Task Successfully", {
-                    timeout: 2000,
-                    position: POSITION.BOTTOM_RIGHT
-                });
-                $("#addTaskModal").modal('hide');
+                
 
             } else {
-                this.toast.error("Component Does Not Nxist", {
+                this.toast.error("Component Does Not Exist", {
                     timeout: 10000,
                     position: POSITION.BOTTOM_RIGHT
                 });
@@ -122,8 +150,8 @@ export default {
             $("#submitSpinner").remove();
             $("#submitData").prop("disabled", false);
 
-            
+
         }
     },
-    components: { InputNotch }
+    components: { InputText, InputNumber, InputTextArea, InputSelect }
 };

@@ -89,17 +89,20 @@ export default {
 
                     let Task = {
                         "Name": subDoc.data().Name,
+                        "Component": doc.data().ComponentName,
                         "Description": subDoc.data().Description,
                         "Designer": subDoc.data().Designer,
-                        "Quantity": subDoc.data().Quantity,
-                        "DesiredQuantity": subDoc.data().DesiredQuantity,
+                        "Quantity": +subDoc.data().Quantity, //The + converts it to a number
+                        "DesiredQuantity": +subDoc.data().DesiredQuantity,
                         "LeadWorker": subDoc.data().LeadWorker,
-                        "Priority": subDoc.data().Priority,
+                        "Priority": +subDoc.data().Priority,
                         "Photos": subDoc.data().Photos,
-                        "CADFiles": subDoc.data().CADFiles
+                        "CADFiles": subDoc.data().CADFiles,
+                        "CatID": doc.id,
+                        "Status": "ToDo",
+                        "ID": subDoc.id
                     }
                     this.taskData[doc.data().ComponentName]["ToDo"].push(Task)
-
                 })
                 documentCollection = collection(db, "ProgressViewTasks/" + categoryId + "/Done")
                 q = query(documentCollection);
@@ -109,14 +112,18 @@ export default {
 
                     let Task = {
                         "Name": subDoc.data().Name,
+                        "Component": doc.data().ComponentName,
                         "Description": subDoc.data().Description,
                         "Designer": subDoc.data().Designer,
-                        "Quantity": subDoc.data().Quantity,
-                        "DesiredQuantity": subDoc.data().DesiredQuantity,
+                        "Quantity": +subDoc.data().Quantity,
+                        "DesiredQuantity": +subDoc.data().DesiredQuantity,
                         "LeadWorker": subDoc.data().LeadWorker,
-                        "Priority": subDoc.data().Priority,
+                        "Priority": +subDoc.data().Priority,
                         "Photos": subDoc.data().Photos,
-                        "CADFiles": subDoc.data().CADFiles
+                        "CADFiles": subDoc.data().CADFiles,
+                        "CatID": doc.id,
+                        "Status": "Done",
+                        "ID": subDoc.id
                     }
                     this.taskData[doc.data().ComponentName]["Done"].push(Task)
                 })
@@ -124,29 +131,6 @@ export default {
             // console.log("Here")
             // console.log(JSON.stringify(this.taskData))
 
-        },
-        quantityUpdater(quantityArray) {
-            console.log("recieved quantity to be updated")
-            console.log(quantityArray[0]) //quantity
-            console.log(quantityArray[1]) //id
-            console.log(quantityArray[2]) //task name
-
-
-            this.todo[quantityArray[2]].forEach((task) => {
-                console.log(task)
-                if (task["id"] == quantityArray[1]) {
-                    task["quantity"] = quantityArray[0]
-                    return
-                }
-            });
-
-            this.done[quantityArray[2]].forEach((task) => {
-                console.log(task)
-                if (task["id"] == quantityArray[1]) {
-                    task["quantity"] = quantityArray[0]
-                    return
-                }
-            });
         },
         sortEverything() {
             // for (const taskName of this.tasks) {
