@@ -125,7 +125,8 @@ export default {
                     Quantity: this.Quantity,
                     Photos: photoDownloadUrls,
                     CADFiles: cadDownloadUrls,
-                    Hidden: false
+                    Hidden: false,
+                    Status: "ToDo"
                 }).then(docRef=>{
                     updateDoc(docRef, {id: docRef.id});
                     this.toast.success("Added Task Successfully", {

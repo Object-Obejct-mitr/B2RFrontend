@@ -166,6 +166,80 @@ export default {
             $("#submitData" + this.id).prepend("<span id=\"submitSpinner\" class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\">")
             $("#submitData" + this.id).prop("disabled", true);
 
+            // Upload all of the new files
+            console.log("New Tasks:");
+            Array.from(this.ModifiedState.NewPhotos).forEach(element => {
+                console.log(element);
+            })
+
+            const cadPromises = Array.from(this.ModifiedState.NewCADFiles).map(async file => {
+                let randomString = Math.random().toString(10).substring(2, 7);
+                const storageRef = ref(storage, 'files/' + file.name+"+"+randomString);
+                const uploadTask = uploadBytesResumable(storageRef, file);
+
+                return new Promise((resolve, reject) => {
+                    uploadTask.on('state_changed', (snapshot) => {
+                        // Handle state changes if needed
+                    }, (error) => {
+                        this.toast.error("Error Uploading Files", {
+                            timeout: 10000,
+                            position: POSITION.BOTTOM_RIGHT
+                        });
+                        reject(error);
+                    }, async () => {
+                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                        resolve(downloadURL);
+                    });
+                });
+            });
+
+            const photoPromises = Array.from(this.ModifiedState.NewPhotos).map(async file => {
+                let randomString = Math.random().toString(10).substring(2, 7);
+                const storageRef = ref(storage, 'images/' + file.name+"+"+randomString);
+                const uploadTask = uploadBytesResumable(storageRef, file);
+
+                return new Promise((resolve, reject) => {
+                    uploadTask.on('state_changed', (snapshot) => {
+                        // Handle state changes if needed
+                    }, (error) => {
+                        this.toast.error("Error Uploading Files", {
+                            timeout: 10000,
+                            position: POSITION.BOTTOM_RIGHT
+                        });
+                        reject(error);
+                    }, async () => {
+                        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                        resolve(downloadURL);
+                    });
+                });
+            });
+
+            const photoDownloadUrls = await Promise.all(photoPromises);
+            const cadDownloadUrls = await Promise.all(cadPromises);
+
+            // Remove deleted files from firestore
+
+            Array.from(this.ModifiedState.DeletedCADFiles).forEach(element => {
+                let fileName = ref(storage, element).name;
+
+                let fileRef = ref(storage, 'files/'+fileName);
+                deleteObject(fileRef).then(() => {
+                  }).catch((error) => {
+                    console.log("Delete Error with file " +element);
+                    console.log("Assumed Name: " + fileName);
+                  });
+            })
+            Array.from(this.ModifiedState.DeletedPhotos).forEach(element => {
+                let fileName = ref(storage, element).name;
+
+                let fileRef = ref(storage, 'images/'+fileName);
+                deleteObject(fileRef).then(() => {
+                  }).catch((error) => {
+                    console.log("Delete Error with image " +element);
+                    console.log("Assumed Name: " + fileName);
+                  });
+            })
+
             if (this.ModifiedState.Component != this.Component) {
                 // Move the document by deleting it and remaking it (no better option provided by firebase, but still low cost)
                 console.log("Moving to new category");
@@ -193,8 +267,8 @@ export default {
                         LeadWorker: this.ModifiedState.LeadWorker,
                         Priority: this.ModifiedState.Priority,
                         Quantity: this.ModifiedState.Quantity,
-                        Photos: this.ModifiedState.Photos,
-                        CADFiles: this.ModifiedState.CADFiles,
+                        Photos: this.ModifiedState.Photos.concat(photoDownloadUrls),
+                        CADFiles: this.ModifiedState.CADFiles.concat(cadDownloadUrls),
                         id: this.data.ID,
                         Hidden: this.data.Hidden
                     }).then(() => {
@@ -236,6 +310,8 @@ export default {
                     LeadWorker: this.ModifiedState.LeadWorker,
                     Priority: this.ModifiedState.Priority,
                     Quantity: this.ModifiedState.Quantity,
+                    Photos: this.ModifiedState.Photos.concat(photoDownloadUrls),
+                    CADFiles: this.ModifiedState.CADFiles.concat(cadDownloadUrls),
                 }).then(() => {
                     this.toast.success("Modified Task Successfully", {
                         timeout: 2000,
@@ -249,12 +325,9 @@ export default {
                         position: POSITION.BOTTOM_RIGHT
                     });
                 });
-
-
             }
             $("#submitSpinner").remove();
             $("#submitData" + this.id).prop("disabled", false);
-
         }
     }
 };
