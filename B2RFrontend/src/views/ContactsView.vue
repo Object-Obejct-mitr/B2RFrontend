@@ -16,16 +16,18 @@
         </nav>
         <div class="contactModal">
           <AddContactList></AddContactList>
+          <DeleteContactList></DeleteContactList>
         </div>
       </div>
       <div class="col-lg-9">
         <div class="modals">
           <AddContactModal></AddContactModal>
+          <input type="text" class="form-control" placeholder="Search by name" @click="search" v-model="searchQuery" style="width: 200px;">
         </div>
+
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>CheckBox</th>
               <th>First Name</th>
               <th>Last Name</th>
               <th>Phone Number</th>
@@ -35,10 +37,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(user) in filteredUsers" :key="user.UserID">
-              <td>
-                <input type="checkbox" name="contactlist" />
-              </td>
+            <tr v-for="(user,index) in filteredUsers" :key="user.userID">
+              <!-- Index is corresponding to the user -->
               <td>{{ user.firstName }}</td>
               <td>{{ user.surName }}</td>
               <td>{{ user.phoneNumber }}</td>
@@ -47,22 +47,13 @@
                 <span v-for="tag in user.tags" :key="tag" class="badge bg-primary">{{ tag }}</span>
               </td>
               <td>
-                <a class="btn btn-sm btn-info" data-bs-toggle="collapse" :href="'#userDesc' + user.UserID" @click="toggleUserDesc(user)">
-                  <i class="fas fa-align-justify"></i>
-                </a>                    
-                <a href="#" class="btn btn-sm btn-primary"><i class="fas fa-pencil-alt"></i></a>
-                <a href="#" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt"></i></a>
+                <UserInfoModal :user="user" :id="user.userID+''+index"></UserInfoModal>
+                <EditInfoModal :user="user" :id="user.userID+''+index"></EditInfoModal>
+                <a class="btn btn-sm btn-danger" @click.prevent="deleteUser(user)"><i class="fas fa-trash-alt"></i></a>
               </td>
             </tr>
           </tbody>
         </table>
-        <div v-for="(user) in filteredUsers" :key="user.UserID">
-          <div :colspan="7">
-            <div :id="'userDesc' + user.UserID" class="collapse">
-              {{ user.description }}
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -85,34 +76,52 @@
   <script>
   import AddContactModal from '@/components/Contactsview/contactModal.vue';
   import AddContactList from '@/components/Contactsview/contactList.vue';
+  import DeleteContactList from '@/components/Contactsview/deletecontactList.vue';
+  import UserInfoModal from '@/components/Contactsview/UserInfoModal.vue';
+  import EditInfoModal from '@/components/Contactsview/EditModal.vue';
   import { db } from "../firebase";
-  import { collection, doc, getDocs, query, where } from "firebase/firestore"; 
+  import { collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore"; 
   import { ref, computed, watchEffect } from 'vue';
-  
+
   export default {
+    props: {
+      id: String
+    },
     components: {
       AddContactModal,
-      AddContactList
+      AddContactList,
+      DeleteContactList,
+      UserInfoModal,
+      EditInfoModal
     },
     setup() {
       const users = ref([]);
       const categories = ref([]);
       const selectedList = ref('all');
+      const searchQuery = ref('');
   
       const contactPageCollectionRef = collection(db, "contactPage");
 
       const selectList = (list) => {
         selectedList.value = list;
       };
-  
-      const toggleUserDesc = (user) => {
-        const userDesc = document.getElementById('userDesc' + user.UserID);
-        const isCollapsed = userDesc.classList.contains('show');
-        isCollapsed ? userDesc.classList.remove('show') : userDesc.classList.add('show');
-      };
-  
+
+      const search = () => {
+      // Filter the users based on the search query
+      // You can add more fields to search in the user object
+      users.value = users.value.filter(user => {
+        const fullName = user.firstName.toLowerCase() + ' ' + user.surName.toLowerCase();
+        return fullName.includes(searchQuery.value.toLowerCase());
+      });
+    };
+
       const filteredUsers = computed(() => {
-          return users.value; //.filter(user => user.category === selectedList.value); // replace List with the correct field name
+        return users.value.filter(user => {
+        const fullName = user.firstName.toLowerCase() + ' ' + user.surName.toLowerCase();
+          return fullName.includes(searchQuery.value.toLowerCase());
+        });
+          // return users.value; 
+          //.filter(user => user.category === selectedList.value); // replace List with the correct field name
       });
   
       const fetchCategories = async () => {
@@ -153,6 +162,23 @@
         }
       };
 
+    const deleteUser = async (user) => {
+      console.log(user.userID);
+      //Get category ID
+      const q = query(contactPageCollectionRef, where("category", "==", user.category));
+      let querySnapshot = await getDocs(q);
+      let categoryId = querySnapshot.docs[0].id;
+      //Get Document ID
+      const check = collection(db, "contactPage", categoryId, "contactsList");
+      let user_query = query(check, where("userID", "==", user.userID));
+      let userDoc = await getDocs(user_query);
+      let user_dataID = userDoc.docs[0].id;
+      //Delete the user
+      const deleteUserData = doc(db,"contactPage", categoryId, "contactsList", user_dataID);
+      await deleteDoc(deleteUserData);
+      console.log(`User with ID ${user_dataID} deleted`);
+      window.location.reload();
+    };
     
     fetchCategories();
   
@@ -164,8 +190,10 @@
         categories,
         selectedList,
         filteredUsers,
+        searchQuery,
         selectList,
-        toggleUserDesc
+        deleteUser,
+        search
       };
     },
   };
