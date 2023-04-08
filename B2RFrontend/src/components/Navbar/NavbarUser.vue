@@ -30,21 +30,44 @@ onMounted(async () => {
 <script>
 import { auth, db } from "../../firebase";
 import { ref } from "vue";
-import "firebase/storage";
-import { ref as storageRef } from 'firebase/storage'
-import { useFirebaseStorage, useStorageFile } from 'vuefire'
-import { collection, getDocs, query, where, addDoc } from "firebase/firestore"
+import {uploadBytes, ref as storageRef, getStorage,getDownloadURL} from 'firebase/storage'
+import { collection, getDocs, query, where, addDoc,doc, setDoc } from "firebase/firestore"
 const signedIn = ref(false); 
 const user = ref(undefined);
 const imageData=ref(null);
 const picture= ref(null);
 const uploadValue= ref(0);
 const usersCollection = collection(db, "users");
-const profileEditor= ()=> {
-     console.log(document.getElementById("Pronouns").value);
-     console.log(document.getElementById("customFile").value);
-     
+const file=ref(null);
+const get2= (event)=>{
+     file.value=event.target.files[0];
  }
+const profileEditor= ()=> {
+     var pronouns=document.getElementById("Pronouns").value.trim();
+     const storage = getStorage();
+     const storageR = storageRef(storage,"/userpictures/"+user.value.uid);
+     if(pronouns!=""){
+         user.value.pronouns=pronouns;
+     }
+// 'file' comes from the Blob or File API
+uploadBytes(storageR,file.value).then((snapshot) => {
+  console.log('Uploaded a blob or file!');
+});
+getDownloadURL(storageRef(storage,"/userpictures/"+user.value.uid)).then((url)=>{
+     user.value.photoURL=url;
+     const docRef = doc(db, "users", user.value.uid);
+     console.log(user.value.uid);
+setDoc(docRef, user.value)
+.then(docRef => {
+    console.log("Entire Document has been updated successfully");
+})
+.catch(error => {
+    console.log(error);
+})
+
+
+ })
+}
 
 async function checkExistingUser(user) {
 
@@ -166,7 +189,7 @@ const signOutDriver = () => {
 
 <div class="form-outline">
     <label class="form-label" for="customFile">Please Upload New Profile Picture</label>
-    <input type="file" class="form-control" id="customFile" ref="ProfilePic" @change="previewImage" accept="image/*"/>
+    <input type="file" class="form-control" id="customFile" ref="ProfilePic" @change="get2" accept="image/*"/>
 </div>
 <div class="form-outline">
   <input id="Pronouns" type="text" class="form-control form-control-lg" />
@@ -175,7 +198,7 @@ const signOutDriver = () => {
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" @click="onUpload">Save changes</button>
+        <button type="button" class="btn btn-primary" @click="profileEditor">Save changes</button>
       </div>
     </div>
   </div>
