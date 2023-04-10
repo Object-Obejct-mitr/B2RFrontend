@@ -63,7 +63,6 @@ export default {
             return $(window).width() < 760;
         },
         revertState() {
-            console.log(this.ModifiedState);
             this.ModifiedState = JSON.parse(JSON.stringify({
                 Name: this.data.Name,
                 Component: this.data.Component,
@@ -82,6 +81,8 @@ export default {
                 DeletedCADFiles: [],
                 DeletedPhotos: []
             }))
+            $("#submitSpinner").remove();
+            $("#submitData" + this.id).prop("disabled", false);
         },
         applyRegex(inputString) {
             const regex = new RegExp("..*%2F(.*?)\?alt");
