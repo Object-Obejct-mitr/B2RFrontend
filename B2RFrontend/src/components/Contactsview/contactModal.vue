@@ -1,50 +1,54 @@
 <template>
-  <button class="btn btn-primary" data-mdb-toggle="modal" :data-mdb-target="'#contactModal' + id" >Add Contact</button>
-  <div class="modal" :id="'contactModal' + id" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+  <button class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#addContactModal">Add Contact</button>
+  <div class="modal modal-lg fade nonGrab container-fluid" data-mdb-backdrop="static" id="addContactModal" tabindex="-1"
+    role="dialog">
+    <div class="modal-dialog">
       <div class="modal-content">
         <form id="addContactForm" @submit.prevent="addContact">
-        <div class="modal-header">
-          <h5 class="modal-title">Add Contact</h5>
-          <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-            <div class="form-group">
-              <label for="firstName">First Name</label>
-              <input type="text" class="form-control" id="firstName" v-model="newContact.firstName">
+          <div class="modal-header">
+            <h5 class="modal-title">Add Contact</h5>
+            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="d-flex flex-column">
+              <InputText notchWidth="8ch" id="firstName" label="First Name/Company Name" v-model="newContact.firstName"
+                :isRequired="true" class="mt-3 me-2 w-100" />
+              <InputText notchWidth="8ch" id="lastName" label="Last Name" v-model="newContact.surName" :isRequired="false"
+                class="mt-3 me-2 w-100" />
+
+              <InputPhoneNumber notchWidth="8ch" id="phoneNumber" label="Phone Number" v-model="newContact.phoneNumber"
+                :isRequired="false" class="mt-3 me-2 w-100" />
+
+              <InputEmail notchWidth="8ch" id="email" label="Email" v-model="newContact.email" :isRequired="false"
+                class="mt-3 me-2 w-100" />
+
+              <InputChips notchWidth="18ch" id="tags" label="Tags (Comma Separated)" v-model="newContact.tags" 
+                :isRequired="false" class="mt-3 me-2 w-100" />
+
+              <InputTextArea id="description" :numRows="6" v-model="newContact.description" label="Description"
+                notchWidth="8ch" class="mt-3" />
+
+              <div class="form-outline mt-3 w-100">
+                <i class="fas fa-angle-down trailing"></i>
+
+                <select class="form-control active" id="category" v-model="newContact.category" required>
+                  <option value="" disabled selected>Select a Category</option>
+                  <option v-for="category in categories" :value="category" :key="category">{{ category }}</option>
+                </select>
+                <label class="form-label" for="addComponentName">Category</label>
+                <div class="form-notch">
+                  <div class="form-notch-leading"></div>
+                  <div style="width: 7ch" class="form-notch-middle"></div>
+                  <div class="form-notch-trailing"></div>
+                </div>
+              </div>
             </div>
-            <div class="form-group">
-              <label for="surName">Last Name</label>
-              <input type="text" class="form-control" id="surName" v-model="newContact.surName">
-            </div>
-            <div class="form-group">
-              <label for="phoneNumber">Phone Number</label>
-              <input type="text" class="form-control" id="phoneNumber" v-model="newContact.phoneNumber">
-            </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="text" class="form-control" id="email" v-model="newContact.email">
-            </div>
-            <div class="form-group">
-              <label for="tags">Tags</label>
-              <input type="text" class="form-control" id="tags" v-model="newContact.tags">
-            </div>
-            <div class="form-group">
-              <label for="description">Description</label>
-              <textarea type="text" class="form-control" id="description" v-model="newContact.description"></textarea>
-            </div>
-            <div class="form-group">
-              <label for="category">Category</label>
-              <select class="form-control" id="category" v-model="newContact.category">
-                <option v-for="category in categories" :value="category">{{ category }}</option>
-              </select>
-            </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Cancel</button>
-          <button type="submit" id="contactSubmit" class="btn btn-primary" data-mdb-dismiss="modal">Add Contact</button>
-        </div>
-      </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal" @click="clearInputs">Cancel</button>
+            <button type="submit" id="addContactSubmit" class="btn btn-primary">Add Contact</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -52,18 +56,30 @@
   
 <script>
 import { db } from "../../firebase";
-import { addDoc, collection, doc, getDocs, query, where } from "firebase/firestore"; 
+import { addDoc, collection, doc, getDocs, query, where } from "firebase/firestore";
 import { ref, computed, watchEffect, reactive } from 'vue';
+import InputText from '../Misc/InputText.vue';
+import InputNumber from '../Misc/InputNumber.vue';
+import InputTextArea from '../Misc/InputTextArea.vue';
+import InputPhoneNumber from '../Misc/InputPhoneNumber.vue';
+import InputEmail from '../Misc/InputEmail.vue';
+import InputChips from '../Misc/InputChips.vue';
+import { useToast, POSITION } from "vue-toastification";
 
 export default {
-  props: {
-    id: String
+  components: {
+    InputNumber,
+    InputText,
+    InputTextArea,
+    InputPhoneNumber,
+    InputEmail,
+    InputChips
   },
-
   setup() {
     const categories = ref([]);
     const contactPageCollectionRef = collection(db, "contactPage");
-    
+    const toast = useToast();
+
     const fetchCategories = async () => {
       categories.value = [];
       const querySnapshot = await getDocs(contactPageCollectionRef);
@@ -74,59 +90,75 @@ export default {
         }
       });
     };
-    
     // call the fetchCategories method on component load
     watchEffect(() => {
       fetchCategories();
     });
 
     return {
-      categories
+      categories, toast
     }
   },
   methods: {
+    clearInputs() {
+      this.newContact.firstName = '';
+      this.newContact.surName = '';
+      this.newContact.phoneNumber = '';
+      this.newContact.email = '';
+      this.newContact.tags = [];
+      this.newContact.description = '';
+      this.newContact.category = '';
+      $("#submitSpinner").remove();
+      $("#addContactSubmit").prop("disabled", false);
+    },
     async addContact() {
-    const contactPageCollectionRef = collection(db, "contactPage");
+      $("#addContactSubmit").prepend("<span id=\"submitSpinner\" class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\">");
+      $("#addContactSubmit").prop("disabled", true);
+      const contactPageCollectionRef = collection(db, "contactPage");
 
-    // check if all input fields are filled in
-    if (!this.newContact.firstName || !this.newContact.surName || !this.newContact.phoneNumber || !this.newContact.email || !this.newContact.tags || !this.newContact.description) {
-      alert('Please fill in all fields');
-      return;
-    }
+      let user_id = 0;
+      const contactPageSnapshot = await getDocs(collection(db, 'contactPage'));
+      for (const pageDoc of contactPageSnapshot.docs) {
+        const contactsListSnapshot = await getDocs(collection(pageDoc.ref, 'contactsList'));
+        contactsListSnapshot.forEach(doc => {
+          user_id += 1;
+        });
+      }
+      user_id += 1;
 
-    let user_id = 0;
-    const contactPageSnapshot = await getDocs(collection(db, 'contactPage'));
-          for (const pageDoc of contactPageSnapshot.docs) {
-            const contactsListSnapshot = await getDocs(collection(pageDoc.ref, 'contactsList'));
-            contactsListSnapshot.forEach(doc => {
-              user_id += 1;
-            });
-          }
-    user_id += 1;
-    
-    // add the new contact to the users array
-    const q = query(contactPageCollectionRef, where("category", "==", this.newContact.category));
-    const querySnapshot = await getDocs(q);
-    
-    let categoryId = querySnapshot.docs[0].id;
-    console.log("CategoryId: " + categoryId);
-    try {
-      await addDoc(collection(db, "contactPage/" + categoryId + "/contactsList"), { 
+      // add the new contact to the users array
+      const q = query(contactPageCollectionRef, where("category", "==", this.newContact.category));
+      const querySnapshot = await getDocs(q);
+
+      let categoryId = querySnapshot.docs[0].id;
+      console.log("CategoryId: " + categoryId);
+      await addDoc(collection(db, "contactPage/" + categoryId + "/contactsList"), {
         userID: user_id,
         firstName: this.newContact.firstName,
         surName: this.newContact.surName,
         phoneNumber: this.newContact.phoneNumber,
         email: this.newContact.email,
-        tags: this.newContact.tags.split(',').map(tag => tag.trim()),
+        tags: this.newContact.tags,
         description: this.newContact.description,
         category: this.newContact.category
-      });
-    } catch (error) {
-      console.log("Error adding contact: " + error);
-    }
-    window.location.reload();
-}
+      }).then(() => {
+        this.toast.success("Added Task Successfully", {
+          timeout: 2000,
+          position: POSITION.BOTTOM_RIGHT
+        });
 
+        $("#addContactModal").modal('hide');
+      }).catch((error) => {
+        this.toast.error("Error Adding Contact", {
+          timeout: 2000,
+          position: POSITION.BOTTOM_RIGHT
+        });
+        console.log(error);
+      });
+
+      $("#submitSpinner").remove();
+      $("#addContactSubmit").prop("disabled", false);
+    }
   },
   data() {
     return {
@@ -135,7 +167,7 @@ export default {
         surName: '',
         phoneNumber: '',
         email: '',
-        tags: '',
+        tags: [],
         description: '',
         category: ''
       }

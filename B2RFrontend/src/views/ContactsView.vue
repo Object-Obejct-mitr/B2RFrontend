@@ -20,20 +20,20 @@
         </div>
       </div>
       <div class="col-lg-9">
-        <div class="modals">
-          <AddContactModal></AddContactModal>
-          <input type="text" class="form-control" placeholder="Search by name" @click="search" v-model="searchQuery" style="width: 200px;">
+        <div class="d-flex flex-row mt-3 mb-3 justify-content-end">
+          <AddContactModal />
+          <input type="text" class="form-control ms-3" placeholder="Search by name" @click="search" v-model="searchQuery" style="width: 200px;">
         </div>
 
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Phone Number</th>
-              <th>Email</th>
-              <th>Tags</th>
-              <th>Action</th>
+              <th class="h5">First Name</th>
+              <th class="h5">Last Name</th>
+              <th class="h5">Phone Number</th>
+              <th class="h5">Email</th>
+              <th class="h5">Tags</th>
+              <th class="h5">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -44,7 +44,7 @@
               <td>{{ user.phoneNumber }}</td>
               <td>{{ user.email }}</td>
               <td>
-                <span v-for="tag in user.tags" :key="tag" class="badge bg-primary">{{ tag }}</span>
+                <span v-for="tag in user.tags" :key="tag" class="badge bg-primary me-2">{{ tag }}</span>
               </td>
               <td>
                 <UserInfoModal :user="user" :id="user.userID+''+index"></UserInfoModal>

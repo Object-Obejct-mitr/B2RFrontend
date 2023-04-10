@@ -55,7 +55,7 @@ export default {
             return $(window).width() < 760
         },
         async handleSubmit() {
-            $("#submitData").prepend("<span id=\"submitSpinner\" class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\">")
+            $("#submitData").prepend("<span id=\"submitSpinner\" class=\"spinner-border spinner-border-sm\" role=\"status\" aria-hidden=\"true\">");
             $("#submitData").prop("disabled", true);
             // //Steps: Check to see if the component exists, if it does, then fetch its id and add a task to the ToDo section
             const documentCollection = collection(db, "ProgressViewTasks");
