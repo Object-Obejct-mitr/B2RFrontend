@@ -104,7 +104,7 @@
                                 flex-direction: column;
                             "
                         >
-                            <Editor v-model="content"/>
+                            <Editor v-model="content" />
                         </span>
                     </div>
                     <div class="modal-footer">
@@ -152,7 +152,7 @@ export default {
     components: {
         BlogSideBar,
         MainView,
-        Editor
+        Editor,
     },
     data() {
         return {
@@ -160,8 +160,8 @@ export default {
             blogData: BlogData,
             tags: Tags,
             postIndex: 0,
-            postType: '',
-            editorObj: null,
+            postType: "",
+            editor: null,
             content: "",
             postData: {
                 title: "",
@@ -178,7 +178,7 @@ export default {
     },
     methods: {
         setUpEditor(editorObj) {
-            console.log("setting up editor object")
+            console.log("setting up editor object");
             // this.editorObj = editorObj;
         },
         async fetchPosts() {
@@ -194,12 +194,11 @@ export default {
                 );
                 // console.log(pageDoc.ref)
                 blogPostSnapshot.forEach((doc) => {
-                    
                     posts.value.push(doc.data());
                 });
             }
-            console.log('posts')
-            console.log(posts)
+            console.log("posts");
+            console.log(posts);
             this.blogData = posts.value;
         },
         debug() {
@@ -224,15 +223,15 @@ export default {
         },
         savePost() {
             // prune tags and authors in the current post
-            console.log(this.postIndex)
-            if (this.postType == 'create') {
+            console.log(this.postIndex);
+            if (this.postType == "create") {
                 // index does not matter
                 // update the post in firebase
-            } else if (this.postType == 'modify') {
+            } else if (this.postType == "modify") {
                 // just add it to firebase
                 // grab the information
                 let post = this.postData;
-                console.log(post)
+                console.log(post);
             }
         },
     },
