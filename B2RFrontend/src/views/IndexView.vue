@@ -104,10 +104,7 @@
                                 flex-direction: column;
                             "
                         >
-                            <QuillEditor
-                                theme="snow"
-                                :style="{ 'flex-grow': 1 }"
-                            />
+                            <Editor v-model="content"/>
                         </span>
                     </div>
                     <div class="modal-footer">
@@ -136,9 +133,9 @@
 <script>
 import MainView from "@/components/Blog/MainView.vue";
 import BlogSideBar from "@/components/Blog/BlogSideBar.vue";
+import Editor from "@/components/Blog/Editor.vue";
 import BlogData from "@/assets/BlogData.json";
 import Tags from "@/assets/Tags.json";
-import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
 import { db } from "../firebase";
@@ -155,7 +152,7 @@ export default {
     components: {
         BlogSideBar,
         MainView,
-        QuillEditor,
+        Editor
     },
     data() {
         return {
@@ -163,20 +160,27 @@ export default {
             blogData: BlogData,
             tags: Tags,
             postIndex: 0,
+            postType: '',
+            editorObj: null,
+            content: "",
             postData: {
                 title: "",
                 date: "",
                 authors: [],
                 tags: [],
-                preview: "",
+                content: "",
                 delta: [],
             },
         };
     },
     mounted() {
-        this.fetchPosts();
+        // this.fetchPosts();
     },
     methods: {
+        setUpEditor(editorObj) {
+            console.log("setting up editor object")
+            // this.editorObj = editorObj;
+        },
         async fetchPosts() {
             let posts = {};
             posts.value = [];
@@ -207,6 +211,7 @@ export default {
             console.log(index);
         },
         createModifyPost(postType) {
+            this.postType = postType;
             if (postType == "create") {
                 //create a post
                 console.log("creating a post");
@@ -214,10 +219,21 @@ export default {
                 //edit a post
                 console.log("editing a post");
                 this.postData = this.blogData[this.postIndex];
+                // this.editorObj.setContents(this.postData.delta, 'api')
             }
         },
         savePost() {
             // prune tags and authors in the current post
+            console.log(this.postIndex)
+            if (this.postType == 'create') {
+                // index does not matter
+                // update the post in firebase
+            } else if (this.postType == 'modify') {
+                // just add it to firebase
+                // grab the information
+                let post = this.postData;
+                console.log(post)
+            }
         },
     },
 };

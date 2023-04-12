@@ -10,6 +10,9 @@
         "pretty": "prettier .  --write"
     },
     "dependencies": {
+        "@tiptap/pm": "^2.0.2",
+        "@tiptap/starter-kit": "^2.0.2",
+        "@tiptap/vue-3": "^2.0.2",
         "@vueup/vue-quill": "^1.1.1",
         "firebase": "^9.17.2",
         "lodash.uniqueid": "^4.0.1",
