@@ -184,12 +184,14 @@ export default {
         };
     },
     mounted() {
-        // this.fetchPosts();
+        this.fetchPosts();
     },
     methods: {
         debug() {
             console.log(this.editor.getHTML())
             console.log(this.editor.getJSON())
+            console.log(this)
+            console.log(this.blogData)
         },
         setUpEditor(editorObj) {
             console.log("setting up editor object");
