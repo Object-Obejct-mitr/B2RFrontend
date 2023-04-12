@@ -242,7 +242,11 @@ export default {
         },
         savePost() {
             // prune tags and authors in the current post
-            console.log(this.postIndex);
+            let temp = this.postData.tags.filter( a => a.trim() != "");
+            this.postData.tags = temp;
+
+            temp = this.postData.authors.filter( el => el.trim() != "");
+            this.postData.authors = temp;
             if (this.postType == "create") {
                 // index does not matter
                 // update the post in firebase
