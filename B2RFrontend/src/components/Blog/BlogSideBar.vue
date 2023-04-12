@@ -1,12 +1,11 @@
 <template>
     <div>
-        
-        <div v-if="view == 'list'" class = "sideBar">
+        <div v-if="view == 'list'" class="sideBar">
             <h2>Filter by Date</h2>
             <hr />
             <h2>Filter by Tags</h2>
         </div>
-        <div v-else class = "sideBar" >
+        <div v-else class="sideBar">
             <h2>Recent Posts</h2>
         </div>
         <!-- <button @click="debug">

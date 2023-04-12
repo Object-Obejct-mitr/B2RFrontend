@@ -14,24 +14,20 @@
             <p class="preview">{{ post.preview }}</p>
             <!-- <hr v-if="index != posts.length - 1"/> -->
         </div>
-        
     </div>
     <div v-else>
         <!-- quill editor here -->
-        <QuillEditor theme="bubble" read-only="true" @ready="postReady"/>
-        
-
+        <QuillEditor theme="bubble" read-only="true" @ready="postReady" />
     </div>
 </template>
 
 <script>
-
-import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { QuillEditor } from '@vueup/vue-quill'
+import "@vueup/vue-quill/dist/vue-quill.bubble.css";
+import { QuillEditor } from "@vueup/vue-quill";
 
 export default {
     components: {
-        QuillEditor
+        QuillEditor,
     },
     props: {
         // either list or post view
@@ -56,7 +52,7 @@ export default {
             postContent: null,
             postIndex: 0,
             readOnly: false,
-        }
+        };
     },
     methods: {
         showPost(index) {
@@ -69,19 +65,22 @@ export default {
         },
         postReady(quill) {
             this.quill = quill;
-            console.log("editor ready")
-            console.log(this.view)
-            
-            console.log(this.posts[parseInt(this.postIndex)])
-            this.postContent = this.posts[parseInt(this.postIndex)].delta 
-            quill.setContents(this.posts[parseInt(this.postIndex)].delta, "api")
+            console.log("editor ready");
+            console.log(this.view);
+
+            console.log(this.posts[parseInt(this.postIndex)]);
+            this.postContent = this.posts[parseInt(this.postIndex)].delta;
+            quill.setContents(
+                this.posts[parseInt(this.postIndex)].delta,
+                "api"
+            );
         },
 
         toggleReadOnly() {
-            console.log(this.readOnly)
-            this.readOnly = !this.readOnly
-            console.log(this.readOnly)
-        }
+            console.log(this.readOnly);
+            this.readOnly = !this.readOnly;
+            console.log(this.readOnly);
+        },
     },
 };
 </script>
