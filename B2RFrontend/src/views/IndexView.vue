@@ -141,6 +141,16 @@ import Tags from "@/assets/Tags.json";
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
+import { db } from "../firebase";
+import {
+    collection,
+    deleteDoc,
+    doc,
+    getDocs,
+    query,
+    where,
+} from "firebase/firestore";
+
 export default {
     components: {
         BlogSideBar,
@@ -163,8 +173,31 @@ export default {
             },
         };
     },
-    mounted() {},
+    mounted() {
+        this.fetchPosts();
+    },
     methods: {
+        async fetchPosts() {
+            let posts = {};
+            posts.value = [];
+            // fetch all users
+            const blogPostsSnapshot = await getDocs(
+                collection(db, "blogPosts")
+            );
+            for (const pageDoc of blogPostsSnapshot.docs) {
+                const blogPostSnapshot = await getDocs(
+                    collection(pageDoc.ref, "posts")
+                );
+                // console.log(pageDoc.ref)
+                blogPostSnapshot.forEach((doc) => {
+                    
+                    posts.value.push(doc.data());
+                });
+            }
+            console.log('posts')
+            console.log(posts)
+            this.blogData = posts.value;
+        },
         debug() {
             this.view = this.view == "list" ? "post" : "list";
         },
