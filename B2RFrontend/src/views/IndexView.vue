@@ -86,7 +86,7 @@
                             <h5>Authors:</h5>
                             <input
                                 v-for="(author, index) in postData.authors"
-                                :key="author"
+                                :key="index"
                                 v-model="postData.authors[index]"
                                 class="author"
                             />
@@ -107,7 +107,7 @@
                             "
                             class="card"
                         >
-                            <Editor v-model="content" />
+                            <Editor :key="postData.content" v-model="postData.content" :content="postData.content" @editor-created="setUpEditor" />
                         </span>
                     </div>
                     <div class="modal-footer">
@@ -125,12 +125,19 @@
                         >
                             Save changes
                         </button>
+                        <button
+                            type="button"
+                            class="btn btn-primary"
+                            @click="debug()"
+                        >
+                            debug
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-    <button @click="debug()">switch views</button>
+    <button @click="switchViews()">switch views</button>
 </template>
 
 <script>
@@ -180,9 +187,16 @@ export default {
         // this.fetchPosts();
     },
     methods: {
+        debug() {
+            console.log(this.editor.getHTML())
+            console.log(this.editor.getJSON())
+        },
         setUpEditor(editorObj) {
             console.log("setting up editor object");
-            // this.editorObj = editorObj;
+            this.editor = editorObj;
+            this.editor.commands.setContent(this.postData.content)
+
+            console.log(editorObj.getHTML())
         },
         async fetchPosts() {
             let posts = {};
@@ -204,7 +218,7 @@ export default {
             console.log(posts);
             this.blogData = posts.value;
         },
-        debug() {
+        switchViews() {
             this.view = this.view == "list" ? "post" : "list";
         },
         showPost(index) {

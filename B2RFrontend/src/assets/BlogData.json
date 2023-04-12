@@ -5,20 +5,7 @@
         "authors": ["first last"],
         "tags": ["tag 1", "tag 2", "tag 3"],
         "preview": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam euismod odio dictum, tempus ipsum quis, dapibus risus. Nunc ullamcorper condimentum nibh, et cursus est. Proin porttitor porttitor ipsum, ut sagittis metus tincidunt at. Donec vehicula leo justo, vel euismod felis placerat eget. Morbi molestie, purus dignissim accumsan fringilla, ligula elit scelerisque elit, non auctor nisi elit in lectus. Integer posuere, nibh sed auctor facilisis, lectus quam mollis massa, nec ullamcorper leo turpis non lorem. Maecenas faucibus varius sem, in fringilla nisi egestas nec. Nullam elementum enim ut malesuada hendrerit. Quisque vulputate mi mauris, id tincidunt ipsum tempor dictum. Praesent tempor, tortor ut egestas tincidunt, dui purus luctus velit, vel elementum libero justo vel nibh. Donec sodales massa vel risus pretium, a iaculis justo vehicula. Quisque elementum interdum orci quis ullamcorper. Vivamus ut felis purus. Nam laoreet maximus odio, sed bibendum velit feugiat quis. Vestibulum viverra sodales elit. Mauris egestas maximus libero sit amet volutpat. ",
-        "delta": [
-            {
-                "insert": "this some normal text\n\nthis is heading 1"
-            },
-            {
-                "attributes": {
-                    "header": 1
-                },
-                "insert": "\n"
-            },
-            {
-                "insert": "\n"
-            }
-        ]
+        "content": "<h2>Hi there,</h2><p>this is a <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:</p><ul><li><p>That’s a bullet list with one …</p></li><li><p>… or two list items.</p></li></ul><p>Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:</p><pre><code class=\"language-css\">body {     display: none;   }</code></pre><p>I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.</p><blockquote><p>Wow, that’s amazing. Good work, boy! 👏 <br>— Mom</p></blockquote>"
     },
     {
         "title": "Title 2",
@@ -26,20 +13,7 @@
         "authors": ["first last"],
         "tags": ["tag 1", "tag 3", "tag 5"],
         "preview": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam euismod odio dictum, tempus ipsum quis, dapibus risus. Nunc ullamcorper condimentum nibh, et cursus est. Proin porttitor porttitor ipsum, ut sagittis metus tincidunt at. Donec vehicula leo justo, vel euismod felis placerat eget. Morbi molestie, purus dignissim accumsan fringilla, ligula elit scelerisque elit, non auctor nisi elit in lectus. Integer posuere, nibh sed auctor facilisis, lectus quam mollis massa, nec ullamcorper leo turpis non lorem. Maecenas faucibus varius sem, in fringilla nisi egestas nec. Nullam elementum enim ut malesuada hendrerit. Quisque vulputate mi mauris, id tincidunt ipsum tempor dictum. Praesent tempor, tortor ut egestas tincidunt, dui purus luctus velit, vel elementum libero justo vel nibh. Donec sodales massa vel risus pretium, a iaculis justo vehicula. Quisque elementum interdum orci quis ullamcorper. Vivamus ut felis purus. Nam laoreet maximus odio, sed bibendum velit feugiat quis. Vestibulum viverra sodales elit. Mauris egestas maximus libero sit amet volutpat. ",
-        "delta": [
-            {
-                "insert": "this some normal text\n\nthis is heading 1"
-            },
-            {
-                "attributes": {
-                    "header": 1
-                },
-                "insert": "\n"
-            },
-            {
-                "insert": "\n"
-            }
-        ]
+        "content": "<p>The first post has <strong>substantially</strong> more content then the other 4.</p>"
     },
     {
         "title": "Title 3",
@@ -47,20 +21,7 @@
         "authors": ["first last"],
         "tags": ["tag 1", "tag 2", "tag 3", "tag 4", "tag 5"],
         "preview": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam euismod odio dictum, tempus ipsum quis, dapibus risus. Nunc ullamcorper condimentum nibh, et cursus est. Proin porttitor porttitor ipsum, ut sagittis metus tincidunt at. Donec vehicula leo justo, vel euismod felis placerat eget. Morbi molestie, purus dignissim accumsan fringilla, ligula elit scelerisque elit, non auctor nisi elit in lectus. Integer posuere, nibh sed auctor facilisis, lectus quam mollis massa, nec ullamcorper leo turpis non lorem. Maecenas faucibus varius sem, in fringilla nisi egestas nec. Nullam elementum enim ut malesuada hendrerit. Quisque vulputate mi mauris, id tincidunt ipsum tempor dictum. Praesent tempor, tortor ut egestas tincidunt, dui purus luctus velit, vel elementum libero justo vel nibh. Donec sodales massa vel risus pretium, a iaculis justo vehicula. Quisque elementum interdum orci quis ullamcorper. Vivamus ut felis purus. Nam laoreet maximus odio, sed bibendum velit feugiat quis. Vestibulum viverra sodales elit. Mauris egestas maximus libero sit amet volutpat. ",
-        "delta": [
-            {
-                "insert": "this some normal text\n\nthis is heading 1"
-            },
-            {
-                "attributes": {
-                    "header": 1
-                },
-                "insert": "\n"
-            },
-            {
-                "insert": "\n"
-            }
-        ]
+        "content": "<p>however, that doesn't mean that the rest of the posts have <i>nothing</i> else.</p>"
     },
     {
         "title": "Title 4",
@@ -68,20 +29,7 @@
         "authors": ["first last"],
         "tags": ["tag 1"],
         "preview": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam euismod odio dictum, tempus ipsum quis, dapibus risus. Nunc ullamcorper condimentum nibh, et cursus est. Proin porttitor porttitor ipsum, ut sagittis metus tincidunt at. Donec vehicula leo justo, vel euismod felis placerat eget. Morbi molestie, purus dignissim accumsan fringilla, ligula elit scelerisque elit, non auctor nisi elit in lectus. Integer posuere, nibh sed auctor facilisis, lectus quam mollis massa, nec ullamcorper leo turpis non lorem. Maecenas faucibus varius sem, in fringilla nisi egestas nec. Nullam elementum enim ut malesuada hendrerit. Quisque vulputate mi mauris, id tincidunt ipsum tempor dictum. Praesent tempor, tortor ut egestas tincidunt, dui purus luctus velit, vel elementum libero justo vel nibh. Donec sodales massa vel risus pretium, a iaculis justo vehicula. Quisque elementum interdum orci quis ullamcorper. Vivamus ut felis purus. Nam laoreet maximus odio, sed bibendum velit feugiat quis. Vestibulum viverra sodales elit. Mauris egestas maximus libero sit amet volutpat. ",
-        "delta": [
-            {
-                "insert": "this some normal text\n\nthis is heading 1"
-            },
-            {
-                "attributes": {
-                    "header": 1
-                },
-                "insert": "\n"
-            },
-            {
-                "insert": "\n"
-            }
-        ]
+        "content": "<h2>Hi there,</h2><p>this is a <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:</p><ul><li><p>That’s a bullet list with one …</p></li><li><p>… or two list items.</p></li></ul><p>Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:</p><pre><code class=\"language-css\">body {     display: none;   }</code></pre><p>I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.</p><blockquote><p>Wow, that’s amazing. Good work, boy! 👏 <br>— Mom</p></blockquote>"
     },
     {
         "title": "Title 5",
@@ -89,19 +37,6 @@
         "authors": ["first last"],
         "tags": [],
         "preview": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam euismod odio dictum, tempus ipsum quis, dapibus risus. Nunc ullamcorper condimentum nibh, et cursus est. Proin porttitor porttitor ipsum, ut sagittis metus tincidunt at. Donec vehicula leo justo, vel euismod felis placerat eget. Morbi molestie, purus dignissim accumsan fringilla, ligula elit scelerisque elit, non auctor nisi elit in lectus. Integer posuere, nibh sed auctor facilisis, lectus quam mollis massa, nec ullamcorper leo turpis non lorem. Maecenas faucibus varius sem, in fringilla nisi egestas nec. Nullam elementum enim ut malesuada hendrerit. Quisque vulputate mi mauris, id tincidunt ipsum tempor dictum. Praesent tempor, tortor ut egestas tincidunt, dui purus luctus velit, vel elementum libero justo vel nibh. Donec sodales massa vel risus pretium, a iaculis justo vehicula. Quisque elementum interdum orci quis ullamcorper. Vivamus ut felis purus. Nam laoreet maximus odio, sed bibendum velit feugiat quis. Vestibulum viverra sodales elit. Mauris egestas maximus libero sit amet volutpat. ",
-        "delta": [
-            {
-                "insert": "this some normal text\n\nthis is heading 1"
-            },
-            {
-                "attributes": {
-                    "header": 1
-                },
-                "insert": "\n"
-            },
-            {
-                "insert": "\n"
-            }
-        ]
+        "content": "<h2>Hi there,</h2><p>this is a <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you’d probably expect from a text editor. But wait until you see the lists:</p><ul><li><p>That’s a bullet list with one …</p></li><li><p>… or two list items.</p></li></ul><p>Isn’t that great? And all of that is editable. But wait, there’s more. Let’s try a code block:</p><pre><code class=\"language-css\">body {     display: none;   }</code></pre><p>I know, I know, this is impressive. It’s only the tip of the iceberg though. Give it a try and click a little bit around. Don’t forget to check the other examples too.</p><blockquote><p>Wow, that’s amazing. Good work, boy! 👏 <br>— Mom</p></blockquote>"
     }
 ]
