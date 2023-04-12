@@ -1,9 +1,31 @@
-<!-- <script> -->
-<!-- </script> -->
 <template>
-    <div class="d-flex flex-row">
-        <Sidebar />
-    </div>
+    <main>
+        <div class="d-flex flex-row">
+            <Sidebar :settings="roles" />
+            <div class="d-flex flex-column flex-fill">
+                <div class="d-flex flex-column mt-5" v-for="(value,key,index) in catigories">
+                    <h1 class="text-center" id="{{key}}">{{key+"s"}}</h1>
+                    <div class="row mt-5" v-for="i in Math.ceil(value.length/5)">
+                        <div v-if="(i-1)*5 < value.length" class="col">
+                            <OrgchartUser :user="value[(i-1)*5]"/>
+                        </div>
+                        <div v-if="(i-1)*5 +1 < value.length" class="col">
+                            <OrgchartUser :user="value[(i-1)*5 + 1]"/>
+                        </div>
+                        <div v-if="(i-1)*5 +2 < value.length" class="col">
+                            <OrgchartUser :user="value[(i-1)*5 + 2]"/>
+                        </div>
+                        <div v-if="(i-1)*5 +3 < value.length" class="col">
+                            <OrgchartUser :user="value[(i-1)*5 + 3]"/>
+                        </div>
+                        <div v-if="(i-1)*5 +4 < value.length" class="col">
+                            <OrgchartUser :user="value[(i-1)*5 + 4]"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
 </template>
 <!-- <template>
      <main>
@@ -110,45 +132,50 @@
      </div>
      </div>
      </main>
-     </template> -->
+     </template>
+-->
+
 <script>
-import OrgchartUser from "../components/Orgchart/OrgchartUser.vue";
-import Sidebar from "../components/Navbar/Sidebar.vue";
+ import OrgchartUser from "../components/Orgchart/OrgchartUser.vue";
+ import Sidebar from "../components/Navbar/Sidebar.vue";
  import { db } from "../firebase";
 import { collection, doc, getDocs,setDoc, query, where } from "firebase/firestore";
 import { ref, computed, watchEffect } from 'vue';
  export default{
      setup(){
          const catigories=ref({});
+         const roles=["Component Head","Team Mentor","Team Captain", "Manufacture"]
          const fetchUsers = async () => {
-         const catigoryList= collection(db,"OrgChart");
-         const querySnapshot = await getDocs(catigoryList);
-        catigories.value={};
-        querySnapshot.forEach(doc => {
-        catigories.value[doc.data().Position]=[];
-            // for(let user in doc.data().Contact){
-            // console.log(user.data());
-            // console.log("HI");
-            // }
-
-            var s=doc.data()
-            console.log(s.Contact);
-            const companyDocumentSnapShot2 = db.doc(s.Contact[0].path).get().await();
-            // if(s.Contact[0]){s.Contact[0].get().then(res=>{
-            // console.log(res.data())
-            // })}
-            // if(!users.value.includes(user)){
-            //     console.log(users.value);
-            //     users.value.push(user);
-            // }
-        });
-      };
-        fetchUsers();
-         // watchEffect(() => {
-         // fetchUsers();
-         // });
-
+         const userList= collection(db,"users");
+             for(let role of roles){
+                 console.log(role)
+                 var temparr=[];
+                 const q = query(userList, where("role", "==",role ));
+                 const querySnapshot = await getDocs(q);
+                 console.log(querySnapshot.docs)
+                 for(let user of querySnapshot.docs){
+                     temparr.push(user.data());
+                 }
+                 catigories.value[role]=temparr;
+             }
+             // const querySnapshot = await getDocs(catigoryList);
+             // console.log(catigories.value.Capt)
 
      }
+          watchEffect(() => {
+      fetchUsers();
+    });
+        return{
+            roles,
+            catigories
+        }
+     },
+     components: {
+OrgchartUser,
+Sidebar
+
+  }
+
+
  }
 </script>
