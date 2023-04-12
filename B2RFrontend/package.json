@@ -17,6 +17,7 @@
         "firebase": "^9.17.2",
         "lodash.uniqueid": "^4.0.1",
         "mdb-calendar": "git+https://oauth2:yCfC16vXePeyyHk4W_vb@git.mdbootstrap.com/mdb/standard/plugins/prd/calendar",
+        "sass": "^1.62.0",
         "sortablejs": "^1.15.0",
         "vue": "^3.2.45",
         "vue-easy-lightbox": "^1.15.0",

@@ -68,7 +68,7 @@
                             <h5>Tags:</h5>
                             <input
                                 v-for="(tag, index) in postData.tags"
-                                :key="tag"
+                                :key="index"
                                 v-model="postData.tags[index]"
                                 class="tag"
                                 placholder="tag name"
@@ -102,7 +102,10 @@
                                 display: flex;
                                 flex-grow: 1;
                                 flex-direction: column;
+                                box-sizing: border-box;
+                                padding: 5px;
                             "
+                            class="card"
                         >
                             <Editor v-model="content" />
                         </span>
@@ -162,7 +165,7 @@ export default {
             postIndex: 0,
             postType: "",
             editor: null,
-            content: "",
+            content: "this is some stuff",
             postData: {
                 title: "",
                 date: "",

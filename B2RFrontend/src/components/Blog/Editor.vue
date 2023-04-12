@@ -3,94 +3,96 @@
     <div v-if="editor">
         <button
             :disabled="!editor.can().chain().focus().toggleBold().run()"
-            :class="{ 'is-active': editor.isActive('bold') }"
+            :class="{ 'toolbarButton': true, 'is-active': editor.isActive('bold') }"
             @click="editor.chain().focus().toggleBold().run()"
         >
             bold
         </button>
         <button
             :disabled="!editor.can().chain().focus().toggleItalic().run()"
-            :class="{ 'is-active': editor.isActive('italic') }"
+            :class="{ 'toolbarButton': true, 'is-active': editor.isActive('italic') }"
             @click="editor.chain().focus().toggleItalic().run()"
         >
             italic
         </button>
         <button
             :disabled="!editor.can().chain().focus().toggleStrike().run()"
-            :class="{ 'is-active': editor.isActive('strike') }"
+            :class="{ 'toolbarButton': true, 'is-active': editor.isActive('strike') }"
             @click="editor.chain().focus().toggleStrike().run()"
         >
             strike
         </button>
         <button
             :disabled="!editor.can().chain().focus().toggleCode().run()"
-            :class="{ 'is-active': editor.isActive('code') }"
+            :class="{ 'toolbarButton': true, 'is-active': editor.isActive('code') }"
             @click="editor.chain().focus().toggleCode().run()"
         >
             code
         </button>
         <button
-            :class="{ 'is-active': editor.isActive('heading', { level: 1 }) }"
+            :class="{ 'toolbarButton': true, 'is-active': editor.isActive('heading', { level: 1 }) }"
             @click="editor.chain().focus().toggleHeading({ level: 1 }).run()"
         >
             h1
         </button>
         <button
-            :class="{ 'is-active': editor.isActive('heading', { level: 2 }) }"
+            :class="{ 'toolbarButton': true, 'is-active': editor.isActive('heading', { level: 2 }) }"
             @click="editor.chain().focus().toggleHeading({ level: 2 }).run()"
         >
             h2
         </button>
         <button
-            :class="{ 'is-active': editor.isActive('heading', { level: 3 }) }"
+            :class="{ 'toolbarButton': true, 'is-active': editor.isActive('heading', { level: 3 }) }"
             @click="editor.chain().focus().toggleHeading({ level: 3 }).run()"
         >
             h3
         </button>
         <button
-            :class="{ 'is-active': editor.isActive('heading', { level: 4 }) }"
+            :class="{ 'toolbarButton': true, 'is-active': editor.isActive('heading', { level: 4 }) }"
             @click="editor.chain().focus().toggleHeading({ level: 4 }).run()"
         >
             h4
         </button>
         <button
-            :class="{ 'is-active': editor.isActive('bulletList') }"
+            :class="{ 'toolbarButton': true, 'is-active': editor.isActive('bulletList') }"
             @click="editor.chain().focus().toggleBulletList().run()"
         >
             bullet list
         </button>
         <button
-            :class="{ 'is-active': editor.isActive('orderedList') }"
+            :class="{ 'toolbarButton': true, 'is-active': editor.isActive('orderedList') }"
             @click="editor.chain().focus().toggleOrderedList().run()"
         >
             ordered list
         </button>
         <button
-            :class="{ 'is-active': editor.isActive('codeBlock') }"
+            :class="{ 'toolbarButton': true, 'is-active': editor.isActive('codeBlock') }"
             @click="editor.chain().focus().toggleCodeBlock().run()"
         >
             code block
         </button>
         <button
-            :class="{ 'is-active': editor.isActive('blockquote') }"
+            :class="{ 'toolbarButton': true, 'is-active': editor.isActive('blockquote') }"
             @click="editor.chain().focus().toggleBlockquote().run()"
         >
             blockquote
         </button>
-        <button @click="editor.chain().focus().setHorizontalRule().run()">
+        <button class="toolbarButton" @click="editor.chain().focus().setHorizontalRule().run()">
             horizontal rule
         </button>
-        <button @click="editor.chain().focus().setHardBreak().run()">
+        <button class="toolbarButton" @click="editor.chain().focus().setHardBreak().run()">
             hard break
         </button>
         <button
             :disabled="!editor.can().chain().focus().undo().run()"
+            class="toolbarButton"
             @click="editor.chain().focus().undo().run()"
         >
             undo
         </button>
         <button
             :disabled="!editor.can().chain().focus().redo().run()"
+            class="toolbarButton"
             @click="editor.chain().focus().redo().run()"
         >
             redo
@@ -106,15 +108,11 @@ export default {
     components: {
         EditorContent,
     },
-    data() {
-        return {
-            editor: null,
-        };
-    },
-    mounted() {
-        this.editor = new Editor({
-            extensions: [StarterKit],
-            content: `
+    props: {
+        content: {
+            type: String,
+            required: false,
+            default: `
           <h2>
             Hi there,
           </h2>
@@ -143,7 +141,18 @@ export default {
             <br />
             — Mom
           </blockquote>
-        `,
+        `
+        }
+    },
+    data() {
+        return {
+            editor: null,
+        };
+    },
+    mounted() {
+        this.editor = new Editor({
+            extensions: [StarterKit],
+            content: this.content,
         });
     },
     beforeUnmount() {
@@ -153,6 +162,22 @@ export default {
 </script>
 
 <style lang="scss">
+.is-active {
+    background: black !important;
+    color: #fff !important;
+}
+.toolbarButton {
+    font-size: inherit !important;
+    font-family: inherit !important;
+    color: #000 !important;
+    margin: .1rem !important;
+    border: 1px solid black !important;
+    border-radius: .3rem !important;
+    padding: .1rem .4rem !important;
+    background: white !important;
+    accent-color: black !important;
+
+}
 /* Basic editor styles */
 .ProseMirror {
     > * + * {
