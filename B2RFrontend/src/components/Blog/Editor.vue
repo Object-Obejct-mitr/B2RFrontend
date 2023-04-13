@@ -99,7 +99,9 @@
         </button>
     </div>
     <hr/>
-    <editor-content :editor="editor" />
+    <div class="editorContainer">
+        <editor-content :editor="editor" />
+    </div>
 </template>
 
 <script>
@@ -136,6 +138,25 @@ export default {
 </script>
 
 <style lang="scss">
+
+.editorContainer {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: column;
+
+    div {
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+
+        .ProseMirror {
+            flex-grow: 1;
+            box-sizing: border-box;
+            padding: 5px;
+        }
+    }
+}
+
 
 .is-active {
     background: black !important;
