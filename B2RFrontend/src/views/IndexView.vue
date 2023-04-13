@@ -126,7 +126,7 @@
                             "
                             class="card"
                         >
-                            <Editor :key="postData.content" v-model="postData.content" :content="postData.content" @editor-created="setUpEditor" />
+                            <Editor v-model="postData.content" @editor-created="setUpEditor" />
                         </span>
                     </div>
                     <div class="modal-footer">
@@ -174,7 +174,9 @@ import {
     doc,
     getDocs,
     query,
+    addDoc,
     where,
+getDoc,
 } from "firebase/firestore";
 
 export default {
@@ -207,11 +209,30 @@ export default {
         this.fetchPosts();
     },
     methods: {
-        debug() {
-            console.log(this.editor.getHTML())
-            console.log(this.editor.getJSON())
-            console.log(this)
-            console.log(this.blogData)
+        resetPostData() {
+            this.postData = {
+                title: "",
+                date: "",
+                authors: [],
+                tags: [],
+                content: "",
+                delta: [],
+                id: ""
+            }
+        },
+        async debug() {
+            // console.log(this.editor.getHTML())
+            // console.log(this.editor.getJSON())
+            // console.log(this)
+            // console.log(this.blogData)
+            // const tmp = await getDocs(collection(db, "blogPosts/vE5AQMbXcBlxrvAUVYrX/posts"))
+            // // console.log(tmp.data)
+            // tmp.forEach(a => console.log(a.data()))
+            // // for (let a of tmp) {
+            // //     console.log(a.data())
+            // }
+
+            console.log(this.postData)
         },
         setUpEditor(editorObj) {
             console.log("setting up editor object");
@@ -225,22 +246,15 @@ export default {
             posts.value = [];
             // fetch all users
             const blogPostsSnapshot = await getDocs(
-                collection(db, "blogPosts")
+                collection(db, "blogPosts/vE5AQMbXcBlxrvAUVYrX/posts")
             );
-            for (const pageDoc of blogPostsSnapshot.docs) {
-                const blogPostSnapshot = await getDocs(
-                    collection(pageDoc.ref, "posts")
-                );
-
-                // console.log(pageDoc.ref)
-                blogPostSnapshot.forEach((doc) => {
-                    let tmp = doc.data();
-                    tmp.id = doc.id;
-                    posts.value.push(tmp);
-                });
+            for (const doc of blogPostsSnapshot.docs) {
+                let tmp = doc.data();
+                tmp.id = doc.id;
+                posts.value.push(tmp);
             }
-            console.log("posts");
-            console.log(posts);
+            // console.log("posts");
+            // console.log(posts);
             this.blogData = posts.value;
         },
         switchViews() {
@@ -256,6 +270,7 @@ export default {
             if (postType == "create") {
                 //create a post
                 console.log("creating a post");
+                this.resetPostData();
             } else if (postType == "modify") {
                 //edit a post
                 console.log("editing a post");
@@ -263,7 +278,7 @@ export default {
                 // this.editorObj.setContents(this.postData.delta, 'api')
             }
         },
-        savePost() {
+        async savePost() {
             // prune tags and authors in the current post
             let temp = this.postData.tags.filter( a => a.trim() != "");
             this.postData.tags = temp;
@@ -273,6 +288,20 @@ export default {
             if (this.postType == "create") {
                 // index does not matter
                 // update the post in firebase
+                console.log("trying to make a new post")
+                await addDoc(collection(db, "blogPosts/vE5AQMbXcBlxrvAUVYrX/posts"), {
+                    title: this.postData.title,
+                    date: this.postData.date,
+                    authors: this.postData.authors,
+                    tags: this.postData.tags,
+                    content: this.postData.content 
+                })
+                console.log("finished")
+                // db.collection('users').doc(this.username).collection('booksList').doc(myBookId).set({
+                //     password: this.password,
+                //     name: this.name,
+                //     rollno: this.rollno
+                // })
             } else if (this.postType == "modify") {
                 // just add it to firebase
                 // grab the information

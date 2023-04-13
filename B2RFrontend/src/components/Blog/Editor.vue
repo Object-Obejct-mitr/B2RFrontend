@@ -105,6 +105,7 @@
 </template>
 
 <script>
+
 import StarterKit from "@tiptap/starter-kit";
 import { Editor, EditorContent } from "@tiptap/vue-3";
 export default {
@@ -112,29 +113,52 @@ export default {
         EditorContent,
     },
     props: {
-        content: {
+        modelValue: {
             type: String,
             required: true,
             default: `<h1>You shouldn't be seeing this!</h1>`
         }
     },
-    emits: ["editorCreated"],
+    emits: ["editorCreated", "update:modelValue"],
     data() {
         return {
             editor: null,
         };
     },
+    watch: {
+        modelValue(value) {
+            // HTML
+            const isSame = this.editor.getHTML() === value
+
+            // JSON
+            // const isSame = JSON.stringify(this.editor.getJSON()) === JSON.stringify(value)
+
+            if (isSame) {
+                return
+            }
+
+            this.editor.commands.setContent(value, false)
+        }
+    },
     mounted() {
         this.editor = new Editor({
             extensions: [StarterKit],
-            content: this.content,
+            content: this.modelValue,
+            onUpdate: () => {
+                // HTML
+                this.$emit('update:modelValue', this.editor.getHTML())
+
+                // JSON
+                // this.$emit('update:modelValue', this.editor.getJSON())
+            },
         });
         this.$emit("editorCreated", this.editor);
     },
     beforeUnmount() {
         this.editor.destroy();
     },
-};
+}
+
 </script>
 
 <style lang="scss">
