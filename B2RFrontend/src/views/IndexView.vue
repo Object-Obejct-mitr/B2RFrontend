@@ -176,7 +176,9 @@ import {
     query,
     addDoc,
     where,
-getDoc,
+    getDoc,
+    setDoc,
+    updateDoc
 } from "firebase/firestore";
 
 export default {
@@ -286,12 +288,14 @@ export default {
             temp = this.postData.authors.filter( el => el.trim() != "");
             this.postData.authors = temp;
             if (this.postType == "create") {
+                let tmp = new Date();
+                let date = `${tmp.getUTCMonth()}/${tmp.getUTCDate()}/${tmp.getUTCFullYear()}`
                 // index does not matter
                 // update the post in firebase
                 console.log("trying to make a new post")
                 await addDoc(collection(db, "blogPosts/vE5AQMbXcBlxrvAUVYrX/posts"), {
                     title: this.postData.title,
-                    date: this.postData.date,
+                    date: date,
                     authors: this.postData.authors,
                     tags: this.postData.tags,
                     content: this.postData.content 
@@ -305,9 +309,26 @@ export default {
             } else if (this.postType == "modify") {
                 // just add it to firebase
                 // grab the information
-                let post = this.postData;
-                console.log(post);
+                console.log("looking up a specific doc")
+                const docRef = doc(db, "blogPosts/vE5AQMbXcBlxrvAUVYrX/posts", this.postData.id);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    console.log("Document data:", docSnap.data());
+                    await updateDoc(docRef, {
+                        title: this.postData.title,
+                        authors: this.postData.authors,
+                        tags: this.postData.tags,
+                        content: this.postData.content
+                    })
+                } else {
+                // docSnap.data() will be undefined in this case
+                    console.log("No such document!");
+                }
+                
+                // await setDoc(collection, db, "blogPosts/vE5AQMbXcBlxrvAUVYrX/posts", );
             }
+            this.fetchPosts();
         },
     },
 };
