@@ -219,10 +219,11 @@ export default {
             const cadDownloadUrls = await Promise.all(cadPromises);
 
             // Remove deleted files from firestore
-
+            console.log("Removing files");
+            console.log(Array.from(this.ModifiedState.DeletedCADFiles));
             Array.from(this.ModifiedState.DeletedCADFiles).forEach(element => {
                 let fileName = ref(storage, element).name;
-
+                console.log(fileName);
                 let fileRef = ref(storage, 'files/'+fileName);
                 deleteObject(fileRef).then(() => {
                   }).catch((error) => {
