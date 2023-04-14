@@ -5,7 +5,7 @@
                 <img
                     :src="props.user.photoURL"
                     alt=""
-                    style="width: 150px; height: 150px"
+                    style="width: 150px; height: 150px; object-fit: cover;"
                     class="rounded-circle"
                 />
                 <div class="text-center">

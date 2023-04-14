@@ -218,7 +218,7 @@ export default {
             </div>
         </div>
 
-        <img :src="this.userValue.photoURL" referrerpolicy="no-referrer" class="rounded-circle px-3" height="80" />
+        <img :src="this.userValue.photoURL" referrerpolicy="no-referrer" class="rounded-circle px-3" style="width: 112px; height: 80px;  object-fit: cover;" />
         <div class="modal fade" id="navBarModal" tabindex="-1" aria-labelledby="navBarModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -229,12 +229,12 @@ export default {
                     <div class="modal-body">
                         <div class="d-flex flex-column align-items-center">
                             <div class="bg-image hover-overlay ripple shadow-1-strong rounded" data-mdb-ripple-color="light"
-                                style="max-width: 22rem;" v-on:click="handlePFPClick">
-                                <img :src="this.userValue.photoURL" alt="" style="width: 150px; height: 150px"
+                                style="max-width: 22rem; cursor: pointer" v-on:click="handlePFPClick">
+                                <img :src="this.userValue.photoURL" alt="" style="width: 150px; height: 150px; object-fit: cover;"
                                     class="rounded-circle mb-2" />
 
                                 <div class="mask text-light d-flex justify-content-center flex-column text-center rounded-circle"
-                                    style="background-color: rgba(0, 0, 0, 0.5); width: 150px; height: 150px">
+                                    style="background-color: rgba(0, 0, 0, 0.5); width: 150px; height: 150px; object-fit: cover;">
                                     <h4><i class="fas fa-camera"></i></h4>
                                     <p class="m-0">Upload New</p>
                                 </div>
