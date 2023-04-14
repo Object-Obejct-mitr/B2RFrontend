@@ -1,23 +1,26 @@
 <!-- blog page -->
 <!-- 
 || What still needs to be done:
-||  - sidebar implementation
+||  - [ ] sidebar implementation
 ||     a. get it to show a condensed version of all of the recent posts
 ||        like a mini version of list view, when viewing a post.
 ||     b. filter by tag/date when viewing all of the posts
-||  - search bar
+||  - [ ] search bar
 ||     a. havent started it yet, but once the sidebar filtering is done it 
 ||        should be pretty much the same just by title/content instead of tags
-||  - saving posts to firebase
+||  - [-] saving posts to firebase
 ||     a. maybe no need to generate the preview with tiptap editor
 ||        (maybe this can be just pulled from the content of the post)
-||  - adding image support for the posts
+||  - [ ] adding image support for the posts
 ||     a. this is a bunch of stuff, have to enable an extension for 
 ||        the editor library and also set up saving documents and stuff
 ||        in firebase
-||  - finalizing the editor layout and the toolbars 
+||  - [ ] finalizing the editor layout and the toolbars
 ||    (maybe make it different for mobile view?)
-||  - (possible) pagination for when there are a bunch of posts
+||  - [ - ] general polish
+||     a. get post view to display everything properly
+||     b. make sure that everything looks nice
+||  - [ ] (possible) pagination for when there are a bunch of posts
  -->
 <template>
     <main id="blogView">

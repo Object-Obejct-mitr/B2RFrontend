@@ -17,18 +17,14 @@
     </div>
     <div v-else>
         <!-- quill editor here -->
-        <QuillEditor theme="bubble" read-only="true" @ready="postReady" />
+        <!-- also want post title and stuff -->
+        <div v-html="posts[postIndex].content"></div>
     </div>
 </template>
 
 <script>
-import "@vueup/vue-quill/dist/vue-quill.bubble.css";
-import { QuillEditor } from "@vueup/vue-quill";
 
 export default {
-    components: {
-        QuillEditor,
-    },
     props: {
         // either list or post view
         // if it is list view then it shows eveyrthing
@@ -55,6 +51,9 @@ export default {
         };
     },
     methods: {
+        debug() {
+            console.log(this.posts[this.postIndex])
+        },
         showPost(index) {
             if (index == -1) {
                 this.postIndex = -1;
