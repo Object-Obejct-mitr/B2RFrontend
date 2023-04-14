@@ -16,8 +16,13 @@
         </div>
     </div>
     <div v-else>
-        <!-- quill editor here -->
         <!-- also want post title and stuff -->
+        <h2>{{posts[postIndex].title}}</h2>
+        <span>Written by 
+            <!-- {{  posts[postIndex].authors }} -->
+            {{ authors }}
+            
+            on {{ posts[postIndex].date }}</span>
         <div v-html="posts[postIndex].content"></div>
     </div>
 </template>
@@ -50,6 +55,28 @@ export default {
             readOnly: false,
         };
     },
+    computed: {
+        authors() {
+            if (this.postIndex != -1) {
+                let out = "";
+                let authors = this.posts[this.postIndex].authors;
+                for (let [index, author] of authors.entries()) {
+                    out += author
+                    if ( authors.length > 2 && index < authors.length - 1) {
+                        out += ", " 
+                    } else {
+                        out += " "
+                    }
+                    if ( index == authors.length - 2) {
+                        out += "and "
+                    }
+                }
+                return out;
+            } else {
+                return null;
+            }
+        }
+    },
     methods: {
         debug() {
             console.log(this.posts[this.postIndex])
@@ -75,11 +102,6 @@ export default {
             );
         },
 
-        toggleReadOnly() {
-            console.log(this.readOnly);
-            this.readOnly = !this.readOnly;
-            console.log(this.readOnly);
-        },
     },
 };
 </script>
