@@ -17,7 +17,7 @@
         </div>
     </div>
     <div v-else>
-        <button class="btn btn-primary" @click="switchViews" >Go back</button>
+        <button class="btn btn-primary back-btn" @click="switchViews" >Go back</button>
         
         <span>
             <h2>{{posts[postIndex].title}}</h2>
@@ -106,6 +106,10 @@ export default {
 </script>
 
 <style>
+.back-btn {
+    width: 15%;
+}
+
 #postListContainer {
     margin-top: 10px;
     display: flex;
