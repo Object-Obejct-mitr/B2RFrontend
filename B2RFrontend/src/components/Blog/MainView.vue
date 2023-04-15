@@ -10,6 +10,9 @@
                 <h1>{{ post.title }}</h1>
                 <span>{{ post.date }}</span>
             </span>
+            <span class="tags">
+                <span v-for="tag in post.tags" :key="tag" class="tag">{{ tag }}</span>
+            </span>
             <p class="preview" v-html="post.content.replace(/<[^>]+>/g, ' ')"></p>
         </div>
     </div>

@@ -1,11 +1,11 @@
 <!-- blog page -->
 <!-- 
 || What still needs to be done:
-||  - [ ] sidebar implementation
+||  - [-] sidebar implementation
 ||     a. get it to show a condensed version of all of the recent posts
 ||        like a mini version of list view, when viewing a post.
 ||     b. filter by tag/date when viewing all of the posts
-||  - [ ] search bar
+||  - [-] search bar
 ||     a. havent started it yet, but once the sidebar filtering is done it 
 ||        should be pretty much the same just by title/content instead of tags
 ||  - [x] saving posts to firebase
@@ -19,7 +19,7 @@
 ||        in firebase
 ||  - [ ] finalizing the editor layout and the toolbars
 ||    (maybe make it different for mobile view?)
-||  - [ - ] general polish
+||  - [-] general polish
 ||     a. get post view to display everything properly
 ||     b. make sure that everything looks nice
 ||  - [ ] (possible) pagination for when there are a bunch of posts
@@ -99,7 +99,7 @@
                                 placholder="tag name"
                             />
                             <button
-                                class="sm btn btn-secondary squareBtn"
+                                class="sm btn btn-secondary"
                                 @click="postData.tags.push('tag name')"
                             >
                                 +
@@ -116,7 +116,7 @@
                                 class="author"
                             />
                             <button
-                                class="sm btn btn-secondary squareBtn"
+                                class="sm btn btn-secondary"
                                 @click="postData.authors.push('Author Name')"
                             >
                                 +
@@ -173,7 +173,6 @@ import BlogSideBar from "@/components/Blog/BlogSideBar.vue";
 import Editor from "@/components/Blog/Editor.vue";
 import BlogData from "@/assets/BlogData.json";
 import Tags from "@/assets/Tags.json";
-import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
 import { db } from "../firebase";
 import {
@@ -217,6 +216,7 @@ export default {
     },
     mounted() {
         this.fetchPosts();
+        this.fetchTags();
     },
     methods: {
         resetPostData() {
@@ -250,6 +250,17 @@ export default {
                 posts.value.push(tmp);
             }
             this.blogData = posts.value;
+        },
+        async fetchTags() {
+            this.tags = [];
+            const blogPostsSnapshot = await getDocs(
+                collection(db, "/blogPosts/5eg31wh1BqwLekP8H47z/tagsList")
+            );
+            for (const doc of blogPostsSnapshot.docs) {
+                for ( const tag of doc.data().tagNames) {
+                    this.tags.push(tag);
+                }
+            }
         },
         switchViews() {
             this.view = this.view == "list" ? "post" : "list";
@@ -315,44 +326,50 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .content {
     display: flex;
     flex-direction: column;
     gap: 15px;
+
+    .tags,
+    .authors {
+        display: flex;
+        overflow: auto;
+        gap: 5px;
+        align-items: baseline;
+    }
+
+    .tag,
+    .author {
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        border-radius: 20px;
+        border: 1px solid #3b71ca;
+        /* color: #a0d18c; */
+        width: 15ch;
+        height: 30px;
+        padding-left: 10px;
+        
+    }
+
+    .tag:focus,
+    .author:focus {
+        outline: none;
+        outline: 1px solid #3b71ca;
+        /* color: #3b71ca; */
+    }
 }
 
-.tags,
-.authors {
+.tags {
     display: flex;
-    overflow: auto;
-    gap: 5px;
-    align-items: baseline;
-}
-
-.tag,
-.author {
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    border-radius: 20px;
-    border: 1px solid #3b71ca;
-    /* color: #a0d18c; */
-    width: 15ch;
-    height: 30px;
-    padding-left: 10px;
-}
-
-.tag:focus,
-.author:focus {
-    outline: none;
-    outline: 1px solid #3b71ca;
-    /* color: #3b71ca; */
-}
-
-.squareBtn {
-    aspect-ratio: 1/1;
-    height: 5vh;
-    padding: 0px !important;
+    column-gap: .1%;
+    .tag {
+        background-color: #3b72ca1c;
+        border-radius: 5px;
+        box-sizing: border-box;
+        padding: 0.25% 0.5%;
+    }
 }
 
 #blogView {
@@ -382,14 +399,6 @@ export default {
     height: fit-content;
 }
 
-.buttonSpacing {
-    margin: 0 auto;
-    margin-top: 10%;
-    margin-bottom: 10%;
-    padding-bottom: 15%;
-    width: fit-content;
-}
-
 .sideBar {
     display: flex;
     flex-direction: column;
@@ -399,7 +408,6 @@ export default {
     margin: 0 auto;
     margin-top: 10%;
     margin-bottom: 10%;
-    padding-bottom: 15%;
     width: fit-content;
 }
 
