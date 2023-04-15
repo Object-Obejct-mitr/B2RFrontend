@@ -226,25 +226,11 @@ export default {
             }
         },
         async debug() {
-            // console.log(this.editor.getHTML())
-            // console.log(this.editor.getJSON())
-            // console.log(this)
-            // console.log(this.blogData)
-            // const tmp = await getDocs(collection(db, "blogPosts/vE5AQMbXcBlxrvAUVYrX/posts"))
-            // // console.log(tmp.data)
-            // tmp.forEach(a => console.log(a.data()))
-            // // for (let a of tmp) {
-            // //     console.log(a.data())
-            // }
-
             console.log(this.postData)
         },
         setUpEditor(editorObj) {
-            console.log("setting up editor object");
             this.editor = editorObj;
             this.editor.commands.setContent(this.postData.content)
-
-            console.log(editorObj.getHTML())
         },
         async fetchPosts() {
             let posts = {};
@@ -258,8 +244,6 @@ export default {
                 tmp.id = doc.id;
                 posts.value.push(tmp);
             }
-            // console.log("posts");
-            // console.log(posts);
             this.blogData = posts.value;
         },
         switchViews() {
@@ -274,28 +258,21 @@ export default {
             this.postType = postType;
             if (postType == "create") {
                 //create a post
-                console.log("creating a post");
                 this.resetPostData();
             } else if (postType == "modify") {
                 //edit a post
-                console.log("editing a post");
                 this.postData = this.blogData[this.postIndex];
-                // this.editorObj.setContents(this.postData.delta, 'api')
             }
         },
         async savePost() {
             // prune tags and authors in the current post
             let temp = this.postData.tags.filter( a => a.trim() != "");
             this.postData.tags = temp;
-
             temp = this.postData.authors.filter( el => el.trim() != "");
             this.postData.authors = temp;
             if (this.postType == "create") {
                 let tmp = new Date();
                 let date = `${tmp.getUTCMonth()}/${tmp.getUTCDate()}/${tmp.getUTCFullYear()}`
-                // index does not matter
-                // update the post in firebase
-                console.log("trying to make a new post")
                 await addDoc(collection(db, "blogPosts/vE5AQMbXcBlxrvAUVYrX/posts"), {
                     title: this.postData.title,
                     date: date,
@@ -304,32 +281,18 @@ export default {
                     content: this.postData.content 
                 })
                 console.log("finished")
-                // db.collection('users').doc(this.username).collection('booksList').doc(myBookId).set({
-                //     password: this.password,
-                //     name: this.name,
-                //     rollno: this.rollno
-                // })
             } else if (this.postType == "modify") {
-                // just add it to firebase
-                // grab the information
                 console.log("looking up a specific doc")
                 const docRef = doc(db, "blogPosts/vE5AQMbXcBlxrvAUVYrX/posts", this.postData.id);
                 const docSnap = await getDoc(docRef);
-
                 if (docSnap.exists()) {
-                    console.log("Document data:", docSnap.data());
                     await updateDoc(docRef, {
                         title: this.postData.title,
                         authors: this.postData.authors,
                         tags: this.postData.tags,
                         content: this.postData.content
                     })
-                } else {
-                // docSnap.data() will be undefined in this case
-                    console.log("No such document!");
-                }
-                
-                // await setDoc(collection, db, "blogPosts/vE5AQMbXcBlxrvAUVYrX/posts", );
+                } 
             }
             this.fetchPosts();
         },

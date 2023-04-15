@@ -11,15 +11,12 @@
                 <h1>{{ post.title }}</h1>
                 <span>{{ post.date }}</span>
             </span>
-            <p class="preview">{{ post.preview }}</p>
-            <!-- <hr v-if="index != posts.length - 1"/> -->
+            <p class="preview" v-html="post.content.replace(/<[^>]+>/g, ' ')"></p>
         </div>
     </div>
     <div v-else>
-        <!-- also want post title and stuff -->
         <h2>{{posts[postIndex].title}}</h2>
         <span>Written by 
-            <!-- {{  posts[postIndex].authors }} -->
             {{ authors }}
             
             on {{ posts[postIndex].date }}</span>
