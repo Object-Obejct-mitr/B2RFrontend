@@ -8,9 +8,11 @@
 ||  - [ ] search bar
 ||     a. havent started it yet, but once the sidebar filtering is done it 
 ||        should be pretty much the same just by title/content instead of tags
-||  - [-] saving posts to firebase
+||  - [x] saving posts to firebase
 ||     a. maybe no need to generate the preview with tiptap editor
 ||        (maybe this can be just pulled from the content of the post)
+||  - [x] deleting posts
+||     a. add this option to the edit post dialog
 ||  - [ ] adding image support for the posts
 ||     a. this is a bunch of stuff, have to enable an extension for 
 ||        the editor library and also set up saving documents and stuff
@@ -30,6 +32,7 @@
             :view="view"
             :posts="blogData"
             @show-post="showPost"
+            @show-list="showList"
         />
         <div class="sideBar">
             <button
@@ -143,6 +146,7 @@
                         <button
                             type="button"
                             class="btn btn-primary"
+                            data-mdb-dismiss="modal"
                             @click="savePost()"
                         >
                             Save changes
@@ -150,16 +154,17 @@
                         <button
                             type="button"
                             class="btn btn-primary"
-                            @click="debug()"
+                            data-mdb-dismiss="modal"
+                            @click="deletePost()"
                         >
-                            debug
+                            Delete Post
                         </button>
                     </div>
                 </div>
             </div>
         </div>
     </main>
-    <button @click="switchViews()">switch views</button>
+    <!-- <button @click="switchViews()">switch views</button> -->
 </template>
 
 <script>
@@ -249,10 +254,12 @@ export default {
         switchViews() {
             this.view = this.view == "list" ? "post" : "list";
         },
+        showList() {
+            this.view = "list";
+        },  
         showPost(index) {
             this.view = "post";
             this.postIndex = index;
-            console.log(index);
         },
         createModifyPost(postType) {
             this.postType = postType;
@@ -293,6 +300,14 @@ export default {
                         content: this.postData.content
                     })
                 } 
+            }
+            this.fetchPosts();
+        },
+        async deletePost() {
+            const docRef = doc(db, "blogPosts/vE5AQMbXcBlxrvAUVYrX/posts", this.postData.id);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                await deleteDoc(docRef);
             }
             this.fetchPosts();
         },

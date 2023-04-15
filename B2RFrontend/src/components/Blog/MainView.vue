@@ -1,6 +1,5 @@
 <template>
     <div v-if="view == 'list'">
-        <!-- for loop here to iterate over the first x posts -->
         <div
             v-for="(post, index) in posts"
             :key="JSON.stringify(post)"
@@ -15,11 +14,12 @@
         </div>
     </div>
     <div v-else>
-        <h2>{{posts[postIndex].title}}</h2>
-        <span>Written by 
-            {{ authors }}
-            
-            on {{ posts[postIndex].date }}</span>
+        <button class="btn btn-primary" @click="switchViews" >Go back</button>
+        
+        <span>
+            <h2>{{posts[postIndex].title}}</h2>
+            Written by {{ authors }} on {{ posts[postIndex].date }}
+        </span>
         <div v-html="posts[postIndex].content"></div>
     </div>
 </template>
@@ -43,7 +43,7 @@ export default {
             default: null,
         },
     },
-    emits: ["showPost"],
+    emits: ["showPost", "showList"],
     data() {
         return {
             quill: null,
@@ -75,15 +75,14 @@ export default {
         }
     },
     methods: {
+        switchViews() {
+            this.$emit("showList");
+        },
         debug() {
             console.log(this.posts[this.postIndex])
         },
         showPost(index) {
-            if (index == -1) {
-                this.postIndex = -1;
-            } else {
-                this.postIndex = index;
-            }
+            this.postIndex = index;
             this.$emit("showPost", index);
         },
         postReady(quill) {
