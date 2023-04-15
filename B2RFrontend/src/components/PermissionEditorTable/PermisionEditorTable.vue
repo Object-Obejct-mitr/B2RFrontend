@@ -5,6 +5,7 @@
         <th>Name</th>
         <th>Role</th>
         <th v-for="permision in permisions">{{ permision }}</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -25,7 +26,7 @@
         <td v-for="(permision,permision_index) in permisions">
           <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type=
-            "button" id="dropdownMenuButton" data-mdb-toggle=
+            "button" data-mdb-toggle=
             "dropdown" aria-expanded="false">Permsions</button>
             <ul class="dropdown-menu" aria-labelledby=
             "dropdownMenuButton">
@@ -41,13 +42,17 @@ value="" id="Checkme1" :checked="item.permissions.includes(option+permision)" @c
             </ul>
           </div>
         </td>
+        <td>
+            <button class="btn btn-danger" type=
+            "button"  @click="deleteUser(item_index)">Delete User</button>
+        </td>
       </tr>
     </tbody>
   </table>
 </template>
 <script>
 import { db } from "../../firebase";
-import { collection, doc, getDocs,setDoc, query, where } from "firebase/firestore";
+import { collection, doc, getDocs,setDoc, query, where,deleteDoc } from "firebase/firestore";
 import { ref, computed, watchEffect } from 'vue';
  export default{
      setup(){
@@ -58,10 +63,9 @@ import { ref, computed, watchEffect } from 'vue';
         users.value=[];
         querySnapshot.forEach(doc => {
           const user = doc.data();
-          //console.log(doc.data());
-          if(!users.value.includes(user)){
+            user.id=doc.id;
+            if(!users.value.includes(user)){
 
-            console.log(users.value);
             users.value.push(user);
           }
         });
@@ -90,11 +94,27 @@ import { ref, computed, watchEffect } from 'vue';
            console.log(error);
          })
        }
+       const deleteUser= (usernum)=>{
+         const user=users.value[usernum];
+           console.log(user)
+         const docRef = doc(db, "users", user.id);
+         users.value.splice(usernum,1);
+         deleteDoc(docRef)
+           .then(docRef => {
+             console.log("Entire Document has been deleted successfully");
+           })
+         .catch(error => {
+           console.log(error);
+         })
+       }
+
+
         return{
           permisions:["Contacts","OrgChart","Blog"],
             options:["Edit","Add","Delete"],
           users,
-          updateUser
+          updateUser,
+          deleteUser
         }
      }
  }
