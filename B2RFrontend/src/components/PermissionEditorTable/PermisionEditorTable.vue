@@ -3,8 +3,8 @@
     <thead class="bg-light">
       <tr>
         <th>Name</th>
-        <th>Role</th>
         <th v-for="permision in permisions">{{ permision }}</th>
+        <th>Role</th>
         <th>Delete</th>
       </tr>
     </thead>
@@ -20,10 +20,7 @@
             </div>
           </div>
         </td>
-        <td>
-          <p class="fw-normal mb-1">{{item.role}}</p>
-        </td>
-        <td v-for="(permision,permision_index) in permisions">
+                <td v-for="(permision,permision_index) in permisions">
           <div class="dropdown">
             <button class="btn btn-primary dropdown-toggle" type=
             "button" data-mdb-toggle=
@@ -34,14 +31,32 @@
                 <a class="dropdown-item" href="#">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox"
-value="" id="Checkme1" :checked="item.permissions.includes(option+permision)" @click="updateUser(item_index,option+permision)"> <label class=
-                  "form-check-label" for=
-                  "Checkme1" >{{option}}</label>
+value="" :id="item_index+option" :checked="item.permissions.includes(option+permision)" @click="updateUser(item_index,option+permision)"> <label class=
+                  "form-check-label" :for="item_index+option" >{{option}}</label>
                 </div></a>
               </li>
             </ul>
           </div>
         </td>
+        <td>
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type=
+            "button" data-mdb-toggle=
+            "dropdown" aria-expanded="false">Roles</button>
+            <ul class="dropdown-menu" aria-labelledby=
+            "dropdownMenuButton">
+              <li v-for="role in roles">
+                <a class="dropdown-item" href="#">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox"
+value="" :id="item_index+item.role" :checked="item.role==role" @click="updateUserRole(item_index,role)"> <label class=
+                  "form-check-label" :for="item_index+item.role">{{role}}</label>
+                </div></a>
+              </li>
+            </ul>
+          </div>
+        </td>
+
         <td>
             <button class="btn btn-danger" type=
             "button"  @click="deleteUser(item_index)">Delete User</button>
@@ -94,8 +109,25 @@ import { ref, computed, watchEffect } from 'vue';
            console.log(error);
          })
        }
+       const updateUserRole= (userNumber, role)=>{
+         const user=users.value[userNumber];
+         const docRef = doc(db, "users", user.uid);
+         if(users.value[userNumber].role==role){
+             users.value[userNumber].role="";
+         }
+         else{
+             users.value[userNumber].role=role
+         }
+         setDoc(docRef,users.value[userNumber])
+           .then(docRef => {
+             console.log("Entire Document has been updated successfully");
+           })
+         .catch(error => {
+           console.log(error);
+         })
+       }
        const deleteUser= (usernum)=>{
-         const user=users.value[usernum];
+         const user=users.value[usernum];1
            console.log(user)
          const docRef = doc(db, "users", user.id);
          users.value.splice(usernum,1);
@@ -111,8 +143,10 @@ import { ref, computed, watchEffect } from 'vue';
 
         return{
           permisions:["Contacts","OrgChart","Blog"],
-            options:["Edit","Add","Delete"],
+          options:["Edit","Add","Delete"],
+          roles:["Component Head","Team Mentor","Team Captain", "Manufacture"],
           users,
+          updateUserRole,
           updateUser,
           deleteUser
         }
