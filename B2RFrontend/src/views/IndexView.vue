@@ -5,7 +5,7 @@
 ||     a. get it to show a condensed version of all of the recent posts
 ||        like a mini version of list view, when viewing a post.
 ||     b. filter by tag/date when viewing all of the posts
-||  - [-] search bar
+||  - [x] search bar
 ||     a. havent started it yet, but once the sidebar filtering is done it 
 ||        should be pretty much the same just by title/content instead of tags
 ||  - [x] saving posts to firebase
@@ -134,7 +134,10 @@
                             "
                             class="card"
                         >
-                            <Editor v-model="postData.content" @editor-created="setUpEditor" />
+                            <Editor
+                                v-model="postData.content"
+                                @editor-created="setUpEditor"
+                            />
                         </span>
                     </div>
                     <div class="modal-footer">
@@ -184,8 +187,8 @@ import {
     addDoc,
     where,
     getDoc,
-    setDoc,
-    updateDoc
+    updateDoc,
+    orderBy,
 } from "firebase/firestore";
 
 export default {
@@ -215,13 +218,16 @@ export default {
                 tags: [],
                 content: "",
                 delta: [],
-                id: ""
+                id: "",
             },
         };
     },
     mounted() {
         this.postsRef = collection(db, "blogPosts/vE5AQMbXcBlxrvAUVYrX/posts");
-        this.tagsRef = collection(db, "/blogPosts/5eg31wh1BqwLekP8H47z/tagsList");
+        this.tagsRef = collection(
+            db,
+            "/blogPosts/5eg31wh1BqwLekP8H47z/tagsList"
+        );
         this.fetchPosts();
         this.fetchTags();
     },
@@ -229,57 +235,94 @@ export default {
         async searchAndTagFilter(search, tag) {
             // run a query with both search and tag filters
             if (search == "") {
+                // this.filter.tags.push(tag)
                 this.toggleTagFilter(tag);
                 return;
-            }
-            else if (tag.length == 0) {
+            } else if (this.filter.tags.length == 0) {
                 this.toggleSearchFilter(search);
                 return;
             }
-            let res = [];
 
+            let res = [];
+            const q = query(
+                this.postsRef,
+                where("title", ">=", search),
+                where("title", "<=", search + "\uf8ff"),
+                where("tags", "array-contains-any", this.filter.tags)
+            );
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => res.push(doc.data()));
+            res = res.filter((e) => {
+                for (let tagName of this.filter.tags) {
+                    if (!e.tags.includes(tagName)) {
+                        return false;
+                    }
+                }
+                return true;
+            });
+            this.blogData = res;
         },
         async toggleSearchFilter(search) {
-            this.filter.search = search
+            this.filter.search = search;
+
+            // if ther are also tags, run the combined search and tag filter
             if (this.filter.tags.length > 0) {
-                this.searchAndTagFilter(search, this.filter.tags)
+                this.searchAndTagFilter(search, this.filter.tags);
                 return;
             }
+
+            // if the search is empty, run the normal query
             if (search == "") {
                 this.fetchPosts();
                 return;
             }
             let res = [];
-            const q = query( this.postsRef, where("title", ">=", search    ), where("title", "<=", search + "\uf8ff"));
+            const q = query(
+                this.postsRef,
+                where("title", ">=", search),
+                where("title", "<=", search + "\uf8ff")
+            );
             const querySnapshot = await getDocs(q);
-            querySnapshot.forEach( doc => res.push(doc.data()));
+            querySnapshot.forEach((doc) => res.push(doc.data()));
+            res.sort((a, b) => (a.date > b.date ? -1 : 1));
             this.blogData = res;
         },
         async toggleTagFilter(tag) {
-            let res = [];
             // for tags
             if (this.filter.tags.includes(tag)) {
-                // re-run query, but this time without the provided tag
-                this.filter.tags = this.filter.tags.filter(a => a != tag)
-                if (this.filter.tags.length == 0) {
-                    this.fetchPosts();
-                    return;
-                }
+                // remove the tag from the filter and run the query
+                this.filter.tags = this.filter.tags.filter((a) => a != tag);
             } else {
-                // run the query with new filter
-                this.filter.tags.push(tag)
+                // add the tag to the filter and run the query
+                this.filter.tags.push(tag);
             }
-            const q = query( this.postsRef, where("tags", "array-contains-any", this.filter.tags));
+
+            if (this.filter.search != "") {
+                // if there is also a search, run the combined search and tag filter
+                this.searchAndTagFilter(this.filter.search, tag);
+                return;
+            }
+
+            if (this.filter.tags.length == 0) {
+                this.fetchPosts();
+                return;
+            }
+            let res = [];
+            const q = query(
+                this.postsRef,
+                where("tags", "array-contains-any", this.filter.tags),
+                orderBy("date", "desc")
+            );
             const querySnapshot = await getDocs(q);
-            querySnapshot.forEach( doc => res.push(doc.data()));
-            res = res.filter( e => {
+            querySnapshot.forEach((doc) => res.push(doc.data()));
+            res = res.filter((e) => {
                 for (let tagName of this.filter.tags) {
                     if (!e.tags.includes(tagName)) {
-                        return false
+                        return false;
                     }
                 }
-                return true
-            }) 
+                return true;
+            });
             this.blogData = res;
         },
         resetPostData() {
@@ -290,21 +333,24 @@ export default {
                 tags: [],
                 content: "",
                 delta: [],
-                id: ""
-            }
+                id: "",
+            };
         },
         async debug() {
-            console.log(this.postData)
+            console.log(this.postData);
         },
         setUpEditor(editorObj) {
             this.editor = editorObj;
-            this.editor.commands.setContent(this.postData.content)
+            this.editor.commands.setContent(this.postData.content);
         },
         async fetchPosts() {
             let posts = {};
             posts.value = [];
             // fetch all users
-            const blogPostsSnapshot = await getDocs( this.postsRef );
+            const blogPostsSnapshot = await getDocs(
+                query(this.postsRef, orderBy("date", "desc")),
+                orderBy("date", "desc")
+            );
             for (const doc of blogPostsSnapshot.docs) {
                 let tmp = doc.data();
                 tmp.id = doc.id;
@@ -314,9 +360,9 @@ export default {
         },
         async fetchTags() {
             this.tags = [];
-            const blogPostsSnapshot = await getDocs( this.tagsRef );
+            const blogPostsSnapshot = await getDocs(this.tagsRef);
             for (const doc of blogPostsSnapshot.docs) {
-                for ( const tag of doc.data().tagNames) {
+                for (const tag of doc.data().tagNames) {
                     this.tags.push(tag);
                 }
             }
@@ -326,7 +372,7 @@ export default {
         },
         showList() {
             this.view = "list";
-        },  
+        },
         showPost(index) {
             this.view = "post";
             this.postIndex = index;
@@ -343,38 +389,49 @@ export default {
         },
         async savePost() {
             // prune tags and authors in the current post
-            let temp = this.postData.tags.filter( a => a.trim() != "");
+            let temp = this.postData.tags.filter((a) => a.trim() != "");
             this.postData.tags = temp;
-            temp = this.postData.authors.filter( el => el.trim() != "");
+            temp = this.postData.authors.filter((el) => el.trim() != "");
             this.postData.authors = temp;
             if (this.postType == "create") {
                 let tmp = new Date();
-                let date = `${tmp.getUTCMonth()}/${tmp.getUTCDate()}/${tmp.getUTCFullYear()}`
-                await addDoc(collection(db, "blogPosts/vE5AQMbXcBlxrvAUVYrX/posts"), {
-                    title: this.postData.title,
-                    date: date,
-                    authors: this.postData.authors,
-                    tags: this.postData.tags,
-                    content: this.postData.content 
-                })
-                console.log("finished")
+                let date = `${tmp.getUTCMonth()}/${tmp.getUTCDate()}/${tmp.getUTCFullYear()}`;
+                await addDoc(
+                    collection(db, "blogPosts/vE5AQMbXcBlxrvAUVYrX/posts"),
+                    {
+                        title: this.postData.title,
+                        date: date,
+                        authors: this.postData.authors,
+                        tags: this.postData.tags,
+                        content: this.postData.content,
+                    }
+                );
+                console.log("finished");
             } else if (this.postType == "modify") {
-                console.log("looking up a specific doc")
-                const docRef = doc(db, "blogPosts/vE5AQMbXcBlxrvAUVYrX/posts", this.postData.id);
+                console.log("looking up a specific doc");
+                const docRef = doc(
+                    db,
+                    "blogPosts/vE5AQMbXcBlxrvAUVYrX/posts",
+                    this.postData.id
+                );
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     await updateDoc(docRef, {
                         title: this.postData.title,
                         authors: this.postData.authors,
                         tags: this.postData.tags,
-                        content: this.postData.content
-                    })
-                } 
+                        content: this.postData.content,
+                    });
+                }
             }
             this.fetchPosts();
         },
         async deletePost() {
-            const docRef = doc(db, "blogPosts/vE5AQMbXcBlxrvAUVYrX/posts", this.postData.id);
+            const docRef = doc(
+                db,
+                "blogPosts/vE5AQMbXcBlxrvAUVYrX/posts",
+                this.postData.id
+            );
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
                 await deleteDoc(docRef);
@@ -409,7 +466,6 @@ export default {
         width: 15ch;
         height: 30px;
         padding-left: 10px;
-        
     }
 
     .tag:focus,
@@ -422,7 +478,7 @@ export default {
 
 .tags {
     display: flex;
-    column-gap: .1%;
+    column-gap: 0.1%;
     .tag {
         background-color: #3b72ca1c;
         border-radius: 5px;
