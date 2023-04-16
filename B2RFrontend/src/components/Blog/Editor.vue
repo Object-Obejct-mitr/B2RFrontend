@@ -110,7 +110,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Image from '@tiptap/extension-image';
 import { Editor, EditorContent } from "@tiptap/vue-3";
 
-import { getStorage, ref, listAll, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 
 export default {

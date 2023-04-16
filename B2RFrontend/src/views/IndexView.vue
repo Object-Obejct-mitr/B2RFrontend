@@ -13,7 +13,7 @@
 ||        (maybe this can be just pulled from the content of the post)
 ||  - [x] deleting posts
 ||     a. add this option to the edit post dialog
-||  - [ ] adding image support for the posts
+||  - [x] adding image support for the posts
 ||     a. this is a bunch of stuff, have to enable an extension for 
 ||        the editor library and also set up saving documents and stuff
 ||        in firebase
@@ -169,7 +169,6 @@
             </div>
         </div>
     </main>
-    <!-- <button @click="switchViews()">switch views</button> -->
 </template>
 
 <script>

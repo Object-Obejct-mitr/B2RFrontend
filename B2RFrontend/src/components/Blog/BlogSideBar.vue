@@ -1,28 +1,6 @@
 <template>
     <div>
         <div v-if="view == 'list'" class="sideBar">
-            <!-- 
-                !scrapped for now bc it's too much work to implement
-                <h2>Filter by Date</h2>
-            <hr />
-            <div id="dateAccordion" class="accordion accordion-flush" >
-                <template v-for="year in years" :key="year">
-                    <div class="accordion-item">
-                        <button 
-                            class="accordion-button collapsed" type="button" data-mdb-toggle="collapse"
-                            :data-mdb-target="'#flush-collapseOne' + year" aria-expanded="false" :aria-controls="'flush-collapseOne'+year">
-                            {{ year }}
-                        </button>
-                    </div>
-                    <div 
-                        :id="'flush-collapseOne' + year" class="accordion-collapse collapse accordion-content"
-                        :aria-labelledby="'flush-headingOne' + year" data-mdb-parent="#dateAccordion">
-                        <div v-for="month in months" :key="month">
-                            {{  month }}
-                        </div>  
-                    </div>
-                </template>
-            </div> -->
             <h2>Search for a post</h2>
             <input 
                 type="text" class="form-control" 
@@ -117,10 +95,6 @@ export default {
 </script>
 
 <style lang="scss">
-.accordion-content {
-    
-}
-
 .tagsContainer {
     display: flex;
     flex-direction: row;
