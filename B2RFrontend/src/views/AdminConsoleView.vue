@@ -1,12 +1,11 @@
 <script setup>
-import Sidebar from "../components/Navbar/Sidebar.vue";
+import PermisionEditorTable from "../components/PermissionEditorTable/PermisionEditorTable.vue";
 </script>
 
 <template>
     <main>
-        <div class="d-flex flex-row">
-            <!--Sidebar -->
-            <Sidebar />
+        <div class="d-flex flex-row ms-3">
+
             <!--Main Content Container-->
             <div
                 id="adminConsoleViewContainer"
@@ -60,6 +59,11 @@ import Sidebar from "../components/Navbar/Sidebar.vue";
                     </div>
                 </div>
                 <div class="d-flex flex-column mt-5">
+                    <h2>Permissions</h2>
+                    <PermisionEditorTable />
+                </div>
+                
+                <!-- <div class="d-flex flex-column mt-5">
                     <h2>Permissions</h2>
                     <table class="table align-middle mb-0 bg-white mt-3">
                         <thead class="bg-light">
@@ -531,7 +535,7 @@ import Sidebar from "../components/Navbar/Sidebar.vue";
                             Add / Remove Roles
                         </button>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </main>

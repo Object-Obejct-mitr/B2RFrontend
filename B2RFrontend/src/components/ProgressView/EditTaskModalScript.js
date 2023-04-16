@@ -283,21 +283,19 @@ export default {
             const cadDownloadUrls = await Promise.all(cadPromises);
 
             // Remove deleted files from firestore
-
-            Array.from(this.ModifiedState.DeletedCADFiles).forEach(
-                (element) => {
-                    let fileName = ref(storage, element).name;
-
-                    let fileRef = ref(storage, "files/" + fileName);
-                    deleteObject(fileRef)
-                        .then(() => {})
-                        .catch((error) => {
-                            console.log("Delete Error with file " + element);
-                            console.log("Assumed Name: " + fileName);
-                        });
-                }
-            );
-            Array.from(this.ModifiedState.DeletedPhotos).forEach((element) => {
+            console.log("Removing files");
+            console.log(Array.from(this.ModifiedState.DeletedCADFiles));
+            Array.from(this.ModifiedState.DeletedCADFiles).forEach(element => {
+                let fileName = ref(storage, element).name;
+                console.log(fileName);
+                let fileRef = ref(storage, 'files/'+fileName);
+                deleteObject(fileRef).then(() => {
+                  }).catch((error) => {
+                    console.log("Delete Error with file " +element);
+                    console.log("Assumed Name: " + fileName);
+                  });
+            })
+            Array.from(this.ModifiedState.DeletedPhotos).forEach(element => {
                 let fileName = ref(storage, element).name;
 
                 let fileRef = ref(storage, "images/" + fileName);
