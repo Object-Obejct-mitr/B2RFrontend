@@ -3,8 +3,8 @@
 || What still needs to be done:
 ||  - [-] sidebar implementation
 ||     a. get it to show a condensed version of all of the recent posts
-||        like a mini version of list view, when viewing a post.
-||     b. filter by tag/date when viewing all of the posts
+||        like a mini version of list view, when viewing a post. (not done)
+||     b. filter by tag/date when viewing all of the posts (done)
 ||  - [x] search bar
 ||     a. havent started it yet, but once the sidebar filtering is done it 
 ||        should be pretty much the same just by title/content instead of tags

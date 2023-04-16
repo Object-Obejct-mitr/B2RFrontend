@@ -274,7 +274,9 @@ export default {
 
     img {
         max-width: 100%;
-        height: auto;
+        // height: auto;
+        height: fit-content;
+        width: fit-content;
     }
 
     blockquote {
