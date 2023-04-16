@@ -9,7 +9,7 @@
                     <div v-if="this.categories[role] != undefined && this.categories[role].length > 0 && !isMobile()"
                         class="w-100">
 
-                        <div class="d-flex flex-row justify-content-center mt-5 bg-primary"
+                        <div class="d-flex flex-row justify-content-center mt-5"
                             v-for="i in Math.ceil(this.categories[role].length / 3)" :key="i">
 
                             <div v-if="(i - 1) * 3 < this.categories[role].length" class="col w-33">
@@ -45,23 +45,14 @@
 
 <script>
 import OrgchartUser from "../components/Orgchart/OrgchartUser.vue";
-import Sidebar from "../components/Navbar/Sidebar.vue";
 import { db } from "../firebase";
 import { collection, doc, getDocs, setDoc, query, where, orderBy } from "firebase/firestore";
 import { ref, computed, watchEffect } from 'vue';
+import Sidebar from '../components/Navbar/Sidebar.vue';
 export default {
     async mounted() {
-        //const categories = ref({});
-        //const roles = ["Component Head", "Team Mentor", "Team Captain", "Manufacture"]
-
-
-        console.log(this.roles);
         await this.fetchRoles();
         await this.fetchUsers();
-
-        // watchEffect(() => {
-        //     fetchUsers();
-        // });
     },
     methods: {
         isMobile() {
@@ -104,9 +95,6 @@ export default {
     components: {
         OrgchartUser,
         Sidebar
-
     }
-
-
 }
 </script>

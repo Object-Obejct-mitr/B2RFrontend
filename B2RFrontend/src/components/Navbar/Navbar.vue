@@ -1,6 +1,11 @@
-<script setup>
+<script>
 import { RouterLink, RouterView } from "vue-router";
 import NavbarUser from "./NavbarUser.vue";
+export default {
+    components: {
+        NavbarUser
+    }
+}
 </script>
 
 <template>
@@ -69,4 +74,6 @@ import NavbarUser from "./NavbarUser.vue";
 .router-link-active {
     color: #000 !important;
 }
+
+
 </style>
