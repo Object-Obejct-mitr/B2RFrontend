@@ -37,7 +37,7 @@
                     :key="tag" 
                     :tag="tag" 
                     :class="{'selected': isSelected(tag), 'tag': true}" 
-                    @click="addToFilter(tag); toggleSelected(tag)"
+                    @click="toggleTagFilter(tag); toggleSelected(tag)"
                 />
             </div>
         </div>
@@ -86,23 +86,15 @@ export default {
             default: null,
         },
     },
+    emits:  ['tagFilter'],
     data() {
         return {
             selectedTags: [],
-            availbleDates: {},
-            years: years,
-            months: months,
-        }
-    },
-    computed: {
-        dates() {
-            
-            return "";
         }
     },
     mounted() {
-        console.log(this.tags)
-        console.log(this.dates)
+        // console.log(this.tags)
+        // console.log(this.dates)
     },
     methods: {
         searchFilter(value) {
@@ -111,9 +103,10 @@ export default {
         debug() {
             console.log(this.view);
         },
-        addToFilter(tag) {
+        toggleTagFilter(tag) {
             // emit to parent that the filter has been updated
-            console.log(tag);
+            this.$emit("tagFilter", tag);
+            // console.log(tag);
         },
         toggleSelected(tagName) {
             if (this.selectedTags.includes(tagName)) {

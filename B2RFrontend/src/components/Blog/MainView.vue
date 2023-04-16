@@ -49,7 +49,6 @@ export default {
     emits: ["showPost", "showList"],
     data() {
         return {
-            quill: null,
             postContent: null,
             postIndex: 0,
             readOnly: false,

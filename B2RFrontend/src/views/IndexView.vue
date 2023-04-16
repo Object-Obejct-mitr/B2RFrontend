@@ -59,6 +59,7 @@
                 :view="view"
                 :posts="blogData"
                 :tags="tags"
+                @tag-filter="toggleTagFilter"
             />
         </div>
         <!-- create/modify modal -->
@@ -171,8 +172,6 @@
 import MainView from "@/components/Blog/MainView.vue";
 import BlogSideBar from "@/components/Blog/BlogSideBar.vue";
 import Editor from "@/components/Blog/Editor.vue";
-import BlogData from "@/assets/BlogData.json";
-import Tags from "@/assets/Tags.json";
 
 import { db } from "../firebase";
 import {
@@ -197,12 +196,17 @@ export default {
     data() {
         return {
             view: "list",
-            blogData: BlogData,
-            tags: Tags,
+            blogData: {},
+            tags: [],
+            postsRef: null,
+            tagsRef: null,
             postIndex: 0,
             postType: "",
             editor: null,
-            content: "this is some stuff",
+            filter: {
+                tags: [],
+
+            },
             postData: {
                 title: "",
                 date: "",
@@ -215,10 +219,39 @@ export default {
         };
     },
     mounted() {
+        this.postsRef = collection(db, "blogPosts/vE5AQMbXcBlxrvAUVYrX/posts");
+        this.tagsRef = collection(db, "/blogPosts/5eg31wh1BqwLekP8H47z/tagsList");
         this.fetchPosts();
         this.fetchTags();
     },
     methods: {
+        async toggleTagFilter(tag) {
+            let res = [];
+            // for tags
+            if (this.filter.tags.includes(tag)) {
+                // re-run query, but this time without the provided tag
+                this.filter.tags = this.filter.tags.filter(a => a != tag)
+                if (this.filter.tags.length == 0) {
+                    this.fetchPosts();
+                    return;
+                }
+            } else {
+                // run the query with new filter
+                this.filter.tags.push(tag)
+            }
+            const q = query( this.postsRef, where("tags", "array-contains-any", this.filter.tags));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach( doc => res.push(doc.data()));
+            res = res.filter( e => {
+                for (let tagName of this.filter.tags) {
+                    if (!e.tags.includes(tagName)) {
+                        return false
+                    }
+                }
+                return true
+            }) 
+            this.blogData = res;
+        },
         resetPostData() {
             this.postData = {
                 title: "",
@@ -241,9 +274,7 @@ export default {
             let posts = {};
             posts.value = [];
             // fetch all users
-            const blogPostsSnapshot = await getDocs(
-                collection(db, "blogPosts/vE5AQMbXcBlxrvAUVYrX/posts")
-            );
+            const blogPostsSnapshot = await getDocs( this.postsRef );
             for (const doc of blogPostsSnapshot.docs) {
                 let tmp = doc.data();
                 tmp.id = doc.id;
@@ -253,9 +284,7 @@ export default {
         },
         async fetchTags() {
             this.tags = [];
-            const blogPostsSnapshot = await getDocs(
-                collection(db, "/blogPosts/5eg31wh1BqwLekP8H47z/tagsList")
-            );
+            const blogPostsSnapshot = await getDocs( this.tagsRef );
             for (const doc of blogPostsSnapshot.docs) {
                 for ( const tag of doc.data().tagNames) {
                     this.tags.push(tag);
