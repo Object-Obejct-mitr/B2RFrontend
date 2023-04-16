@@ -53,13 +53,6 @@
 <script>
 import Tag from "./Tag.vue";
 
-const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-// just make year start from 2023 since this is the earliest that we have posts
-const today = new Date();
-// years from 2023 to current year
-// const years = Array.from({length: today.getFullYear() - 2012}, (v, k) => k + 2023);
-
-const years = Array.from({length: today.getFullYear() - 2019}, (v, k) => k + 2020).reverse();
 export default {
     components: {
         Tag,
@@ -86,7 +79,7 @@ export default {
             default: null,
         },
     },
-    emits:  ['tagFilter'],
+    emits:  ['tagFilter', 'searchFilter'],
     data() {
         return {
             selectedTags: [],
@@ -98,7 +91,7 @@ export default {
     },
     methods: {
         searchFilter(value) {
-            console.log(value);
+            this.$emit("searchFilter", value);
         },
         debug() {
             console.log(this.view);

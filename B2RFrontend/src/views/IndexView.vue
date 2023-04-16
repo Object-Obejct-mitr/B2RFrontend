@@ -60,6 +60,7 @@
                 :posts="blogData"
                 :tags="tags"
                 @tag-filter="toggleTagFilter"
+                @search-filter="toggleSearchFilter"
             />
         </div>
         <!-- create/modify modal -->
@@ -205,7 +206,7 @@ export default {
             editor: null,
             filter: {
                 tags: [],
-
+                search: "",
             },
             postData: {
                 title: "",
@@ -225,6 +226,35 @@ export default {
         this.fetchTags();
     },
     methods: {
+        async searchAndTagFilter(search, tag) {
+            // run a query with both search and tag filters
+            if (search == "") {
+                this.toggleTagFilter(tag);
+                return;
+            }
+            else if (tag.length == 0) {
+                this.toggleSearchFilter(search);
+                return;
+            }
+            let res = [];
+
+        },
+        async toggleSearchFilter(search) {
+            this.filter.search = search
+            if (this.filter.tags.length > 0) {
+                this.searchAndTagFilter(search, this.filter.tags)
+                return;
+            }
+            if (search == "") {
+                this.fetchPosts();
+                return;
+            }
+            let res = [];
+            const q = query( this.postsRef, where("title", ">=", search    ), where("title", "<=", search + "\uf8ff"));
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach( doc => res.push(doc.data()));
+            this.blogData = res;
+        },
         async toggleTagFilter(tag) {
             let res = [];
             // for tags
