@@ -22,7 +22,9 @@ export default {
     props: {
         data: Object,
         componentName: String,
+        componentList: Object
     },
+
     data() {
         return {
             localQuantity: this.data.Quantity,
@@ -54,7 +56,7 @@ export default {
             const regex = new RegExp("..*%2F(.*?)\?alt");
             const matches = inputString.match(regex);
             if (matches) {
-                
+
                 return matches[1].substring(0, matches[1].lastIndexOf("%"));
             } else {
                 return "Regex Error";
@@ -132,7 +134,7 @@ export default {
                                     <h5>Files</h5>
                                     <div v-for="(FileData, index) in data.CADFiles" :key="index"
                                         class="d-flex flex-row w-100" :class="[isMobile() ? 'pe-3' : '']">
-                                        <span class="me-auto" style="text-overflow: ellipsis; overflow: hidden;" 
+                                        <span class="me-auto" style="text-overflow: ellipsis; overflow: hidden;"
                                             :style="[isMobile() ? 'width=20ch;' : '']">{{ applyRegex(FileData) }}</span>
                                         <a :href="FileData" download target="_blank">
                                             <i class="fas fa-download"></i>
@@ -144,7 +146,7 @@ export default {
                                     <h5>Photos</h5>
                                     <div v-for="(PhotoData, index) in data.Photos" :key="index"
                                         class="d-flex flex-row w-100 pe-3">
-                                        <span class="me-auto" style="text-overflow: ellipsis; overflow: hidden;" 
+                                        <span class="me-auto" style="text-overflow: ellipsis; overflow: hidden;"
                                             :style="[isMobile() ? 'width=20ch;' : '']">{{ applyRegex(PhotoData)
                                             }}</span>
                                         <a :href="PhotoData" download target="_blank">
@@ -159,23 +161,26 @@ export default {
                         <div v-if="isMobile()">
                             <div class="mt-3 w-100 d-flex flex-column ">
 
-                                <div v-if="numPhotos > 0" class="d-inline-flex position-relative mb-3 justify-content-center">
+                                <div v-if="numPhotos > 0"
+                                    class="d-inline-flex position-relative mb-3 justify-content-center">
                                     <h4>
                                         <span
                                             class="position-absolute top-100 start-100 translate-middle badge rounded-pill badge-secondary">
                                             {{ numPhotos }}
                                         </span>
                                     </h4>
-                                    <Lightbox :Photos="data.Photos" style="width=auto"/>
+                                    <Lightbox :Photos="data.Photos" style="width=auto" />
                                 </div>
 
-                                <EditTaskModal :id="uuid" :componentName="componentName" :data="data" buttonClass="w-25 mt-3"/>
+                                <EditTaskModal :id="uuid" :componentName="componentName" :data="data"
+                                    buttonClass="w-25 mt-3" :componentList="componentList" />
                             </div>
                         </div>
 
 
                         <div v-if="!isMobile()" class="mt-2">
-                            <EditTaskModal :id="uuid" :componentName="componentName" :data="data" buttonClass="w-25 mt-3"/>
+                            <EditTaskModal :id="uuid" :componentName="componentName" :data="data" buttonClass="w-25 mt-3"
+                                :componentList="componentList" />
                         </div>
 
 
@@ -220,5 +225,4 @@ p {
 
 .grab:active {
     cursor: grabbing;
-}
-</style>
+}</style>

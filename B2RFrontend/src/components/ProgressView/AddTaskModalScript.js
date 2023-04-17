@@ -16,6 +16,12 @@ export default {
         const toast = useToast();
         return { toast }
     },
+    props: {
+        componentList: {
+            type: Object,
+            default: []
+        }
+    },
     data() {
         return {
             Name: '',
@@ -27,7 +33,8 @@ export default {
             Priority: NaN,
             Quantity: NaN,
             CADFiles: [],
-            Photos: []
+            Photos: [],
+            Components: this.componentList
         };
 
     },

@@ -12,7 +12,8 @@ export default {
         id: String,
         data: Object,
         componentName: String,
-        buttonClass: String
+        buttonClass: String,
+        componentList: Object
     },
     data() {
         return {

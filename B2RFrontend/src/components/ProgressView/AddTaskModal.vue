@@ -16,7 +16,8 @@
                     </div>
 
                     <div class="modal-body">
-
+                        {{ this.Component }}
+                        {{ this.DesiredQuantity }}
                         <div class="d-flex flex-column">
                             <!--Header-->
                             <div class="h3">Task Data</div>
@@ -33,8 +34,9 @@
 
                                     <select class="form-control active" id="addComponentName" v-model="Component" required>
                                         <option value="" disabled selected>Select a Component</option>
-                                        <option value="Drivetrain">Drivetrain</option>
-                                        <option value="Electronics">Electronics</option>
+                                        <option v-for="(option, index) in this.Components" :value="option" :key="index">
+                                            {{ option }}
+                                        </option>
                                     </select>
                                     <label class="form-label" for="addComponentName">Component Name</label>
                                     <div class="form-notch">
@@ -56,14 +58,13 @@
                             </div>
                             <!--Priority-->
                             <div class="d-flex flex-row">
-
-                                <InputNumber notchWidth="6ch" id="addTaskPrio" label="Priority" v-model="Priority"
+                                <InputNumber notchWidth="6ch" id="addTaskPrio" label="Priority" v-model.number="Priority" type="number"
                                     :isRequired="true" class="w-50 mt-3" />
                                 <!--Quantity-->
-                                <InputNumber notchWidth="6ch" id="addTaskQTY" label="Quantity" v-model="Quantity"
+                                <InputNumber notchWidth="6ch" id="addTaskQTY" label="Quantity" v-model.number="Quantity" type="number"
                                     :isRequired="true" class="w-50 mt-3 ms-3" />
-                                <InputNumber notchWidth="12ch" id="desTaskQTY" label="Desired Quantity"
-                                    v-model="DesiredQuantity" :isRequired="true" class="w-50 mt-3 ms-3" />
+                                <InputNumber notchWidth="12ch" id="desTaskQTY" label="Desired Quantity" type="number"
+                                    v-model.number="DesiredQuantity" :isRequired="true" class="w-50 mt-3 ms-3" />
                             </div>
                             <InputTextArea id="addTaskDesc" :numRows="6" v-model="Description" label="Description"
                                 notchWidth="8ch" class="mt-3" />
@@ -98,7 +99,7 @@
                                         <div class="h5">Photos</div>
                                         <label for="addPhotoFile" class="form-label">Upload New
                                             Photos</label>
-                                        <input id="addPhotoFile" class="form-control" type="file" multiple
+                                        <input id="addPhotoFile" class="form-control" type="file" accept="image/*" multiple
                                             @change="onPhotoSelected" />
                                     </div>
                                     <div v-for="(file, index) in Photos" :key="index" class="d-flex flex-row w-100 pe-3">
