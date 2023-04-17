@@ -152,7 +152,7 @@ export default {
     return {
       roles: [],
       users: [],
-      options: ["Edit", "Add", "Delete"],
+      options: ["Edit", "Add", "Delete","View"],
       permisions: ["Contacts", "OrgChart", "Blog"],
     }
   }

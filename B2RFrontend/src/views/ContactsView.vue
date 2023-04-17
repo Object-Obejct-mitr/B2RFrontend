@@ -21,7 +21,7 @@
       </div>
       <div class="col-lg-9">
         <div class="d-flex flex-row mt-3 mb-3 justify-content-end">
-          <AddContactModal />
+          <AddContactModal v-if="permission.Add" />
           <input type="text" class="form-control ms-3" placeholder="Search by name" @click="search" v-model="searchQuery" style="width: 200px;">
         </div>
 
@@ -33,7 +33,7 @@
               <th class="h5">Phone Number</th>
               <th class="h5">Email</th>
               <th class="h5">Tags</th>
-              <th class="h5">Actions</th>
+              <th class="h5" v-if="permission.Delete | permission.Edit | permission.View">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -46,10 +46,10 @@
               <td>
                 <span v-for="tag in user.tags" :key="tag" class="badge bg-primary me-2">{{ tag }}</span>
               </td>
-              <td>
-                <UserInfoModal :user="user" :id="user.userID+''+index"></UserInfoModal>
-                <EditInfoModal :user="user" :id="user.userID+''+index"></EditInfoModal>
-                <a class="btn btn-sm btn-danger" @click.prevent="deleteUser(user)"><i class="fas fa-trash-alt"></i></a>
+              <td v-if="permission.Delete | permission.Edit | permission.View">
+                <UserInfoModal v-if="permission.View" :user="user" :id="user.userID+''+index"></UserInfoModal>
+                <EditInfoModal v-if="permission.Edit" :user="user" :id="user.userID+''+index"></EditInfoModal>
+                <a v-if="permission.Delete" class="btn btn-sm btn-danger" @click.prevent="deleteUser(user)"><i class="fas fa-trash-alt"></i></a>
               </td>
             </tr>
           </tbody>
@@ -79,6 +79,7 @@
   import DeleteContactList from '@/components/Contactsview/deletecontactList.vue';
   import UserInfoModal from '@/components/Contactsview/UserInfoModal.vue';
   import EditInfoModal from '@/components/Contactsview/EditModal.vue';
+  import getPermission from '@/components/Misc/Permssions.js';
   import { db } from "../firebase";
   import { collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore"; 
   import { ref, computed, watchEffect } from 'vue';
@@ -99,9 +100,26 @@
       const categories = ref([]);
       const selectedList = ref('all');
       const searchQuery = ref('');
-  
+      const currentUser=ref({});
+      const permission=ref({Edit:false,Add:false,Delete:false, View:false})
       const contactPageCollectionRef = collection(db, "contactPage");
-
+      const data = localStorage.getItem('user');
+      if(data != undefined){
+          console.log("Found user in local storage");
+          currentUser.value = JSON.parse(data);
+          getPermission(currentUser.value.email,"EditContacts").then((result)=>{
+            permission.value.Edit=result;
+          });
+          getPermission(currentUser.value.email,"DeleteContacts").then((result)=>{
+            permission.value.Delete=result;
+          })
+          getPermission(currentUser.value.email,"AddContacts").then((result)=>{
+            permission.value.Add=result;
+          })
+          getPermission(currentUser.value.email,"ViewContacts").then((result)=>{
+            permission.value.View=result;
+          })
+      }
       const selectList = (list) => {
         selectedList.value = list;
       };
@@ -193,7 +211,9 @@
         searchQuery,
         selectList,
         deleteUser,
-        search
+        search,
+        permission,
+        currentUser
       };
     },
   };
