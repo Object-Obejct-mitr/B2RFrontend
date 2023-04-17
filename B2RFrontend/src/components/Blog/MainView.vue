@@ -23,6 +23,9 @@
         <span>
             <h2>{{posts[postIndex].title}}</h2>
             Written by {{ authors }} on {{ posts[postIndex].date }}
+            <span class="tags">
+                <span v-for="tag in posts[postIndex].tags" :key="tag" class="tag">{{ tag }}</span>
+            </span>
         </span>
         <div v-html="posts[postIndex].content"></div>
     </div>
@@ -46,12 +49,16 @@ export default {
             required: true,
             default: null,
         },
+        postIndex: {
+            type: Number,
+            required: true,
+            default: 0,
+        },
     },
     emits: ["showPost", "showList"],
     data() {
         return {
             postContent: null,
-            postIndex: 0,
             readOnly: false,
         };
     },
@@ -85,20 +92,8 @@ export default {
             console.log(this.posts[this.postIndex])
         },
         showPost(index) {
-            this.postIndex = index;
+            // this.postIndex = index;
             this.$emit("showPost", index);
-        },
-        postReady(quill) {
-            this.quill = quill;
-            console.log("editor ready");
-            console.log(this.view);
-
-            console.log(this.posts[parseInt(this.postIndex)]);
-            this.postContent = this.posts[parseInt(this.postIndex)].delta;
-            quill.setContents(
-                this.posts[parseInt(this.postIndex)].delta,
-                "api"
-            );
         },
 
     },

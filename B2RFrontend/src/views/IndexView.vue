@@ -1,7 +1,7 @@
 <!-- blog page -->
 <!-- 
 || What still needs to be done:
-||  - [-] sidebar implementation
+||  - [x] sidebar implementation
 ||     a. get it to show a condensed version of all of the recent posts
 ||        like a mini version of list view, when viewing a post. (not done)
 ||     b. filter by tag/date when viewing all of the posts (done)
@@ -23,6 +23,7 @@
 ||     a. get post view to display everything properly
 ||     b. make sure that everything looks nice
 ||  - [ ] (possible) pagination for when there are a bunch of posts
+||  - [-] add tags to database when there is a new tag
  -->
 <template>
     <main id="blogView">
@@ -31,10 +32,11 @@
             id="mainView"
             :view="view"
             :posts="blogData"
+            :post-index="postIndex"
             @show-post="showPost"
             @show-list="showList"
         />
-        <div class="sideBar">
+        <div class="indexViewSideBar">
             <button
                 v-if="view == 'list'"
                 class="buttonSpacing btn btn-secondary"
@@ -59,6 +61,7 @@
                 :view="view"
                 :posts="blogData"
                 :tags="tags"
+                @show-post="showPost"
                 @tag-filter="toggleTagFilter"
                 @search-filter="toggleSearchFilter"
             />
@@ -442,6 +445,15 @@ export default {
 </script>
 
 <style lang="scss">
+.postInfo {
+    h1 {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
+    }
+}
+
 .content {
     display: flex;
     flex-direction: column;
@@ -513,7 +525,7 @@ export default {
     height: fit-content;
 }
 
-.sideBar {
+.indexViewSideBar {
     display: flex;
     flex-direction: column;
 }

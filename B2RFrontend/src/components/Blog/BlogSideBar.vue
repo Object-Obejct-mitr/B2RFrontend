@@ -21,6 +21,22 @@
         </div>
         <div v-else class="sideBar">
             <h2>Recent Posts</h2>
+            <div class="postsContainer">
+                <div
+                    v-for="(post, index) in posts"
+                    :key="JSON.stringify(post)"
+                    class="card postList"
+                    @click="showPost(index)"
+                >
+                    <span class="postInfo">
+                        <h1>{{ post.title }}</h1>
+                        <span>{{ post.date }}</span>
+                    </span>
+                    <span class="tags">
+                        <span v-for="tag in post.tags" :key="tag" class="tag">{{ tag }}</span>
+                    </span>
+                </div>
+            </div>
         </div>
         <!-- <button @click="debug">
             debug
@@ -57,7 +73,7 @@ export default {
             default: null,
         },
     },
-    emits:  ['tagFilter', 'searchFilter'],
+    emits:  ['tagFilter', 'searchFilter', 'showPost'],
     data() {
         return {
             selectedTags: [],
@@ -68,6 +84,9 @@ export default {
         // console.log(this.dates)
     },
     methods: {
+        showPost(index) {
+            this.$emit("showPost", index);
+        },
         searchFilter(value) {
             this.$emit("searchFilter", value);
         },
@@ -119,6 +138,17 @@ export default {
         color: white;
     }
     
+}
+
+.sideBar {
+    .postsContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 1%;
+
+        height: 69vh;
+        overflow-y: auto;
+    }
 }
 
 </style>
