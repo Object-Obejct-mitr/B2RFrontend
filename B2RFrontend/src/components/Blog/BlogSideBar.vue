@@ -116,7 +116,7 @@ export default {
 <style lang="scss">
 .tagsContainer {
     display: flex;
-    flex-direction: row;
+    flex-flow: row wrap;
     gap: 1%;
     
     .tag {
@@ -125,6 +125,7 @@ export default {
         border-radius: 5px;
         box-sizing: border-box;
         padding: 0.25% 0.5%;
+        flex-grow: 1;
 
         &:hover {
             background-color: #3b72ca;
