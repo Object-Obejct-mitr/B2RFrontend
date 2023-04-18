@@ -1,4 +1,3 @@
-
 <!--This currently doesn't work, but i leave it as an exercise to the reader-->
 <script>
 export default {
@@ -8,32 +7,32 @@ export default {
         id: String,
         isRequired: {
             type: Boolean,
-            default: false
-        }
+            default: false,
+        },
+    },
+    mounted() {
+        this.$emit("input", this.selected);
     },
     methods: {
         handleChange(event) {
             this.$emit("input", event.target.value);
         },
-
-    },
-    mounted() {
-        this.$emit("input", this.selected);
     },
 };
 </script>
 
 <!--Creates a "notch" in each input border to place the input name on said border-->
 <template>
-    <div class="form-outline ">
+    <div class="form-outline">
         <i class="fas fa-angle-down trailing"></i>
 
-
-        <select :id="id" class="form-control" @change="$emit('update:vModelReference', $event.target.value)"
-            :required="isRequired">
-            <slot>
-
-            </slot>
+        <select
+            :id="id"
+            class="form-control"
+            :required="isRequired"
+            @change="$emit('update:vModelReference', $event.target.value)"
+        >
+            <slot> </slot>
         </select>
         <label class="form-label" :for="id">{{ label }}</label>
 

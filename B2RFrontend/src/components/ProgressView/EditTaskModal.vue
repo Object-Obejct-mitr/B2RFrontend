@@ -34,8 +34,9 @@
 
                                     <select class="form-control active" id="addComponentName" v-model="ModifiedState.Component" required>
                                         <option value="" disabled selected>Select a Component</option>
-                                        <option value="Drivetrain">Drivetrain</option>
-                                        <option value="Electronics">Electronics</option>
+                                        <option v-for="(option, index) in this.componentList" :value="option" :key="index">
+                                            {{ option }}
+                                        </option>
                                     </select>
                                     <label class="form-label" for="addComponentName">Component Name</label>
                                     <div class="form-notch">
@@ -109,7 +110,7 @@
                                         <div class="h5">Photos</div>
                                         <label for="addPhotoFile" class="form-label">Upload New
                                             Photos</label>
-                                        <input id="addPhotoFile" class="form-control" type="file" multiple
+                                        <input id="addPhotoFile" class="form-control" type="file" accept="image/*" multiple
                                             @change="onPhotoSelected" />
                                     </div>
                                     <div v-for="(file, index) in ModifiedState.NewPhotos" :key="index" class="d-flex flex-row w-100 pe-3">

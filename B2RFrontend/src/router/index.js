@@ -4,7 +4,6 @@ import ProgressView from "../views/ProgressView.vue";
 import AdminConsoleView from "../views/AdminConsoleView.vue";
 import ContactsView from "../views/ContactsView.vue";
 import OrgchartView from "../views/OrgchartView.vue";
-import ProfileView from "../views/ProfileView.vue";
 
 
 function requireAuth(to, from, next) {
@@ -59,14 +58,6 @@ const router = createRouter({
             path: "/orgchart",
             name: "orgchart",
             component: OrgchartView,
-            meta: {
-                requiresAuth: false
-            }
-        },
-        {
-            path: "/profile",
-            name: "profile",
-            component: ProfileView,
             meta: {
                 requiresAuth: false
             }

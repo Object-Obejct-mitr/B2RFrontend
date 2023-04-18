@@ -1,7 +1,8 @@
 <template>
     <main>
         <div class="d-flex flex-column align-items-center container-fluid">
-            <AddTaskModal />
+            <AddTaskModal :componentList="this.allComponents" v-if="this.allComponents.length > 0"/>
+            <p v-if="this.allComponents.length <= 0">No Components Found, Add One In The Admin Dashboard</p>
             <div v-for="(componentData, componentName) in taskData" :key="componentData"
                 class="h-100 d-flex align-items-center mt-5 flex-fill w-100">
                 <div class="d-flex justify-content-center flex-column flex-fill">
@@ -15,7 +16,7 @@
                                 @end="orderList(componentName, 'ToDo')" item-key="id"
                                 @change="updateCategory($event, 'ToDo').then(()=>orderList(componentName, 'ToDo'))" :sort="true">
                                 <template #item="{ element }">
-                                    <Task :data="element" :componentName="componentName" />
+                                    <Task :data="element" :componentName="componentName" :componentList="this.allComponents" />
                                 </template>
                             </draggable>
                         </div>
@@ -28,7 +29,7 @@
                                 @end="orderList(componentName, 'Done')" item-key="id"
                                 @change="updateCategory($event, 'Done').then(()=>orderList(componentName, 'Done'))" :sort="true">
                                 <template #item="{ element }">
-                                    <Task :data="element" :componentName="componentName" />
+                                    <Task :data="element" :componentName="componentName" :componentList="this.allComponents" />
                                 </template>
                             </draggable>
 
@@ -61,6 +62,7 @@ export default {
         return {
             taskData: {},
             drag: false,
+            allComponents: []
         }
 
     },
@@ -140,6 +142,7 @@ export default {
                 let querySnapshot = await getDocs(q);
                 querySnapshot.forEach((doc) => {
                     this.taskData[doc.data().ComponentName] = {}
+                    this.allComponents = [...this.allComponents, doc.data().ComponentName]
                     this.taskData[doc.data().ComponentName]["ToDo"] = []
                     this.taskData[doc.data().ComponentName]["Done"] = []
                     console.log(doc.id);
@@ -147,8 +150,7 @@ export default {
                         this.fetchTasks(doc.id, doc.data().ComponentName, "ToDo");
                     });
                 })
-
-
+                console.log(this.allComponents)
             },
         }
 

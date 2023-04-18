@@ -96,10 +96,13 @@ export default {
         this.roles = [...this.roles, doc.data().Name];
       })
     },
-    deleteUser(usernum) {
+    async deleteUser(usernum) {
       const user = this.users[usernum]; 1
       console.log(user)
-      const docRef = doc(db, "users", user.id);
+      const q = query(collection(db, "users"), where("email", "==", user.email));
+      const querySnapshot = await getDocs(q);
+      
+      const docRef = doc(db, "users", querySnapshot.docs[0].id);
       this.users.splice(usernum, 1);
       deleteDoc(docRef)
         .then(docRef => {
@@ -109,9 +112,12 @@ export default {
           console.log(error);
         })
     },
-    updateUserRole(userNumber, role) {
+    async updateUserRole(userNumber, role) {
       const user = this.users[userNumber];
-      const docRef = doc(db, "users", user.uid);
+      const q = query(collection(db, "users"), where("email", "==", user.email));
+      const querySnapshot = await getDocs(q);
+      
+      const docRef = doc(db, "users", querySnapshot.docs[0].id);
       if (this.users[userNumber].role == role) {
         this.users[userNumber].role = "";
       }
@@ -126,10 +132,13 @@ export default {
           console.log(error);
         })
     },
-    updateUser(userNumber, editupdate) {
+    async updateUser(userNumber, editupdate) {
       const user = this.users[userNumber];
       const index = user.permissions.indexOf(editupdate);
-      const docRef = doc(db, "users", user.uid);
+      const q = query(collection(db, "users"), where("email", "==", user.email));
+      const querySnapshot = await getDocs(q);
+      
+      const docRef = doc(db, "users", querySnapshot.docs[0].id);
       if (index > -1) {
         this.users[userNumber].permissions.splice(index, 1);
       }

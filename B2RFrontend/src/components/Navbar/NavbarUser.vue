@@ -203,7 +203,6 @@ export default {
             <i class="fab fa-google me-2"></i>
             Sign In With School Email
         </a>
-
     </div>
     <div v-if="this.signedInNew" class="d-flex align-items-center">
         <div class="d-flex flex-column align-items-center">
