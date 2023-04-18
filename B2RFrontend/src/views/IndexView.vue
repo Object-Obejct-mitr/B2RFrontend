@@ -23,7 +23,7 @@
 ||     a. get post view to display everything properly
 ||     b. make sure that everything looks nice
 ||  - [ ] (possible) pagination for when there are a bunch of posts
-||  - [-] add tags to database when there is a new tag
+||  - [x] add tags to database when there is a new tag
  -->
 <template>
     <main id="blogView">
