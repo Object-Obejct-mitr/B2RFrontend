@@ -5,7 +5,8 @@
             <div class="d-flex flex-column flex-fill container-fluid">
 
                 <div class="d-flex flex-column container-fluid" :id="role" v-for="(role, index) in this.roles" :key="index">
-                    <h1 class="text-center" :id="role + index">{{ pluralize(role) }}</h1>
+                    <h1 v-if="this.categories[role] != undefined && this.categories[role].length > 0" class="text-center"
+                        :id="role + index">{{ pluralize(role) }}</h1>
                     <div v-if="this.categories[role] != undefined && this.categories[role].length > 0 && !isMobile()"
                         class="w-100">
 
