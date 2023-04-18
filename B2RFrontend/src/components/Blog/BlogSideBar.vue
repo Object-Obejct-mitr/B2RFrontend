@@ -1,13 +1,42 @@
 <template>
     <div>
-        
-        <div v-if="view == 'list'" class = "sideBar">
-            <h2>Filter by Date</h2>
+        <div v-if="view == 'list'" class="sideBar">
+            <h2>Search for a post</h2>
+            <input 
+                type="text" class="form-control" 
+                placeholder="Search" aria-label="Search" 
+                @input="$event => searchFilter($event.target.value)" 
+            />
             <hr />
             <h2>Filter by Tags</h2>
+            <div class="tagsContainer">
+                <Tag 
+                    v-for="tag in tags" 
+                    :key="tag" 
+                    :tag="tag" 
+                    :class="{'selected': isSelected(tag), 'tag': true}" 
+                    @click="toggleTagFilter(tag); toggleSelected(tag)"
+                />
+            </div>
         </div>
-        <div v-else class = "sideBar" >
+        <div v-else class="sideBar">
             <h2>Recent Posts</h2>
+            <div class="postsContainer">
+                <div
+                    v-for="(post, index) in posts"
+                    :key="JSON.stringify(post)"
+                    class="card postList"
+                    @click="showPost(index)"
+                >
+                    <span class="postInfo">
+                        <h1>{{ post.title }}</h1>
+                        <span>{{ post.date }}</span>
+                    </span>
+                    <span class="tags">
+                        <span v-for="tag in post.tags" :key="tag" class="tag">{{ tag }}</span>
+                    </span>
+                </div>
+            </div>
         </div>
         <!-- <button @click="debug">
             debug
@@ -16,7 +45,12 @@
 </template>
 
 <script>
+import Tag from "./Tag.vue";
+
 export default {
+    components: {
+        Tag,
+    },
     props: {
         // either "post" or "list"
         // if the view is post:
@@ -28,11 +62,94 @@ export default {
             required: true,
             default: "list",
         },
+        posts: {
+            type: Object,
+            required: true,
+            default: null,
+        },
+        tags: {
+            type: Array,
+            required: true,
+            default: null,
+        },
+    },
+    emits:  ['tagFilter', 'searchFilter', 'showPost'],
+    data() {
+        return {
+            selectedTags: [],
+        }
+    },
+    mounted() {
+        // console.log(this.tags)
+        // console.log(this.dates)
     },
     methods: {
+        showPost(index) {
+            this.$emit("showPost", index);
+        },
+        searchFilter(value) {
+            this.$emit("searchFilter", value);
+        },
         debug() {
             console.log(this.view);
         },
+        toggleTagFilter(tag) {
+            // emit to parent that the filter has been updated
+            this.$emit("tagFilter", tag);
+            // console.log(tag);
+        },
+        toggleSelected(tagName) {
+            if (this.selectedTags.includes(tagName)) {
+                this.selectedTags.splice(this.selectedTags.indexOf(tagName), 1);
+            } else {
+                this.selectedTags.push(tagName);
+            }
+        },
+        isSelected(tagName) {
+            return this.selectedTags.includes(tagName);
+        }
+        
     },
 };
 </script>
+
+<style lang="scss">
+.tagsContainer {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1%;
+    
+    .tag {
+        background-color: #3b72ca1c;
+        cursor: pointer;
+        border-radius: 5px;
+        box-sizing: border-box;
+        padding: 0.25% 0.5%;
+        flex-grow: 1;
+
+        &:hover {
+            background-color: #3b72ca;
+            color: white;
+        }
+        
+    }
+
+    .selected {
+        background-color: #3b72ca;
+        color: white;
+    }
+    
+}
+
+.sideBar {
+    .postsContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 1%;
+
+        height: 69vh;
+        overflow-y: auto;
+    }
+}
+
+</style>

@@ -6,69 +6,82 @@ export default {
         id: String,
         isRequired: {
             type: Boolean,
-            default: false
+            default: false,
         },
         modelValue: {
             type: Array,
-            default: []
-        }
+            default: [],
+        },
     },
     data() {
         return {
-            currentInput: ''
-        }
+            currentInput: "",
+        };
     },
     methods: {
         updateValue(value) {
-            this.$emit('update:modelValue', value);
+            this.$emit("update:modelValue", value);
         },
         saveChip() {
             console.log(this.currentInput);
-            if (this.currentInput !== ',' && this.currentInput !== '') {
+            if (this.currentInput !== "," && this.currentInput !== "") {
                 const { modelValue, currentInput, set } = this;
-                ((set && modelValue.indexOf(currentInput) === -1) || !set) && modelValue.push(currentInput);
+                ((set && modelValue.indexOf(currentInput) === -1) || !set) &&
+                    modelValue.push(currentInput);
                 this.updateValue(modelValue);
-                this.currentInput = '';
+                this.currentInput = "";
             }
         },
         deleteChip(index) {
             this.modelValue.splice(index, 1);
         },
         backspaceDelete({ which }) {
-            which == 8 && this.currentInput === '' && this.modelValue.splice(this.modelValue.length - 1);
+            which == 8 &&
+                this.currentInput === "" &&
+                this.modelValue.splice(this.modelValue.length - 1);
         },
         checkComma() {
-            if (this.currentInput === ',') {
-                this.currentInput = '';
+            if (this.currentInput === ",") {
+                this.currentInput = "";
             }
-        }
-    }
+        },
+    },
 };
 </script>
 
 <template>
     <div>
         <div class="form-outline">
-            <input :id="id" type="text" class="form-control" v-model="currentInput" @input="checkComma"
-                @keypress.,="saveChip" @keydown.delete="backspaceDelete" :required="isRequired"
-                :class="[this.modelValue == '' ? '' : 'active']" />
+            <input
+                :id="id"
+                v-model="currentInput"
+                type="text"
+                class="form-control"
+                :required="isRequired"
+                :class="[modelValue == '' ? '' : 'active']"
+                @input="checkComma"
+                @keypress.,="saveChip"
+                @keydown.delete="backspaceDelete"
+            />
             <label class="form-label" :for="id">{{ label }}</label>
 
             <div class="form-notch">
                 <div class="form-notch-leading"></div>
-                <div class="form-notch-middle" :style="'width: ' + notchWidth"></div>
+                <div
+                    class="form-notch-middle"
+                    :style="'width: ' + notchWidth"
+                ></div>
                 <div class="form-notch-trailing"></div>
             </div>
         </div>
         <div class="chip-container d-flex mt-2 container-fluid flex-wrap">
-            <div class="chip" v-for="(chip, i) of modelValue" :key="chip.label">
+            <div v-for="(chip, i) of modelValue" :key="chip.label" class="chip">
                 {{ chip }}
                 <i class="fa fa-times ms-3" @click="deleteChip(i)"></i>
             </div>
         </div>
     </div>
 </template>
-
 
 <style scoped>
 .chip {
@@ -84,7 +97,6 @@ export default {
     box-shadow: none;
     text-transform: none;
 }
-
 
 input:focus {
     outline: none;

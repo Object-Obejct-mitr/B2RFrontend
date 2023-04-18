@@ -10,10 +10,15 @@
         "pretty": "prettier .  --write"
     },
     "dependencies": {
+        "@tiptap/extension-image": "^2.0.3",
+        "@tiptap/pm": "^2.0.2",
+        "@tiptap/starter-kit": "^2.0.2",
+        "@tiptap/vue-3": "^2.0.2",
         "@vueup/vue-quill": "^1.1.1",
         "firebase": "^9.17.2",
         "lodash.uniqueid": "^4.0.1",
         "mdb-calendar": "git+https://oauth2:yCfC16vXePeyyHk4W_vb@git.mdbootstrap.com/mdb/standard/plugins/prd/calendar",
+        "sass": "^1.62.0",
         "sortablejs": "^1.15.0",
         "vue": "^3.2.45",
         "vue-easy-lightbox": "^1.15.0",

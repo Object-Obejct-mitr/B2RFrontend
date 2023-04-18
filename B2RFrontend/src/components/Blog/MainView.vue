@@ -1,6 +1,6 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
     <div v-if="view == 'list'">
-        <!-- for loop here to iterate over the first x posts -->
         <div
             v-for="(post, index) in posts"
             :key="JSON.stringify(post)"
@@ -11,28 +11,29 @@
                 <h1>{{ post.title }}</h1>
                 <span>{{ post.date }}</span>
             </span>
-            <p class="preview">{{ post.preview }}</p>
-            <!-- <hr v-if="index != posts.length - 1"/> -->
+            <span class="tags">
+                <span v-for="tag in post.tags" :key="tag" class="tag">{{ tag }}</span>
+            </span>
+            <p class="preview" v-html="post.content.replace(/<[^>]+>/g, ' ')"></p>
         </div>
-        
     </div>
     <div v-else>
-        <!-- quill editor here -->
-        <QuillEditor theme="bubble" read-only="true" @ready="postReady"/>
+        <button class="btn btn-primary back-btn" @click="switchViews" >Go back</button>
         
-
+        <span>
+            <h2>{{posts[postIndex].title}}</h2>
+            Written by {{ authors }} on {{ posts[postIndex].date }}
+            <span class="tags">
+                <span v-for="tag in posts[postIndex].tags" :key="tag" class="tag">{{ tag }}</span>
+            </span>
+        </span>
+        <div v-html="posts[postIndex].content"></div>
     </div>
 </template>
 
 <script>
 
-import '@vueup/vue-quill/dist/vue-quill.bubble.css';
-import { QuillEditor } from '@vueup/vue-quill'
-
 export default {
-    components: {
-        QuillEditor
-    },
     props: {
         // either list or post view
         // if it is list view then it shows eveyrthing
@@ -48,45 +49,62 @@ export default {
             required: true,
             default: null,
         },
+        postIndex: {
+            type: Number,
+            required: true,
+            default: 0,
+        },
     },
-    emits: ["showPost"],
+    emits: ["showPost", "showList"],
     data() {
         return {
-            quill: null,
             postContent: null,
-            postIndex: 0,
             readOnly: false,
+        };
+    },
+    computed: {
+        authors() {
+            if (this.postIndex != -1) {
+                let out = "";
+                let authors = this.posts[this.postIndex].authors;
+                for (let [index, author] of authors.entries()) {
+                    out += author
+                    if ( authors.length > 2 && index < authors.length - 1) {
+                        out += ", " 
+                    } else {
+                        out += " "
+                    }
+                    if ( index == authors.length - 2) {
+                        out += "and "
+                    }
+                }
+                return out;
+            } else {
+                return null;
+            }
         }
     },
     methods: {
+        switchViews() {
+            this.$emit("showList");
+        },
+        debug() {
+            console.log(this.posts[this.postIndex])
+        },
         showPost(index) {
-            if (index == -1) {
-                this.postIndex = -1;
-            } else {
-                this.postIndex = index;
-            }
+            // this.postIndex = index;
             this.$emit("showPost", index);
         },
-        postReady(quill) {
-            this.quill = quill;
-            console.log("editor ready")
-            console.log(this.view)
-            
-            console.log(this.posts[parseInt(this.postIndex)])
-            this.postContent = this.posts[parseInt(this.postIndex)].delta 
-            quill.setContents(this.posts[parseInt(this.postIndex)].delta, "api")
-        },
 
-        toggleReadOnly() {
-            console.log(this.readOnly)
-            this.readOnly = !this.readOnly
-            console.log(this.readOnly)
-        }
     },
 };
 </script>
 
 <style>
+.back-btn {
+    width: 15%;
+}
+
 #postListContainer {
     margin-top: 10px;
     display: flex;
