@@ -393,8 +393,29 @@ export default {
             // prune tags and authors in the current post
             let temp = this.postData.tags.filter((a) => a.trim() != "");
             this.postData.tags = temp;
+            let flag = false;
+            let updatedTagNames = [...this.tags];
+            for ( const tag of temp ) {
+                if (!this.tags.includes(tag)) {
+                    flag = true;
+                    updatedTagNames.push(tag)
+                }
+            }
+            console.log(updatedTagNames)
+            console.log(this.tags)
+            if (flag) {
+                const docRef = doc(db, "/blogPosts/5eg31wh1BqwLekP8H47z/tagsList", "d7HP1SicPlYp7t6MmdnB")
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    await updateDoc(docRef, {
+                        tagNames: updatedTagNames
+                    });
+                    this.fetchTags();
+                }
+            }
             temp = this.postData.authors.filter((el) => el.trim() != "");
             this.postData.authors = temp;
+            // return;
             if (this.postType == "create") {
                 let tmp = new Date();
                 let date = `${tmp.getUTCMonth()}/${tmp.getUTCDate()}/${tmp.getUTCFullYear()}`;
