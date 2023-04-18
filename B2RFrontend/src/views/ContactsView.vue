@@ -75,6 +75,7 @@ import {
   doc,
   getDocs,
   query,
+  onSnapshot,
   where,
 } from "firebase/firestore";
 import { ref, computed, watchEffect } from "vue";
@@ -96,18 +97,18 @@ export default {
       categories: [],
       selectedList: "all",
       searchQuery: "",
+      snapshots:[],
       contactPageCollectionRef: collection(db, "contactPage")
 
     }
   },
   methods: {
     async selectList(list) {
-      if (list != this.selectedList) {
-        this.selectedList = list;
-        await this.fetchUsers();
-      }
-
-    },
+       if (list != this.selectedList) {
+         this.selectedList = list;
+         await this.fetchUsers();
+       }
+     },
     search() {
       // Filter the users based on the search query
       // You can add more fields to search in the user object
@@ -131,39 +132,17 @@ export default {
       });
     },
     async fetchUsers() {
-      this.users = [];
-      let querySnapshot;
-      console.log(this.selectedList);
-      if (this.selectedList === "all") {
-        // fetch all users
-        const contactPageSnapshot = await getDocs(
-          collection(db, "contactPage")
-        );
-        for (const pageDoc of contactPageSnapshot.docs) {
-          const contactsListSnapshot = await getDocs(
-            collection(pageDoc.ref, "contactsList")
-          );
-          contactsListSnapshot.forEach((doc) => {
-          this.users.push(doc.data());
-          });
-        }
-      }else {
-        // fetch users for a specific category
-        const q = query(
-          this.contactPageCollectionRef,
-          where("category", "==", this.selectedList)
-        );
-        querySnapshot = await getDocs(q);
-        let categoryId = querySnapshot.docs[0].id;
-        const check = collection(
-          db,
-          "contactPage/" + categoryId + "/contactsList"
-        );
-        querySnapshot = await getDocs(check);
-        querySnapshot.forEach((doc) => {
-          this.users.push(doc.data());
-        });
-      }
+        this.users=[];
+        let queryOperation= this.selectedList=="all" ? "!=" : "==";
+        const q = query(collection(db,"contactPage"),where("category", queryOperation,this.selectedList));
+        const data= await getDocs(q);
+        data.forEach((doc)=>{
+          getDocs(collection(db,"contactPage/"+doc.id+"/contactsList")).then((result)=> {
+            result.forEach((doc)=> {
+              this.users.push(doc.data());
+            })
+          })
+        })
     },
     async deleteUser(user) {
       console.log(user.userID);
