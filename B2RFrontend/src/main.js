@@ -14,7 +14,6 @@ import "vue-easy-lightbox/external-css/vue-easy-lightbox.css";
 const app = createApp(App);
 
 app.use(router);
-app.use(VueEasyLightbox);
 app.use(VueFire, {
     firebaseApp,
     modules: [VueFireAuth()],

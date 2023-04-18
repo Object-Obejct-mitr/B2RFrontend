@@ -4,22 +4,18 @@ import ProgressView from "../views/ProgressView.vue";
 import AdminConsoleView from "../views/AdminConsoleView.vue";
 import ContactsView from "../views/ContactsView.vue";
 import OrgchartView from "../views/OrgchartView.vue";
-import ProfileView from "../views/ProfileView.vue";
+
 
 function requireAuth(to, from, next) {
     const isAuthenticated = false;
-    console.log("Checking Auth");
+    console.log("Checking Auth")
     if (isAuthenticated) {
         // If the user is authenticated, allow the navigation to the requested page
         next();
     } else {
         // If the user is not authenticated, redirect to the login page
-        alert(
-            "You do not have access to the page at " +
-                to.fullPath +
-                ". If you believe this to be an error, please contact a mentor"
-        );
-        next("/");
+        alert("You do not have access to the page at " + to.fullPath + ". If you believe this to be an error, please contact a mentor")
+        next('/');
     }
 }
 
@@ -31,54 +27,47 @@ const router = createRouter({
             name: "index",
             component: IndexView,
             meta: {
-                requiresAuth: false,
-            },
+                requiresAuth: false
+            }
         },
         {
             path: "/progress",
             name: "progress",
             component: ProgressView,
             meta: {
-                requiresAuth: false,
-            },
+                requiresAuth: false
+            }
         },
         {
             path: "/adminconsole",
             name: "adminconsole",
             component: AdminConsoleView,
             meta: {
-                requiresAuth: false,
-            },
+                requiresAuth: false
+            }
         },
         {
             path: "/contacts",
             name: "contacts",
             component: ContactsView,
             meta: {
-                requiresAuth: false,
-            },
+                requiresAuth: false
+            }
         },
         {
             path: "/orgchart",
             name: "orgchart",
             component: OrgchartView,
             meta: {
-                requiresAuth: false,
-            },
-        },
-        {
-            path: "/profile",
-            name: "profile",
-            component: ProfileView,
-            meta: {
-                requiresAuth: false,
-            },
+                requiresAuth: false
+            }
         },
     ],
 });
 
+
 router.beforeEach((to, from, next) => {
-    if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
         requireAuth(to, from, next);
     } else {
         next();
