@@ -8,7 +8,7 @@
               <a href="#" class="list-group-item list-group-item-action py-2 ripple" @click.prevent="selectList('all')">
                 <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>All Contact List</span>
               </a>
-              <a v-for="category in categories" :key="category" href="#"
+              <a v-for="category in this.categories" :key="category" href="#"
                 class="list-group-item list-group-item-action py-2 ripple" @click.prevent="selectList(category)">
                 <i class="fas fa-chart-area fa-fw me-3"></i><span>{{ category }}</span>
               </a>
@@ -144,10 +144,10 @@ export default {
             collection(pageDoc.ref, "contactsList")
           );
           contactsListSnapshot.forEach((doc) => {
-            this.users.push(doc.data());
+          this.users.push(doc.data());
           });
         }
-      } else {
+      }else {
         // fetch users for a specific category
         const q = query(
           this.contactPageCollectionRef,
