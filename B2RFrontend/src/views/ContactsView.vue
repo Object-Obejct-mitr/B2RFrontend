@@ -8,7 +8,7 @@
               <a href="#" class="list-group-item list-group-item-action py-2 ripple" @click.prevent="selectList('all')">
                 <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>All Contact List</span>
               </a>
-              <a v-for="category in this.categories" :key="category" href="#"
+              <a v-for="category in categories" :key="category" href="#"
                 class="list-group-item list-group-item-action py-2 ripple" @click.prevent="selectList(category)">
                 <i class="fas fa-chart-area fa-fw me-3"></i><span>{{ category }}</span>
               </a>
@@ -20,12 +20,13 @@
           <DeleteContactList></DeleteContactList>
         </div>
       </div>
-      <div class="col-lg-9">
+       <div class="col-lg-9">
         <div class="d-flex flex-row mt-3 mb-3 justify-content-end">
           <AddContactModal />
           <input v-model="searchQuery" type="text" class="form-control ms-3" placeholder="Search by name"
             style="width: 200px" @click="search" />
         </div>
+        
         <table class="table table-striped">
           <thead>
             <tr>
@@ -37,24 +38,31 @@
               <th class="h5">Actions</th>
             </tr>
           </thead>
+          
           <tbody>
-            <tr v-for="(user, index) in filteredUsers" :key="user.userID">
-              <!-- Index is corresponding to the user -->
+            <tr v-for="(user, index) in filteredUsers" :key="index">
               <td>{{ user.firstName }}</td>
               <td>{{ user.surName }}</td>
               <td>{{ user.phoneNumber }}</td>
               <td>{{ user.email }}</td>
+               
               <td>
                 <span v-for="tag in user.tags" :key="tag" class="badge bg-primary me-2">{{ tag }}</span>
               </td>
+              
               <td>
-                <UserInfoModal :id="user.userID + '' + index" :user="user"></UserInfoModal>
+                
+                <UserInfoModal :id="user.userID + '' + index" :user="user"></UserInfoModal>    
                 <EditInfoModal :id="user.userID + '' + index" :user="user"></EditInfoModal>
                 <a class="btn btn-sm btn-danger" @click.prevent="deleteUser(user)"><i class="fas fa-trash-alt"></i></a>
+
               </td>
-            </tr>
+              
+            </tr> 
           </tbody>
+           
         </table>
+        
       </div>
     </div>
   </div>
@@ -144,10 +152,10 @@ export default {
             collection(pageDoc.ref, "contactsList")
           );
           contactsListSnapshot.forEach((doc) => {
-          this.users.push(doc.data());
+            this.users.push(doc.data());
           });
         }
-      }else {
+      } else {
         // fetch users for a specific category
         const q = query(
           this.contactPageCollectionRef,
@@ -161,6 +169,7 @@ export default {
         );
         querySnapshot = await getDocs(check);
         querySnapshot.forEach((doc) => {
+          //console.log(doc.data())
           this.users.push(doc.data());
         });
       }
@@ -197,7 +206,8 @@ export default {
       window.location.reload();
     }
   },
-  async mounted() {
+  async created() {
+    console.log("Remounted")
     await this.fetchCategories()
     await this.fetchUsers()
   },

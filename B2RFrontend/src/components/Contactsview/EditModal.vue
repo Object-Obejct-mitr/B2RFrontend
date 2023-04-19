@@ -196,35 +196,19 @@ export default {
         },
         id: String,
     },
-
+    async mounted() {
+        await this.fetchCategories()
+    },
     setup() {
-        const categories = ref([]);
-        const contactPageCollectionRef = collection(db, "contactPage");
         const toast = useToast();
-
-        const fetchCategories = async () => {
-            categories.value = [];
-            const querySnapshot = await getDocs(contactPageCollectionRef);
-            querySnapshot.forEach((doc) => {
-                const category = doc.data().category;
-                if (!categories.value.includes(category)) {
-                    categories.value.push(category);
-                }
-            });
-        };
-
-        // call the fetchCategories method on component load
-        watchEffect(() => {
-            fetchCategories();
-        });
-
         return {
-            categories,
             toast,
         };
     },
     data() {
         return {
+            categories: [],
+            contactPageCollectionRef: collection(db, "contactPage"),
             userID: this.user.userID,
             firstName: this.user.firstName,
             surName: this.user.surName,
@@ -249,6 +233,16 @@ export default {
         };
     },
     methods: {
+        async fetchCategories() {
+            this.categories = [];
+            const querySnapshot = await getDocs(this.contactPageCollectionRef);
+            querySnapshot.forEach((doc) => {
+                const category = doc.data().category;
+                if (!this.categories.includes(category)) {
+                    this.categories.push(category);
+                }
+            });
+        },
         clearInputs() {
             this.editedContact = JSON.parse(
                 JSON.stringify({
