@@ -26,7 +26,7 @@ export default {
                 </li>
                 <li class="navbar-item">
                     <RouterLink
-                        to="/progress"
+                        to="/progresstool"
                         class="nav-link"
                         aria-current="page"
                         href="#"
