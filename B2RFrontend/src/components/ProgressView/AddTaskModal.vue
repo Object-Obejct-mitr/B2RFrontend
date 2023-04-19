@@ -16,8 +16,6 @@
                     </div>
 
                     <div class="modal-body">
-                        {{ this.Component }}
-                        {{ this.DesiredQuantity }}
                         <div class="d-flex flex-column">
                             <!--Header-->
                             <div class="h3">Task Data</div>
