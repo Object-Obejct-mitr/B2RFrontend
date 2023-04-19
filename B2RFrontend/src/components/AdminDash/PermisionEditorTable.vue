@@ -45,9 +45,11 @@
                 <li v-for="(option, index) in options" :key="index">
                   <a class="dropdown-item" href="#">
                     <div class="form-check">
-                      <input class="form-check-input" type="checkbox" value="" :id="item_index + option"
+                      <input v-if="notBlogView(option, permision)" class="form-check-input" type="checkbox" value="" :id="item_index + option"
                         :checked="item.permissions.includes(option + permision)"
-                        @click="updateUser(item_index, option + permision)"> <label class="form-check-label"
+                        @click="updateUser(item_index, option + permision)">
+                      <input v-else checked class="form-check-input" type="checkbox" disabled>
+                      <label class="form-check-label"
                         :for="item_index + option">{{ option }}</label>
                     </div>
                   </a>
@@ -74,6 +76,9 @@ export default {
     $(".table-responsive").css({"width": $(window).width()*0.95})
   },
   methods: {
+    notBlogView(option, permission) {
+      return (permission != "Blog" || option != "View")
+    },
     async fetchUsers() {
       const userlist = collection(db, "users");
       const userQ = query(userlist, orderBy('displayName', 'asc'));
@@ -133,6 +138,7 @@ export default {
         })
     },
     async updateUser(userNumber, editupdate) {
+      console.log(userNumber, editupdate)
       const user = this.users[userNumber];
       const index = user.permissions.indexOf(editupdate);
       const q = query(collection(db, "users"), where("email", "==", user.email));
@@ -161,8 +167,8 @@ export default {
     return {
       roles: [],
       users: [],
-      options: ["Edit", "Add", "Delete"],
-      permisions: ["Contacts", "OrgChart", "Blog"],
+      options: [ "View", "Edit", "Add", "Delete"],
+      permisions: ["Blog", "Progresstool", "Orgchart", "Contacts"],
     }
   }
 }

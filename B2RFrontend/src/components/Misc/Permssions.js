@@ -5,6 +5,12 @@ const getPermission= async (email,action) =>  {
     console.log(q);
     const querySnapshot = await getDocs(q);
     const data = querySnapshot.docs[0].data().permissions;
+    console.log(data)
+    console.log(action)
+    console.log(data.indexOf(action))
+    console.log(data.indexOf(action)>-1)
     return data.indexOf(action)>-1;
 }
 export default getPermission;
+
+

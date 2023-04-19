@@ -4,19 +4,23 @@ import ProgressView from "../views/ProgressView.vue";
 import AdminConsoleView from "../views/AdminConsoleView.vue";
 import ContactsView from "../views/ContactsView.vue";
 import OrgchartView from "../views/OrgchartView.vue";
+import getPermission from "../components/Misc/Permssions";
 
 
 function requireAuth(to, from, next) {
-    const isAuthenticated = false;
-    console.log("Checking Auth")
-    if (isAuthenticated) {
-        // If the user is authenticated, allow the navigation to the requested page
-        next();
-    } else {
-        // If the user is not authenticated, redirect to the login page
-        alert("You do not have access to the page at " + to.fullPath + ". If you believe this to be an error, please contact a mentor")
-        next('/');
-    }
+    const user = JSON.parse(localStorage.getItem('user'))
+    const parsedView = "View" + to.fullPath[1].toUpperCase() + to.fullPath.slice(2)
+    getPermission(user.email, parsedView).then( isAuthenticated => {
+        if (isAuthenticated) {
+            // If the user is authenticated, allow the navigation to the requested page
+            next();
+        } else {
+            // If the user is not authenticated, redirect to the login page
+            alert("You do not have access to the page at " + to.fullPath + ". If you believe this to be an error, please contact a mentor")
+            next('/');
+        }
+    });
+
 }
 
 const router = createRouter({
@@ -31,11 +35,11 @@ const router = createRouter({
             }
         },
         {
-            path: "/progress",
-            name: "progress",
+            path: "/progresstool",
+            name: "progresstool",
             component: ProgressView,
             meta: {
-                requiresAuth: false
+                requiresAuth: true
             }
         },
         {
@@ -51,7 +55,7 @@ const router = createRouter({
             name: "contacts",
             component: ContactsView,
             meta: {
-                requiresAuth: false
+                requiresAuth: true
             }
         },
         {
@@ -59,7 +63,7 @@ const router = createRouter({
             name: "orgchart",
             component: OrgchartView,
             meta: {
-                requiresAuth: false
+                requiresAuth: true
             }
         },
     ],
