@@ -13,7 +13,7 @@
         <tr v-for="(item, item_index) in this.users" :key="item_index">
           <td>
             <div class="d-flex align-items-center">
-              <img alt="" style="width: 45px; height: 45px" class="rounded-circle" :src="item.photoURL">
+              <img alt="" style="width: 45px; height: 45px; object-fit: cover;" class="rounded-circle" :src="item.photoURL">
               <div class="ms-3">
                 <p class="fw-bold mb-1">{{ item.displayName }}</p>
                 <p class="text-muted mb-0">{{ item.email }}</p>
