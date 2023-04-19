@@ -51,11 +51,9 @@
               </td>
               
               <td>
-                
                 <UserInfoModal :id="user.userID + '' + index" :user="user"></UserInfoModal>    
                 <EditInfoModal :id="user.userID + '' + index" :user="user" v-if="permissions.Delete"></EditInfoModal>
                 <a class="btn btn-sm btn-danger" @click.prevent="deleteUser(user)" v-if="permissions.Delete"><i class="fas fa-trash-alt"></i></a>
-
               </td>
               
             </tr> 
