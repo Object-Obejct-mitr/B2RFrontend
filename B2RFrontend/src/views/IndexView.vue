@@ -38,7 +38,7 @@
         />
         <div class="indexViewSideBar">
             <button
-                v-if="view == 'list'"
+                v-if="view == 'list' && permissions.Add"
                 class="buttonSpacing btn btn-secondary"
                 data-mdb-target="#createModal"
                 data-mdb-toggle="modal"
@@ -47,7 +47,7 @@
                 New Post
             </button>
             <button
-                v-else
+                v-else-if="view != list && permissions.Edit"
                 class="buttonSpacing btn btn-secondary"
                 data-mdb-toggle="modal"
                 data-mdb-target="#createModal"
@@ -160,6 +160,7 @@
                             Save changes
                         </button>
                         <button
+                            v-if="permissions.Delete"
                             type="button"
                             class="btn btn-primary"
                             data-mdb-dismiss="modal"
@@ -179,6 +180,7 @@ import MainView from "@/components/Blog/MainView.vue";
 import BlogSideBar from "@/components/Blog/BlogSideBar.vue";
 import Editor from "@/components/Blog/Editor.vue";
 
+import getPermission from "@/components/Misc/Permssions.js";
 import { db } from "../firebase";
 import {
     collection,
@@ -209,6 +211,7 @@ export default {
             postIndex: 0,
             postType: "",
             editor: null,
+            permissions:{Edit:false,Add:false,Delete:false},
             filter: {
                 tags: [],
                 search: "",
@@ -230,6 +233,19 @@ export default {
             db,
             "/blogPosts/5eg31wh1BqwLekP8H47z/tagsList"
         );
+        const data = localStorage.getItem('user');
+        if (data != undefined) {
+           const user = JSON.parse(data);
+           getPermission(user.email,"EditBlog").then((result)=>{
+             this.permissions.Edit=result;
+           })
+           getPermission(user.email,"AddBlog").then((result)=>{
+             this.permissions.Add=result;
+           })
+           getPermission(user.email,"DeleteBlog").then((result)=>{
+             this.permissions.Delete=result;
+            })
+          }
         this.fetchPosts();
         this.fetchTags();
     },

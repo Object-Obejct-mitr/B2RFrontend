@@ -47,9 +47,7 @@ import Task from "@/components/ProgressView/Task.vue";
 import AddTaskModal from "../components/ProgressView/AddTaskModal.vue";
 import { collection, getDocs, query, where, addDoc, orderBy, setDoc, doc, deleteDoc } from "firebase/firestore"
 import { db, storage } from "../firebase"
-
 import draggable from "vuedraggable"
-
 
 export default {
     name: "ProgressView",

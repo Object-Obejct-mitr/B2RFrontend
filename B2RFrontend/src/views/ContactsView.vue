@@ -22,7 +22,7 @@
       </div>
        <div class="col-lg-9">
         <div class="d-flex flex-row mt-3 mb-3 justify-content-end">
-          <AddContactModal />
+          <AddContactModal v-if="permissions.Add"/>
           <input v-model="searchQuery" type="text" class="form-control ms-3" placeholder="Search by name"
             style="width: 200px" @click="search" />
         </div>
@@ -35,7 +35,7 @@
               <th class="h5">Phone Number</th>
               <th class="h5">Email</th>
               <th class="h5">Tags</th>
-              <th class="h5">Actions</th>
+              <th class="h5" v-if="permissions.Edit | permissions.Delete">Actions</th>
             </tr>
           </thead>
           
@@ -53,8 +53,8 @@
               <td>
                 
                 <UserInfoModal :id="user.userID + '' + index" :user="user"></UserInfoModal>    
-                <EditInfoModal :id="user.userID + '' + index" :user="user"></EditInfoModal>
-                <a class="btn btn-sm btn-danger" @click.prevent="deleteUser(user)"><i class="fas fa-trash-alt"></i></a>
+                <EditInfoModal :id="user.userID + '' + index" :user="user" v-if="permissions.Delete"></EditInfoModal>
+                <a class="btn btn-sm btn-danger" @click.prevent="deleteUser(user)" v-if="permissions.Delete"><i class="fas fa-trash-alt"></i></a>
 
               </td>
               
@@ -76,6 +76,7 @@ import AddContactList from "@/components/Contactsview/contactList.vue";
 import DeleteContactList from "@/components/Contactsview/deletecontactList.vue";
 import UserInfoModal from "@/components/Contactsview/UserInfoModal.vue";
 import EditInfoModal from "@/components/Contactsview/EditModal.vue";
+import getPermission from "@/components/Misc/Permssions.js";
 import { db } from "../firebase";
 import {
   collection,
@@ -104,6 +105,7 @@ export default {
       categories: [],
       selectedList: "all",
       searchQuery: "",
+      permissions:{Edit:false,Add:false,Delete:false},
       contactPageCollectionRef: collection(db, "contactPage")
 
     }
@@ -210,6 +212,19 @@ export default {
     console.log("Remounted")
     await this.fetchCategories()
     await this.fetchUsers()
+    const data = localStorage.getItem('user');
+    if (data != undefined) {
+      const user = JSON.parse(data);
+      getPermission(user.email,"EditContacts").then((result)=>{
+        this.permissions.Edit=result;
+      })
+      getPermission(user.email,"AddContacts").then((result)=>{
+        this.permissions.Add=result;
+      })
+      getPermission(user.email,"DeleteContacts").then((result)=>{
+        this.permissions.Delete=result;
+      })
+    }
   },
   computed: {
     filteredUsers() {
