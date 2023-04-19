@@ -75,5 +75,4 @@ export default {
     color: #000 !important;
 }
 
-
 </style>

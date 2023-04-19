@@ -4,8 +4,20 @@ import Navbar from "./components/Navbar/Navbar.vue";
 </script>
 
 <template>
-    <header>
+    <header id="sticky">
         <Navbar />
     </header>
     <RouterView />
 </template>
+
+
+<style>
+
+#sticky {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: white;
+}
+
+</style>
