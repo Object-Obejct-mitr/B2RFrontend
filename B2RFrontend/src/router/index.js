@@ -10,7 +10,7 @@ import getPermission from "../components/Misc/Permssions";
 async function requireAuth(to, from, next) {
     const data = localStorage.getItem('user')
 
-    const parsedView = "View" + to.fullPath[1].toUpperCase() + to.fullPath.slice(2)
+    const parsedView = "View" + to.fullPath[1].toUpperCase() + to.fullPath.slice(2, (to.fullPath.includes("#") ? to.fullPath.indexOf("#") : to.fullPath.length))
 
     const isAuthenticated = ( data != undefined ? await getPermission(JSON.parse(data).email, parsedView) : false )
     if ( isAuthenticated ) {
