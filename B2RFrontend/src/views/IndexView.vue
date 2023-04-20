@@ -129,7 +129,7 @@
                         </div>
                         <span
                             style="
-                                display: flex;
+                                display:flex;
                                 flex-grow: 1;
                                 flex-direction: column;
                                 box-sizing: border-box;
@@ -160,7 +160,7 @@
                             Save changes
                         </button>
                         <button
-                            v-if="permissions.Delete"
+                            v-if="view == 'post' && permissions.Delete"
                             type="button"
                             class="btn btn-primary"
                             data-mdb-dismiss="modal"
@@ -278,6 +278,7 @@ export default {
                 }
                 return true;
             });
+            res.sort((a, b) => (new Date(a.date) > new Date(b.date) ? -1 : 1))
             this.blogData = res;
         },
         async toggleSearchFilter(search) {
@@ -302,7 +303,7 @@ export default {
             );
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => res.push(doc.data()));
-            res.sort((a, b) => (a.date > b.date ? -1 : 1));
+            res.sort((a, b) => (new Date(a.date) > new Date(b.date) ? -1 : 1))
             this.blogData = res;
         },
         async toggleTagFilter(tag) {
@@ -328,8 +329,7 @@ export default {
             let res = [];
             const q = query(
                 this.postsRef,
-                where("tags", "array-contains-any", this.filter.tags),
-                orderBy("date", "desc")
+                where("tags", "array-contains-any", this.filter.tags)
             );
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach((doc) => res.push(doc.data()));
@@ -341,6 +341,7 @@ export default {
                 }
                 return true;
             });
+            res.sort((a, b) => (new Date(a.date) > new Date(b.date) ? -1 : 1))
             this.blogData = res;
         },
         resetPostData() {
@@ -366,14 +367,14 @@ export default {
             posts.value = [];
             // fetch all users
             const blogPostsSnapshot = await getDocs(
-                query(this.postsRef, orderBy("date", "desc")),
-                orderBy("date", "desc")
+                query(this.postsRef, orderBy("date", "desc"))
             );
             for (const doc of blogPostsSnapshot.docs) {
                 let tmp = doc.data();
                 tmp.id = doc.id;
                 posts.value.push(tmp);
             }
+            posts.value.sort((a, b) => (new Date(a.date) > new Date(b.date) ? -1 : 1))
             this.blogData = posts.value;
         },
         async fetchTags() {
@@ -476,6 +477,7 @@ export default {
                 await deleteDoc(docRef);
             }
             this.fetchPosts();
+            this.view = "list"
         },
     },
 };
