@@ -7,19 +7,42 @@ import OrgchartView from "../views/OrgchartView.vue";
 import getPermission from "../components/Misc/Permssions";
 
 
-function requireAuth(to, from, next) {
-    const user = JSON.parse(localStorage.getItem('user'))
+async function requireAuth(to, from, next) {
+    const data = localStorage.getItem('user')
+
     const parsedView = "View" + to.fullPath[1].toUpperCase() + to.fullPath.slice(2)
-    getPermission(user.email, parsedView).then( isAuthenticated => {
-        if (isAuthenticated) {
-            // If the user is authenticated, allow the navigation to the requested page
-            next();
-        } else {
-            // If the user is not authenticated, redirect to the login page
-            alert("You do not have access to the page at " + to.fullPath + ". If you believe this to be an error, please contact a mentor")
-            next('/');
-        }
-    });
+
+    const isAuthenticated = ( data != undefined ? await getPermission(JSON.parse(data).email, parsedView) : false )
+    if ( isAuthenticated ) {
+        // If the user is authenticated, allow the navigation to the requested page
+        next();
+    } else {
+        // If the user is not authenticated, redirect to the login page
+        alert("You do not have access to the page at " + to.fullPath + ". If you believe this to be an error, please contact a mentor")
+        next('/');
+    }
+
+    /*
+    if ( data!= undefined ) {
+        
+        const user = JSON.parse(data)
+        getPermission(user.email, parsedView).then( isAuthenticated => {
+            if (isAuthenticated) {
+                // If the user is authenticated, allow the navigation to the requested page
+                next();
+            } else {
+                // If the user is not authenticated, redirect to the login page
+                alert("You do not have access to the page at " + to.fullPath + ". If you believe this to be an error, please contact a mentor")
+                next('/');
+            }
+        });
+    } else {
+        // If the user is not authenticated, redirect to the login page
+        alert("You do not have access to the page at " + to.fullPath + ". If you believe this to be an error, please contact a mentor")
+        next('/');
+    }
+    */
+
 
 }
 
