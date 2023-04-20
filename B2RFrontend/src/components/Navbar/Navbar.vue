@@ -1,13 +1,3 @@
-<script>
-import { RouterLink, RouterView } from "vue-router";
-import NavbarUser from "./NavbarUser.vue";
-export default {
-    components: {
-        NavbarUser
-    }
-}
-</script>
-
 <template>
     <nav id="navHeader" class="navbar navbar-expand-lg">
         <div class="container-fluid">
@@ -24,7 +14,7 @@ export default {
                         <h4>Blog</h4>
                     </RouterLink>
                 </li>
-                <li class="navbar-item">
+                <li v-if="viewProgresstool" class="navbar-item">
                     <RouterLink
                         to="/progresstool"
                         class="nav-link"
@@ -34,7 +24,7 @@ export default {
                         <h4>Progress Tool</h4>
                     </RouterLink>
                 </li>
-                <li class="navbar-item">
+                <li v-if="viewOrgchart" class="navbar-item">
                     <RouterLink
                         to="/orgchart"
                         class="nav-link"
@@ -44,7 +34,7 @@ export default {
                         <h4>Org Chart</h4>
                     </RouterLink>
                 </li>
-                <li class="navbar-item">
+                <li v-if="viewContacts" class="navbar-item">
                     <RouterLink
                         to="/contacts"
                         class="nav-link"
@@ -54,7 +44,7 @@ export default {
                         <h4>Contacts</h4>
                     </RouterLink>
                 </li>
-                <li class="navbar-item">
+                <li v-if="isAdmin" class="navbar-item">
                     <RouterLink
                         to="/adminconsole"
                         class="nav-link"
@@ -69,6 +59,60 @@ export default {
         </div>
     </nav>
 </template>
+
+<script>
+import NavbarUser from "./NavbarUser.vue";
+import getPermission from "../Misc/Permssions";
+
+export default {
+    components: {
+        NavbarUser
+    },
+    data() {
+        return {
+            viewProgresstool: false,
+            viewOrgchart: false,
+            viewContacts: false,
+            isAdmin: false,
+        }
+    },
+    async mounted() {
+        // fetch user data
+        const data = localStorage.getItem('user');
+        if (data) {
+            this.user = JSON.parse(data);
+
+            [this.viewProgresstool, this.viewOrgchart, this.viewContacts, this.isAdmin] = [...await this.getMultiPermissions(this.user.email, ['ViewProgresstool', 'ViewOrgchart', 'ViewContacts', 'Admin'])]
+            
+            // for some reason using .then doesnt work, driving me crazy at 2:30 am
+            // this.getMultiPermissions(this.user.email, ['ViewProgresstool', 'ViewOrgchart', 'ViewContacts', 'Admin']).then((res) => {
+                
+            //     [this.viewProgresstool, this.viewOrgchart, this.viewContacts, this.isAdmin] = [...res];
+            //     console.log(res)
+
+            //     console.log("--------------------")
+            //     console.log(this.viewContacts>-1)
+            //     console.log(this.viewOrgChart>-1)
+            //     console.log(this.viewProgressTool>-1)
+            //     console.log(this.isAdmin>-1)
+
+            // })
+            
+        }
+    },
+
+    methods: {
+        async getMultiPermissions(email, actions) {
+            let res = []
+            for (let i = 0; i < actions.length; i++) {
+                res.push(await getPermission(email, actions[i]))
+            }
+            return res;
+        }
+    }
+}
+</script>
+
 
 <style scoped>
 .router-link-active {

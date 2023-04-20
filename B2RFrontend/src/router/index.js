@@ -22,27 +22,6 @@ async function requireAuth(to, from, next) {
         next('/');
     }
 
-    /*
-    if ( data!= undefined ) {
-        
-        const user = JSON.parse(data)
-        getPermission(user.email, parsedView).then( isAuthenticated => {
-            if (isAuthenticated) {
-                // If the user is authenticated, allow the navigation to the requested page
-                next();
-            } else {
-                // If the user is not authenticated, redirect to the login page
-                alert("You do not have access to the page at " + to.fullPath + ". If you believe this to be an error, please contact a mentor")
-                next('/');
-            }
-        });
-    } else {
-        // If the user is not authenticated, redirect to the login page
-        alert("You do not have access to the page at " + to.fullPath + ". If you believe this to be an error, please contact a mentor")
-        next('/');
-    }
-    */
-
 
 }
 

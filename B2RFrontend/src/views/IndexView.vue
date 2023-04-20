@@ -47,7 +47,7 @@
                 New Post
             </button>
             <button
-                v-else-if="view != list && permissions.Edit"
+                v-else-if="view != 'list' && permissions.Edit"
                 class="buttonSpacing btn btn-secondary"
                 data-mdb-toggle="modal"
                 data-mdb-target="#createModal"
