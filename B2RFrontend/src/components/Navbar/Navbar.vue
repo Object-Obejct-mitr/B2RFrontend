@@ -77,28 +77,11 @@ export default {
         }
     },
     async mounted() {
-        // fetch user data
-        const data = localStorage.getItem('user');
-        if (data) {
-            this.user = JSON.parse(data);
-
-            [this.viewProgresstool, this.viewOrgchart, this.viewContacts, this.isAdmin] = [...await this.getMultiPermissions(this.user.email, ['ViewProgresstool', 'ViewOrgchart', 'ViewContacts', 'Admin'])]
-            
-            // for some reason using .then doesnt work, driving me crazy at 2:30 am
-            // this.getMultiPermissions(this.user.email, ['ViewProgresstool', 'ViewOrgchart', 'ViewContacts', 'Admin']).then((res) => {
-                
-            //     [this.viewProgresstool, this.viewOrgchart, this.viewContacts, this.isAdmin] = [...res];
-            //     console.log(res)
-
-            //     console.log("--------------------")
-            //     console.log(this.viewContacts>-1)
-            //     console.log(this.viewOrgChart>-1)
-            //     console.log(this.viewProgressTool>-1)
-            //     console.log(this.isAdmin>-1)
-
-            // })
-            
-        }
+        window.addEventListener('user-localstorage-changed', (event) => {
+            console.log("user changed")
+            this.getPerms()
+        });
+        this.getPerms()
     },
 
     methods: {
@@ -108,6 +91,30 @@ export default {
                 res.push(await getPermission(email, actions[i]))
             }
             return res;
+        },
+        async getPerms() {
+            // fetch user data
+            const data = localStorage.getItem('user');
+            if (data) {
+                this.user = JSON.parse(data);
+
+                [this.viewProgresstool, this.viewOrgchart, this.viewContacts, this.isAdmin] = [...await this.getMultiPermissions(this.user.email, ['ViewProgresstool', 'ViewOrgchart', 'ViewContacts', 'Admin'])]
+                
+                // for some reason using .then doesnt work, driving me crazy at 2:30 am
+                // this.getMultiPermissions(this.user.email, ['ViewProgresstool', 'ViewOrgchart', 'ViewContacts', 'Admin']).then((res) => {
+                    
+                //     [this.viewProgresstool, this.viewOrgchart, this.viewContacts, this.isAdmin] = [...res];
+                //     console.log(res)
+
+                //     console.log("--------------------")
+                //     console.log(this.viewContacts>-1)
+                //     console.log(this.viewOrgChart>-1)
+                //     console.log(this.viewProgressTool>-1)
+                //     console.log(this.isAdmin>-1)
+
+                // })
+                
+            }
         }
     }
 }

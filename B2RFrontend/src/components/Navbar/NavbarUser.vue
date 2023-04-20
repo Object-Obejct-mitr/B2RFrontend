@@ -155,6 +155,11 @@ export default {
                 this.userValue = await this.checkExistingUser(newUser)
                 this.signedInNew = true;
                 localStorage.setItem("user", JSON.stringify(this.userValue))
+                window.dispatchEvent(new CustomEvent('user-localstorage-changed', {
+                    detail: {
+                        storage: localStorage.getItem('user')
+                    }
+                }));
             } else {
                 user.value = undefined;
                 signedIn.value = false;
